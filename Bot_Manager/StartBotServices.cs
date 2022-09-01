@@ -36,7 +36,7 @@ namespace Bot_Manager
 
         //public static StartBotServices Instance { get { return lazy.Value; } }
 
-
+        //..
         //Propriedades publiscos para uso
         public DiscordClient Client {get;}
 
@@ -69,7 +69,7 @@ namespace Bot_Manager
 
 
 
-
+        //.
         //configura A conexão e inicia a classe em geral
         public StartBotServices()
 
