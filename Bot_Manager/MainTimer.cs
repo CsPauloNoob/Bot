@@ -25,7 +25,7 @@ namespace Bot_Manager
 
             dayTimer.Elapsed += new ElapsedEventHandler(ResetDiario);
             dayTimer.AutoReset = true;
-            dayTimer.Interval = 60000;
+            dayTimer.Interval = 600000;
             dayTimer.Enabled = true;
             dayTimer.Start();
             

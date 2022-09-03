@@ -39,6 +39,11 @@ namespace Bot_Manager
                 if (prize != null)
                 {
 
+                    await Client.SendMessageAsync(Client.GetChannelAsync(channel).Result
+                                     , $"{member.Mention} :) entreuguei na sua DM," +
+                                     $"se você não recebeu, não se preocupe, seus pontos" +
+                                     $" não serão descontados e você pode tentar novamente!");
+
                     await StartBotServices.SaveEconomicOP.DebitarSaldo(member.Id, StartBotServices.ItensValue.
                          ValorDe(item, moneytype), moneytype);
 

@@ -153,3 +153,4 @@ C:\Bot\Bot_Manager\obj\Release\netcoreapp3.1\Bot_Manager.csproj.CopyComplete
 C:\Bot\Bot_Manager\obj\Release\netcoreapp3.1\Bot_Manager.dll
 C:\Bot\Bot_Manager\obj\Release\netcoreapp3.1\Bot_Manager.pdb
 C:\Bot\Bot_Manager\obj\Release\netcoreapp3.1\Bot_Manager.genruntimeconfig.cache
+C:\Bot\Bot_Manager\bin\Release\netcoreapp3.1\Settings.job

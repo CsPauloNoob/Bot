@@ -33,9 +33,6 @@ namespace Bot_Manager.ComandosTexto
         {
             string item = numItem.ToString();
 
-            if (!StartBotServices.Itens_Loja.IndexItem.ContainsKey(item) && item != "3")
-                item = "2";
-
             //Resolver problemas dos numeros
             try
             {
@@ -45,27 +42,30 @@ namespace Bot_Manager.ComandosTexto
                     {
                         var buttons = StartBotServices.SaveEconomicOP.SaldoSuficiente(ctx.Member.Id, item, true).Result;
 
-                        if (StartBotServices.SaveEconomicOP.SaldoSuficiente(ctx.Member.Id, item).Result)
-                        {
                             if (StartBotServices.Itens_Loja.ItemAtivo(numItem.ToString()))
                             {
-                                await StartBotServices.Resposta_Eventos.AdcionarCompradores
-                                    (ctx.Member.Id.ToString(), item);
-                                await ctx.RespondAsync(OpMessages.Menssagen_de_Compra
-                                    (ctx.Client, buttons, ctx.User).Result);
+                                if (buttons.Count > 0)
+                                {
+                                    await StartBotServices.Resposta_Eventos.AdcionarCompradores
+                                        (ctx.Member.Id.ToString(), item);
+                                    await ctx.RespondAsync(OpMessages.Menssagen_de_Compra
+                                        (ctx.Client, buttons, ctx.User).Result);
+                                }
+
+                                else
+                                    await ctx.Client.SendMessageAsync(await ctx.Client.
+                                        GetChannelAsync(ctx.Channel.Id),
+                                        $"{ctx.Member.Mention} Seu saldo é insuficiente para está compra\n" +
+                                        $"Tente um dos meus jogos para tirar uns trocados, digite" +
+                                        $" !j ajuda para ver meus jogos disponiveis");
                             }
+
                             else
                                 await ctx.Client.SendMessageAsync(await ctx.Client.
-                                    GetChannelAsync(ctx.Channel.Id),
-                                    $"{ctx.Member.Mention} Este item não está mais disponível na nossa loja" +
-                                    $" tente ser mais rapido na próxima");
-                        }
-                        else
-                            await ctx.Client.SendMessageAsync(await ctx.Client.
-                                   GetChannelAsync(ctx.Channel.Id),
-                                   EmbedMesages.UniqueLineMsg($"{ctx.Member.Mention}" +
-                                " infelizmente seu saldo é " +
-                                "insuficiente para comprar esse item!"));
+                                       GetChannelAsync(ctx.Channel.Id),
+                                       EmbedMesages.UniqueLineMsg($"{ctx.Member.Mention}" +
+                                    "Este item não está mais disponivel na loja"));
+                               
                     }
                     else
                         await ctx.RespondAsync("O numero que você digitou não corresponde" +

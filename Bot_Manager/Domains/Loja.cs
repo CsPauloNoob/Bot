@@ -18,10 +18,6 @@ namespace Bot_Manager.Domains
 
 
 
-        //Adcionar descrição para novos itens
-        private string[] description = {"\n> 1. *Nitro Clássico*:medal:\n",
-                "\n> 2. *Nitro para novos assinantes*:medal:\n" };
-
         public async Task<DiscordEmbed> View()
         {
             AtualizarLoja().GetAwaiter().GetResult();
@@ -35,17 +31,20 @@ namespace Bot_Manager.Domains
 
             foreach (var x in ItensLoja)
             {
-                if (i == 0)
-                    linhasLoja += $"\n> 1. *{x}*:medal:\n" + $"Valor: {vC[0]} Jcash|"
-                        + $"{vC[1]} Scash\n";
 
+                if(i==0)
 
-                if(i == 1)
+                linhasLoja += $"\n> 1. *{x}*:medal:\n" + $"Valor: {vC[0]} Jcash|"
+                    + $"{vC[1]} Scash\n";
+
+                else if(i==1)
+
                     linhasLoja += $"\n> 2. *{x}*:medal:\n" + $"Valor: {vI[0]} Jcash|"
                         + $" {vI[1]} Scash\n";
 
-                if(i>=2)
-                    linhasLoja += "\n> 3. "+ItensLoja[i] + $"\nValor: {valorItemG[0]} Jcash|"
+                else
+
+                    linhasLoja += "\n> 3. *" + x + $"*\nValor: {valorItemG[0]} Jcash|"
                         + $" {valorItemG[1]} Scash";
 
                 i++;

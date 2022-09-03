@@ -80,11 +80,6 @@ namespace Bot_Manager.Logs_e_Eventos
                             if (PossivelCompra.ContainsKey(e.User.Id.ToString()) && e.Id.Contains("cash"))
                             {
 
-                                await s.SendMessageAsync(s.GetChannelAsync(e.Channel.Id).Result
-                                     , $"{e.User.Mention} :) entreuguei na sua DM," +
-                                     $"se você não recebeu, não se preocupe, seus pontos" +
-                                     $" não serão descontados e você pode tentar novamente!");
-
                                 await OpMessages.BotaoMoedaPres(e.Guild.GetMemberAsync
                                     (e.User.Id).Result, PossivelCompra[e.User.Id.ToString()], e.Id, e.Channel.Id);
 
