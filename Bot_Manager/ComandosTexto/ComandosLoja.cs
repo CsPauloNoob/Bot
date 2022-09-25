@@ -119,7 +119,7 @@ namespace Bot_Manager.ComandosTexto
         {
             if(StartBotServices.Users.Contains(ctx.User.Id.ToString()))
             {
-                await ctx.RespondAsync("Função ainda em sendo trabalhada, use este comando da seguinte forma:\n" +
+                await ctx.RespondAsync("Função ainda sendo trabalhada melhorada, use este comando da seguinte forma:\n" +
                     "```!jcriaranun [J ou S para a moeda que você quer anunciar] [o número de moedas que você quer" +
                     "anunciar] [o valor cobrado]```\nExemplo: !jcriaranun Jscash 10 4000\n" +
                     "Assim você estará anunciando 10 Jcash por 4000 Scash\n" +
@@ -142,7 +142,7 @@ namespace Bot_Manager.ComandosTexto
 
         [Command("criaranun")]
 
-        public async Task CriarAnuncio(CommandContext ctx, string moeda, int qtde, int valor_cobrado)
+        public async Task CriarAnuncio(CommandContext ctx, string moeda, ushort qtde, ushort valor_cobrado)
         {
 
             // moeda: Tipo de moeda para ser anunciada
@@ -172,7 +172,7 @@ namespace Bot_Manager.ComandosTexto
                     if (qtde > 0 && valor_cobrado > 0)
                         if (StartBotServices.Users.Contains(ctx.User.Id.ToString()))
                         {
-                            if (qtde.GetType() == typeof(int) && valor_cobrado.GetType() == typeof(int))
+                            if (qtde.GetType() == typeof(ushort) && valor_cobrado.GetType() == typeof(ushort))
                             {
                                 if (moeda.Equals(m.Find(x => x == moeda)))
                                 {
@@ -245,6 +245,7 @@ namespace Bot_Manager.ComandosTexto
 
                     }
 
+                    else
                     await ctx.RespondAsync("Saldo insuficiente");
                 }
 
