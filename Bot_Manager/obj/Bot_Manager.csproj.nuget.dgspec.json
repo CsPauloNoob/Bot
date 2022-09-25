@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Bot\\Bot_Manager\\Bot_Manager.csproj": {}
+    "C:\\Bot\\Bot\\Bot_Manager\\Bot_Manager.csproj": {}
   },
   "projects": {
-    "C:\\Bot\\Bot_Manager\\Bot_Manager.csproj": {
+    "C:\\Bot\\Bot\\Bot_Manager\\Bot_Manager.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Bot\\Bot_Manager\\Bot_Manager.csproj",
+        "projectUniqueName": "C:\\Bot\\Bot\\Bot_Manager\\Bot_Manager.csproj",
         "projectName": "Bot_Manager",
-        "projectPath": "C:\\Bot\\Bot_Manager\\Bot_Manager.csproj",
+        "projectPath": "C:\\Bot\\Bot\\Bot_Manager\\Bot_Manager.csproj",
         "packagesPath": "C:\\Users\\T-GAMER\\.nuget\\packages\\",
-        "outputPath": "C:\\Bot\\Bot_Manager\\obj\\",
+        "outputPath": "C:\\Bot\\Bot\\Bot_Manager\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -25,8 +25,8 @@
           "netcoreapp3.1"
         ],
         "sources": {
+          "C:\\Bot\\Bot\\Bot_Manager\\bin\\Debug\\netcoreapp3.1": {},
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-          "C:\\Users\\T-GAMER\\source\\repos\\CsPauloNoob\\Bot_Manager\\Bot_Manager\\bin\\Debug\\netcoreapp3.1": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -69,6 +69,10 @@
               "target": "Package",
               "version": "[2.6.2, )"
             },
+            "Microsoft.EntityFrameworkCore.Sqlite": {
+              "target": "Package",
+              "version": "[5.0.10, )"
+            },
             "Newtonsoft.Json": {
               "target": "Package",
               "version": "[13.0.1, )"
@@ -88,16 +92,23 @@
             "net47",
             "net471",
             "net472",
-            "net48"
+            "net48",
+            "net481"
           ],
           "assetTargetFallback": true,
           "warn": true,
+          "downloadDependencies": [
+            {
+              "name": "Microsoft.NETCore.App.Host.win-x64",
+              "version": "[3.1.29, 3.1.29]"
+            }
+          ],
           "frameworkReferences": {
             "Microsoft.NETCore.App": {
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.202\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.401\\RuntimeIdentifierGraph.json"
         }
       }
     }

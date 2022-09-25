@@ -27,12 +27,13 @@ namespace Bot_Manager.ComandosTexto
 
         [Command("nitem")]
 
-        async Task NovoItemLoja(CommandContext ctx, string nome_Item, string item, int valorScash, int valorJcash)
+        async Task NovoItemLoja(CommandContext ctx, string nome_Item, string item, int valorJcash, int valorScash)
         {
             if (ctx.Member.Id == 751499220149731411)
             {
                 if(StartBotServices.ItensDAL.NovoItem(item).GetAwaiter().GetResult())
                 {
+                    nome_Item = nome_Item.Replace("-", " ");
                     StartBotServices.Loja.valorItemG[0] = valorJcash;
                     StartBotServices.Loja.valorItemG[1] = valorScash;
 
@@ -41,6 +42,13 @@ namespace Bot_Manager.ComandosTexto
                 }
 
             }
+        }
+
+        [Command("nitem")]
+
+        async Task NovoItemLoja(CommandContext ctx)
+        {
+            await ctx.RespondAsync("Nome do item, Item, Valor em Jcash, valor em Scash");
         }
 
 

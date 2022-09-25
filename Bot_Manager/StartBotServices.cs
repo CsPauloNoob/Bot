@@ -8,7 +8,6 @@ using Bot_Manager.Quests;
 using Bot_Manager.Logs_e_Coleta_de_Informacoes;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Microsoft.Extensions.DependencyInjection;
 using Bot_Manager.Domains;
 using Bot_Manager.Logs_e_Eventos;
 using Bot_Manager.Domains.Operacoes_da_Loja;
@@ -90,6 +89,7 @@ namespace Bot_Manager
             InstanciarDALobj();
             InstanceObjets();
             Start().GetAwaiter().GetResult();
+            
         }
 
 
@@ -129,6 +129,8 @@ namespace Bot_Manager
             catch (Exception) { };
 
             Task.WaitAny(Client.ConnectAsync());
+            Console.WriteLine("\n \n\tBot Conectado em " + 
+                Client.GatewayInfo.Url +"\n Dir. Banco de dados: "+ Environment.CurrentDirectory);
 
             InitializeLogServices();
 
@@ -164,22 +166,30 @@ namespace Bot_Manager
             int[] a = { 10, 1400 };
             int[] b = { 9, 6000 };
 
-            
-            SaveInfo = new SaveAccGuildDADOS();
-            SaveEconomicOP = new SaveEconomicOP();
-            ItensValue = new ItensValue(a, b);
-            Loja = new Loja();
-            Itens_Loja = new Itens_Loja();
-            Invite = new Invite();
-            Diarias = new Cota_Diaria(300);
-            Drops = new Drops();
-            Roleta = new Roleta();
-            ComercioUsuarios = new ComercioUsuarios();
+            try
+            {
 
-            new MainTimer();
+                SaveInfo = new SaveAccGuildDADOS();
+                SaveEconomicOP = new SaveEconomicOP();
+                ItensValue = new ItensValue(a, b);
+                Loja = new Loja();
+                Itens_Loja = new Itens_Loja();
+                Invite = new Invite();
+                Diarias = new Cota_Diaria(300);
+                Drops = new Drops();
+                Roleta = new Roleta();
+                ComercioUsuarios = new ComercioUsuarios();
 
-            ChannelLog = GuildDAL.GetAllGuildsChannel().GetAwaiter().GetResult();
-            Users = UserDAL.GetAllUsers().GetAwaiter().GetResult();
+                new MainTimer();
+
+                ChannelLog = GuildDAL.GetAllGuildsChannel().GetAwaiter().GetResult();
+                Users = UserDAL.GetAllUsers().GetAwaiter().GetResult();
+            }
+
+            catch(NullReferenceException ex)
+            {
+                Console.WriteLine(ex.Message + ex.Source);
+            }
         }
     }
 }

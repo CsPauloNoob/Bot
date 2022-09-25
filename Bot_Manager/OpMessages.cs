@@ -40,7 +40,7 @@ namespace Bot_Manager
                 {
 
                     await Client.SendMessageAsync(Client.GetChannelAsync(channel).Result
-                                     , $"{member.Mention} :) entreuguei na sua DM," +
+                                     , $"{member.Mention} :) entreuguei na sua DM, " +
                                      $"se você não recebeu, não se preocupe, seus pontos" +
                                      $" não serão descontados e você pode tentar novamente!");
 
@@ -53,6 +53,7 @@ namespace Bot_Manager
                     StartBotServices.SaveEconomicOP.ComitarVendaDb(item, prize, member.Id, moneytype).GetAwaiter();
 
                     await StartBotServices.Itens_Loja.RemoverItem(item);
+
                 }
 
             }

@@ -10,6 +10,7 @@
     <PackageReference Include="DSharpPlus.Interactivity" Version="4.2.0" />
     <PackageReference Include="DSharpPlus.SlashCommands" Version="4.2.0" />
     <PackageReference Include="Emzi0767.Common" Version="2.6.2" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="5.0.10" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
     <PackageReference Include="System.Data.SqlClient" Version="4.8.3" />
     <PackageReference Include="System.Data.SQLite.Core" Version="1.0.115.5" />

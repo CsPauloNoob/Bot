@@ -1,7 +1,9 @@
 {
   "ExpandedNodes": [
-    ""
+    "",
+    "\\Bot_Manager",
+    "\\Bot_Manager\\ComandosTexto"
   ],
-  "SelectedNode": "\\Bot_Manager.sln",
+  "SelectedNode": "\\Bot_Manager\\ComandosTexto\\ComandosLoja.cs",
   "PreviewInSolutionExplorer": false
 }

@@ -64,7 +64,7 @@ namespace Bot_Manager.ComandosTexto
                                 await ctx.Client.SendMessageAsync(await ctx.Client.
                                        GetChannelAsync(ctx.Channel.Id),
                                        EmbedMesages.UniqueLineMsg($"{ctx.Member.Mention}" +
-                                    "Este item não está mais disponivel na loja"));
+                                    "Este item não está disponivel na loja"));
                                
                     }
                     else

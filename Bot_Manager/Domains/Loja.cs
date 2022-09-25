@@ -32,12 +32,12 @@ namespace Bot_Manager.Domains
             foreach (var x in ItensLoja)
             {
 
-                if(i==0)
+                if(x.Contains("Clássico"))
 
                 linhasLoja += $"\n> 1. *{x}*:medal:\n" + $"Valor: {vC[0]} Jcash|"
                     + $"{vC[1]} Scash\n";
 
-                else if(i==1)
+                else if(x.Contains("novos"))
 
                     linhasLoja += $"\n> 2. *{x}*:medal:\n" + $"Valor: {vI[0]} Jcash|"
                         + $" {vI[1]} Scash\n";
