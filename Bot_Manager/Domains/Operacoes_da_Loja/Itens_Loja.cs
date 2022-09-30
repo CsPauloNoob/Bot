@@ -56,6 +56,8 @@ namespace Bot_Manager.Domains.Operacoes_da_Loja
                 IndexItem.Add("2", InactiveNitro.Count);
             }
 
+            Total_Itens = 0;
+
             Total_Itens += ClassicNitro.Count;
             Total_Itens += InactiveNitro.Count;
         }

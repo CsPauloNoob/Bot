@@ -33,9 +33,9 @@ namespace Bot_Manager
              Task.Delay(-1);
         }
 
-        private static void ResetDiario(object source, ElapsedEventArgs e)
+        private async static void ResetDiario(object source, ElapsedEventArgs e)
         {
-            StartBotServices.Itens_Loja.RestartItens();
+            await StartBotServices.Loja.ResetLoja();
 
             StartBotServices.Diarias.JaResgatou.Clear();
 

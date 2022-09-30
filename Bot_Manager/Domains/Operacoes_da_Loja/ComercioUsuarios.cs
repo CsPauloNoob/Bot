@@ -10,7 +10,7 @@ namespace Bot_Manager.Domains.Operacoes_da_Loja
 {
     public class ComercioUsuarios
     {
-        //substituir array de string por um tipo anuncio
+        //substituir Dicionario de strings por um tipo anuncio
 
 
         Dictionary<string, string[]> Anuncios_ON = new Dictionary<string, string[]>();
@@ -227,6 +227,16 @@ namespace Bot_Manager.Domains.Operacoes_da_Loja
                 return await Task.FromResult(false);
             else
                 return await Task.FromResult(true);
+        }
+
+
+        public void ResetaAnuncios()
+        {
+            Anuncios_ON.Clear();
+
+            MaxAnuncioUser.Clear();
+
+            StartBotServices.AnunciosDAL.RemoverTodosAnuncio();
         }
 
     }

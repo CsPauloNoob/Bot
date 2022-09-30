@@ -134,6 +134,28 @@ namespace Bot_Manager.Domains.Operacoes_da_Loja.DbOperations
 
         }
 
+        public void RemoverTodosAnuncio()
+        {
+            try
+            {
+                OpenConn();
+
+                using (var cmd = new SQLiteCommand("DELETE FROM ANUNCIOS", SqliteCon))
+                {
+                    if (cmd.ExecuteNonQuery() > 0)
+                    {
+                        SqliteCon.Close();
+                    }
+                }
+            }
+
+            catch (Exception)
+            {
+                SqliteCon.Close();
+            }
+
+        }
+
 
     }
 }

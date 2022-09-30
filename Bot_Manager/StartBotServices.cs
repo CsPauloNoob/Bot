@@ -87,7 +87,7 @@ namespace Bot_Manager
 
 
             InstanciarDALobj();
-            InstanceObjets();
+            InstanciarObj();
             Start().GetAwaiter().GetResult();
             
         }
@@ -129,6 +129,7 @@ namespace Bot_Manager
             catch (Exception) { };
 
             Task.WaitAny(Client.ConnectAsync());
+
             Console.WriteLine("\n \n\tBot Conectado em " + 
                 Client.GatewayInfo.Url +"\n Dir. Banco de dados: "+ Environment.CurrentDirectory);
 
@@ -160,7 +161,7 @@ namespace Bot_Manager
 
 
 
-        private void InstanceObjets()
+        private void InstanciarObj()
         {
             //valor em J e Scash dos nitrosC e I
             int[] a = { 10, 1400 };
@@ -186,10 +187,13 @@ namespace Bot_Manager
                 Users = UserDAL.GetAllUsers().GetAwaiter().GetResult();
             }
 
+
             catch(NullReferenceException ex)
             {
                 Console.WriteLine(ex.Message + ex.Source);
             }
         }
+
+
     }
 }

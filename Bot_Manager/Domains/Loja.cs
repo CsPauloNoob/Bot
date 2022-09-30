@@ -20,7 +20,7 @@ namespace Bot_Manager.Domains
 
         public async Task<DiscordEmbed> View()
         {
-            AtualizarLoja().GetAwaiter().GetResult();
+            AtualizarDados().GetAwaiter().GetResult();
 
             string linhasLoja = "";
             var i = 0;
@@ -61,8 +61,15 @@ namespace Bot_Manager.Domains
         }
 
 
+        public async Task ResetLoja()
+        {
+            StartBotServices.Itens_Loja.RestartItens();
 
-        public async Task AtualizarLoja()
+            StartBotServices.ComercioUsuarios.ResetaAnuncios();
+        }
+
+
+        private async Task AtualizarDados()
         {
             ValorItens = StartBotServices.ItensValue.TOdosOsValores().GetAwaiter().GetResult();
             ItensLoja = StartBotServices.Itens_Loja.TodosOsItens().GetAwaiter().GetResult();
