@@ -145,7 +145,29 @@ namespace Bot_Manager.Domains.Operacoes_da_Loja
 
         }
 
-        public async Task<bool> AdcionaritemV(string nome, string item)
+
+        #region Novos_itens a loja
+
+        //Metodos para adcionar novos nitros e itrns variados a loja
+
+
+        public async Task AdcionarCnitro(string link)
+        {
+            ClassicNitro.Add(link);
+
+            Total_Itens++;
+        }
+
+
+        public async Task AdcionarInitro(string link)
+        {
+            InactiveNitro.Add(link);
+
+            Total_Itens++;
+        }
+
+
+        public async Task<bool> Adcionaritem(string nome, string item)
         {
 
             Variados.Add(nome, item);
@@ -158,11 +180,14 @@ namespace Bot_Manager.Domains.Operacoes_da_Loja
             return true;
         }
 
+        #endregion
+
 
         public int TotalItens()
         {
             return Total_Itens;
         }
+
 
         public bool ItemAtivo(string item)
         {

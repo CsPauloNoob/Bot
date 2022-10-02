@@ -126,8 +126,14 @@
   <data name="SQL_ADD_AN" xml:space="preserve">
     <value>INSERT INTO ANUNCIOS VALUES</value>
   </data>
+  <data name="SQL_ADD_CNITRO" xml:space="preserve">
+    <value>INSERT INTO CLASSIC_NITRO VALUES</value>
+  </data>
   <data name="SQL_ADD_GUILD" xml:space="preserve">
     <value>INSERT INTO Guild VALUES</value>
+  </data>
+  <data name="SQL_ADD_INITRO" xml:space="preserve">
+    <value>INSERT INTO INACTIVE_NITRO VALUES</value>
   </data>
   <data name="SQL_ADD_Item" xml:space="preserve">
     <value>INSERT INTO Itens_Variados VALUES</value>

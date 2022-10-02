@@ -1,6 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="Current" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
-    <_LastSelectedProfileId>C:\Users\T-GAMER\source\repos\CsPauloNoob\Bot_ManagerC\Bot_Manager\Properties\PublishProfiles\FolderProfile.pubxml</_LastSelectedProfileId>
+    <_LastSelectedProfileId>C:\Bot\Bot\Bot_Manager\Properties\PublishProfiles\Jless - Web Deploy.pubxml</_LastSelectedProfileId>
+    <NameOfLastUsedPublishProfile>Jless - Web Deploy</NameOfLastUsedPublishProfile>
   </PropertyGroup>
 </Project>

@@ -37,9 +37,12 @@ namespace Bot_Manager
 
         //..
         //Propriedades publiscos para uso
-        public DiscordClient Client {get;}
+        public static DiscordClient Client;
 
         public static readonly string ConnString = "Data Source="+@Environment.CurrentDirectory + @"\DbBot.db";
+        public static readonly ulong CanalExceptions = 1025977757324296212;
+
+
 
         public static ISaveAccGuildDADOS SaveInfo { get; set; }
         public static IGuildDAL GuildDAL { get; set; }
@@ -97,6 +100,7 @@ namespace Bot_Manager
         //Inicia a conexão com o discord e registra comandos para uso
         private async Task Start()
         {
+            #region config client
 
             /*var service = new ServiceCollection()
             .AddTransient<ComandosPunicao>()
@@ -127,6 +131,8 @@ namespace Bot_Manager
             }
 
             catch (Exception) { };
+
+            #endregion
 
             Task.WaitAny(Client.ConnectAsync());
 
@@ -164,8 +170,8 @@ namespace Bot_Manager
         private void InstanciarObj()
         {
             //valor em J e Scash dos nitrosC e I
-            int[] a = { 10, 1400 };
-            int[] b = { 9, 6000 };
+            int[] a = { 10, 8000};
+            int[] b = { 5, 4800};
 
             try
             {

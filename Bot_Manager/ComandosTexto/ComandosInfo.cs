@@ -30,7 +30,7 @@ namespace Bot_Manager.ComandosTexto
         }
 
 
-        [Command("Ping")]
+        [Command("ping")]
 
         async Task Ping(CommandContext ctx)
         {
@@ -38,7 +38,7 @@ namespace Bot_Manager.ComandosTexto
                 $":robot: Bot <===> :satellite: API disocrd: {ctx.Client.Ping.ToString()}ms"));
         }
 
-        [Command("Sobre")]
+        [Command("sobre")]
 
         async Task Sobre(CommandContext ctx)
         {
@@ -46,14 +46,13 @@ namespace Bot_Manager.ComandosTexto
 
             await ctx.RespondAsync(EmbedMesages.BuildMessageCustom(nomebot +
                 $" - V. 0.2 (compil. 06/08/22)",
-                "\n\n\n > Desenvolvedor: __Paulo'-'Noob#9189 meu primeiro bot :)__\n" +
+                "\n\n\n > Desenvolvedor: __Paulo meu primeiro bot :)__\n" +
                 "> Iniciado em: __Algum momento de dezembro de 2021__\n> Escrito em: __C# v. 8.0__\n" +
                 "> Frameworks: __.NET 5.0__ - https://dotnet.microsoft.com/ " +
                 "\n> __Dsharp+ 4.0__ - https://github.com/DSharpPlus/DSharpPlus\n" +
                 $"> Rodando em: __{Environment.OSVersion}__", DiscordColor.Aquamarine));
 
         }
-
 
     }
 }

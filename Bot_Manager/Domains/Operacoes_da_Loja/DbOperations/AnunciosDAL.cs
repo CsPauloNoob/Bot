@@ -5,6 +5,7 @@ using System.Data.SQLite;
 using System.Linq;
 using System.Data;
 using System.Threading.Tasks;
+using System.Reflection;
 
 namespace Bot_Manager.Domains.Operacoes_da_Loja.DbOperations
 {
@@ -72,7 +73,7 @@ namespace Bot_Manager.Domains.Operacoes_da_Loja.DbOperations
                 return await Task.FromResult(result);
             }
 
-            catch (Exception)
+            catch (Exception ex)
             {
                 SqliteCon.Close();
 
@@ -98,8 +99,14 @@ namespace Bot_Manager.Domains.Operacoes_da_Loja.DbOperations
                 }
             }
 
-            catch(Exception)
+            catch(Exception ex)
             {
+                var local = this.GetType().Name;
+                local += "." + MethodBase.GetCurrentMethod().Name;
+                await StartBotServices.Client.SendMessageAsync(
+                    StartBotServices.Client.GetChannelAsync(
+                    StartBotServices.CanalExceptions).Result, ex.Message + " in " + $"```{local}```");
+
                 SqliteCon.Close();
                 return false;
             }
@@ -124,8 +131,14 @@ namespace Bot_Manager.Domains.Operacoes_da_Loja.DbOperations
                 }
             }
 
-            catch (Exception)
+            catch (Exception ex)
             {
+                var local = this.GetType().Name;
+                local += "." + MethodBase.GetCurrentMethod().Name;
+                await StartBotServices.Client.SendMessageAsync(
+                    StartBotServices.Client.GetChannelAsync(
+                    StartBotServices.CanalExceptions).Result, ex.Message + " in " + $"```{local}```");
+
                 SqliteCon.Close();
                 return false;
             }
@@ -133,6 +146,7 @@ namespace Bot_Manager.Domains.Operacoes_da_Loja.DbOperations
             return false;
 
         }
+
 
         public void RemoverTodosAnuncio()
         {
@@ -149,8 +163,14 @@ namespace Bot_Manager.Domains.Operacoes_da_Loja.DbOperations
                 }
             }
 
-            catch (Exception)
+            catch (Exception ex)
             {
+                var local = this.GetType().Name;
+                local += "." + MethodBase.GetCurrentMethod().Name;
+                StartBotServices.Client.SendMessageAsync(
+                    StartBotServices.Client.GetChannelAsync(
+                    StartBotServices.CanalExceptions).Result, ex.Message + " in " + $"```{local}```");
+
                 SqliteCon.Close();
             }
 

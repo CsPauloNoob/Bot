@@ -7,6 +7,7 @@ using System.Data;
 using System.Data.Common;
 using System.IO;
 using System.Threading.Tasks;
+using System.Reflection;
 
 namespace Bot_Manager.Domains
 {
@@ -103,11 +104,12 @@ namespace Bot_Manager.Domains
 
             catch(Exception ex)
             {
-                SqliteCon.Close();
-            }
+                var local = this.GetType().Name;
+                local += "." + MethodBase.GetCurrentMethod().Name;
+                await StartBotServices.Client.SendMessageAsync(
+                    StartBotServices.Client.GetChannelAsync(
+                    StartBotServices.CanalExceptions).Result, ex.Message + " in " + $"```{local}```");
 
-            finally
-            {
                 SqliteCon.Close();
             }
         }
@@ -143,6 +145,12 @@ namespace Bot_Manager.Domains
 
             catch (Exception ex)
             {
+                var local = this.GetType().Name;
+                local += "." + MethodBase.GetCurrentMethod().Name;
+                await StartBotServices.Client.SendMessageAsync(
+                    StartBotServices.Client.GetChannelAsync(
+                    StartBotServices.CanalExceptions).Result, ex.Message + " in " + $"```{local}```");
+
                 SqliteCon.Close();
             }
 

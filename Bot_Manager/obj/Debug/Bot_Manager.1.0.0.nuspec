@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
+  <metadata>
+    <id>Bot_Manager</id>
+    <version>1.0.0</version>
+    <authors>Bot_Manager</authors>
+    <description>Package Description</description>
+    <dependencies>
+      <group targetFramework=".NETCoreApp3.1">
+        <dependency id="DSharpPlus" version="4.2.0" exclude="Build,Analyzers" />
+        <dependency id="DSharpPlus.CommandsNext" version="4.2.0" exclude="Build,Analyzers" />
+        <dependency id="DSharpPlus.Interactivity" version="4.2.0" exclude="Build,Analyzers" />
+        <dependency id="DSharpPlus.SlashCommands" version="4.2.0" exclude="Build,Analyzers" />
+        <dependency id="Dapper" version="2.0.123" exclude="Build,Analyzers" />
+        <dependency id="Emzi0767.Common" version="2.6.2" exclude="Build,Analyzers" />
+        <dependency id="Microsoft.EntityFrameworkCore.Sqlite" version="5.0.10" exclude="Build,Analyzers" />
+        <dependency id="Newtonsoft.Json" version="13.0.1" exclude="Build,Analyzers" />
+        <dependency id="System.Data.SQLite.Core" version="1.0.115.5" exclude="Build,Analyzers" />
+        <dependency id="System.Data.SqlClient" version="4.8.3" exclude="Build,Analyzers" />
+      </group>
+    </dependencies>
+  </metadata>
+  <files>
+    <file src="C:\Bot\Bot\Bot_Manager\bin\Debug\netcoreapp3.1\Bot_Manager.runtimeconfig.json" target="lib\netcoreapp3.1\Bot_Manager.runtimeconfig.json" />
+    <file src="C:\Bot\Bot\Bot_Manager\bin\Debug\netcoreapp3.1\Bot_Manager.dll" target="lib\netcoreapp3.1\Bot_Manager.dll" />
+  </files>
+</package>

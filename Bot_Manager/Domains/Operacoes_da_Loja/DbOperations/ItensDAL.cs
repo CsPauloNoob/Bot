@@ -5,6 +5,7 @@ using DSharpPlus;
 using System.Data.SQLite;
 using System.Data;
 using System.Threading.Tasks;
+using System.Reflection;
 
 namespace Bot_Manager.Domains.Operacoes_da_Loja.DbOperations
 {
@@ -61,8 +62,14 @@ namespace Bot_Manager.Domains.Operacoes_da_Loja.DbOperations
                 }
             }
 
-            catch(Exception)
+            catch(Exception ex)
             {
+                var local = this.GetType().Name;
+                local += "." + MethodBase.GetCurrentMethod().Name;
+                StartBotServices.Client.SendMessageAsync(
+                    StartBotServices.Client.GetChannelAsync(
+                    StartBotServices.CanalExceptions).Result, ex.Message + " in " + $"```{local}```");
+
                 SqliteCon.Close();
 
                 return false;
@@ -122,6 +129,64 @@ namespace Bot_Manager.Domains.Operacoes_da_Loja.DbOperations
                 SqliteCon.Close();
             }
 
+        }
+
+
+        public bool AddInactiveNitro(string link)
+        {
+
+            OpenConn();
+
+            try
+            {
+                using (SQLiteCommand cmd = new SQLiteCommand(Test.SQL_ADD_INITRO+$"('{link}')", SqliteCon))
+                {
+                    if(cmd.ExecuteNonQuery()>0)
+                        return true;
+                }
+
+            }
+
+            catch (Exception ex)
+            {
+                var local = this.GetType().Name;
+                local += "." + MethodBase.GetCurrentMethod().Name;
+                StartBotServices.Client.SendMessageAsync(
+                    StartBotServices.Client.GetChannelAsync(
+                    StartBotServices.CanalExceptions).Result, ex.Message + " in " + $"```{local}```");
+                SqliteCon.Close();
+            }
+
+            return false;
+        }
+
+
+        public bool AddClassicNitro(string link)
+        {
+
+            OpenConn();
+
+            try
+            {
+                using (SQLiteCommand cmd = new SQLiteCommand(Test.SQL_ADD_CNITRO + $"('{link}')", SqliteCon))
+                {
+                    if (cmd.ExecuteNonQuery() > 0)
+                        return true;
+                }
+
+            }
+
+            catch (Exception ex)
+            {
+                var local = this.GetType().Name;
+                local += "." + MethodBase.GetCurrentMethod().Name;
+                StartBotServices.Client.SendMessageAsync(
+                    StartBotServices.Client.GetChannelAsync(
+                    StartBotServices.CanalExceptions).Result, ex.Message + " in " + $"```{local}```");
+                SqliteCon.Close();
+            }
+
+            return false;
         }
 
         public void RemoverLoja()

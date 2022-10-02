@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Data.SQLite;
 using System.Collections.Generic;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Data;
@@ -27,6 +28,12 @@ namespace Bot_Manager.Domains.Operacoes_da_Loja.DbOperations
 
             catch (Exception ex)
             {
+                var local = this.GetType().Name;
+                local += "." + MethodBase.GetCurrentMethod().Name;
+                StartBotServices.Client.SendMessageAsync(
+                    StartBotServices.Client.GetChannelAsync(
+                    StartBotServices.CanalExceptions).Result, ex.Message + " in " + $"```{local}```");
+
                 SqliteCon?.Close();
             }
         }
@@ -54,6 +61,12 @@ namespace Bot_Manager.Domains.Operacoes_da_Loja.DbOperations
 
             catch(Exception ex)
             {
+                var local = this.GetType().Name;
+                local += "."+MethodBase.GetCurrentMethod().Name;
+                StartBotServices.Client.SendMessageAsync(
+                    StartBotServices.Client.GetChannelAsync(
+                    StartBotServices.CanalExceptions).Result, ex.Message + " in " + $"```{local}```");
+
                 SqliteCon.Close();
                 throw ex;
             }

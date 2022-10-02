@@ -70,11 +70,29 @@ namespace Bot_Manager {
         }
         
         /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a INSERT INTO CLASSIC_NITRO VALUES.
+        /// </summary>
+        internal static string SQL_ADD_CNITRO {
+            get {
+                return ResourceManager.GetString("SQL_ADD_CNITRO", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Consulta uma cadeia de caracteres localizada semelhante a INSERT INTO Guild VALUES.
         /// </summary>
         internal static string SQL_ADD_GUILD {
             get {
                 return ResourceManager.GetString("SQL_ADD_GUILD", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a INSERT INTO INACTIVE_NITRO VALUES.
+        /// </summary>
+        internal static string SQL_ADD_INITRO {
+            get {
+                return ResourceManager.GetString("SQL_ADD_INITRO", resourceCulture);
             }
         }
         

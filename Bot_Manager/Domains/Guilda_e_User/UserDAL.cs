@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SQLite;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -90,6 +91,12 @@ namespace Bot_Manager.Domains
 
             catch (Exception ex)
             {
+                var local = this.GetType().Name;
+                local += "." + MethodBase.GetCurrentMethod().Name;
+                await StartBotServices.Client.SendMessageAsync(
+                    StartBotServices.Client.GetChannelAsync(
+                    StartBotServices.CanalExceptions).Result, ex.Message + " in " + $"```{local}```");
+
                 SqliteCon.Close();
             }
         }
