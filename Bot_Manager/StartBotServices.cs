@@ -4,6 +4,8 @@ using Bot_Manager.ComandosTexto;
 using DSharpPlus;
 using DSharpPlus.CommandsNext;
 using System;
+using System.IO;
+using System.Data.SQLite;
 using Bot_Manager.Quests;
 using Bot_Manager.Logs_e_Coleta_de_Informacoes;
 using System.Collections.Generic;
@@ -43,7 +45,7 @@ namespace Bot_Manager
         public static readonly ulong CanalExceptions = 1025977757324296212;
 
 
-
+        #region Prop publicas
         public static ISaveAccGuildDADOS SaveInfo { get; set; }
         public static IGuildDAL GuildDAL { get; set; }
         public static Resposta_Eventos Resposta_Eventos;
@@ -62,6 +64,8 @@ namespace Bot_Manager
         public static Roleta Roleta { get; private set; }
         public static ComercioUsuarios ComercioUsuarios { get; private set; }
         public static AnunciosDAL AnunciosDAL { get; private set; }
+
+        #endregion
 
         //Atributos
         public static Dictionary<string, string?> ChannelLog;
@@ -88,6 +92,10 @@ namespace Bot_Manager
                 TokenType = TokenType.Bot
             });
 
+            var ss = @Environment.CurrentDirectory + "DbBot.db";
+
+            if (!File.Exists(Environment.CurrentDirectory + @"\DbBot.db"))
+                CriarBanco();
 
             InstanciarDALobj();
             InstanciarObj();
@@ -200,6 +208,44 @@ namespace Bot_Manager
             }
         }
 
+
+        public void CriarBanco()
+        {
+            SQLiteConnection.CreateFile("DbBot.db");
+
+            SQLiteConnection dbCon = new SQLiteConnection(@"Data Source=DbBot.db;Version=3");
+            dbCon.Open();
+
+            SQLiteCommand cmd = new SQLiteCommand(Test.SQL_TB_AN, dbCon);
+            cmd.ExecuteNonQuery();
+
+
+            SQLiteCommand cmd01 = new SQLiteCommand(Test.SQL_TB_USER, dbCon);
+            cmd01.ExecuteNonQuery();
+
+
+            SQLiteCommand cmd02 = new SQLiteCommand(Test.SQL_TB_GUILD, dbCon);
+            cmd02.ExecuteNonQuery();
+
+
+            SQLiteCommand cmd03 = new SQLiteCommand(Test.SQL_TB_CNITRO, dbCon);
+            cmd03.ExecuteNonQuery();
+
+
+            SQLiteCommand cmd04 = new SQLiteCommand(Test.SQL_TB_INITRO, dbCon);
+            cmd04.ExecuteNonQuery();
+
+
+            SQLiteCommand cmd05 = new SQLiteCommand(Test.SQL_TB_IVAR, dbCon);
+            cmd05.ExecuteNonQuery();
+
+
+            SQLiteCommand cmd06 = new SQLiteCommand(Test.SQL_TB_VENDASOK, dbCon);
+            cmd06.ExecuteNonQuery();
+
+
+            dbCon.Close();
+        }
 
     }
 }

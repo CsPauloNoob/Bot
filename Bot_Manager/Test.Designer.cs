@@ -214,6 +214,105 @@ namespace Bot_Manager {
         }
         
         /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a CREATE TABLE Anuncios (User VARCHAR (60) REFERENCES User (Id) NOT NULL, Item VARCHAR (60) NOT NULL,
+        ///    Item_qtde  VARCHAR (30),
+        ///    Item_valor VARCHAR (30) NOT NULL,
+        ///    Pag_tipo                NOT NULL
+        ///);.
+        /// </summary>
+        internal static string SQL_TB_AN {
+            get {
+                return ResourceManager.GetString("SQL_TB_AN", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a CREATE TABLE Classic_Nitro (
+        ///    Link VARCHAR (60) NOT NULL
+        ///                    UNIQUE
+        ///);.
+        /// </summary>
+        internal static string SQL_TB_CNITRO {
+            get {
+                return ResourceManager.GetString("SQL_TB_CNITRO", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a CREATE TABLE Guild (
+        ///    Id          VARCHAR (50) PRIMARY KEY
+        ///                             NOT NULL
+        ///                             UNIQUE,
+        ///    Owner       VARCHAR (65) NOT NULL,
+        ///    Log_Channel VARCHAR (50) 
+        ///);.
+        /// </summary>
+        internal static string SQL_TB_GUILD {
+            get {
+                return ResourceManager.GetString("SQL_TB_GUILD", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a CREATE TABLE Inactive_Nitro (
+        ///    Link VARCHAR (60) NOT NULL
+        ///                    UNIQUE
+        ///);.
+        /// </summary>
+        internal static string SQL_TB_INITRO {
+            get {
+                return ResourceManager.GetString("SQL_TB_INITRO", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a CREATE TABLE Itens_Variados (
+        ///    Item VARCHAR (60) UNIQUE
+        ///                      NOT NULL,
+        ///    Used BOOLEAN      NOT NULL
+        ///                      DEFAULT (false) 
+        ///);.
+        /// </summary>
+        internal static string SQL_TB_IVAR {
+            get {
+                return ResourceManager.GetString("SQL_TB_IVAR", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a CREATE TABLE User (
+        ///    Id            VARCHAR (50) PRIMARY KEY
+        ///                               UNIQUE
+        ///                               NOT NULL,
+        ///    Scash         INT          NOT NULL
+        ///                               CONSTRAINT [Valor inicial] DEFAULT (1500),
+        ///    Date_Register DATE         NOT NULL,
+        ///    Jcash         INT
+        ///);.
+        /// </summary>
+        internal static string SQL_TB_USER {
+            get {
+                return ResourceManager.GetString("SQL_TB_USER", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a CREATE TABLE VendasOk (
+        ///    Item_Name    VARCHAR (60) NOT NULL,
+        ///    Link         VARCHAR (60) UNIQUE,
+        ///    Price        INT,
+        ///    dt_venda     DATETIME     NOT NULL,
+        ///    Vendido_para VARCHAR (60) NOT NULL,
+        ///    Tipo_moeda   VARCHAR (15) 
+        ///);.
+        /// </summary>
+        internal static string SQL_TB_VENDASOK {
+            get {
+                return ResourceManager.GetString("SQL_TB_VENDASOK", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Consulta uma cadeia de caracteres localizada semelhante a UPDATE User SET .
         /// </summary>
         internal static string SQL_UPDATE_Cash {

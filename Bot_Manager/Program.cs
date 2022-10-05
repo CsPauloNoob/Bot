@@ -1,6 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using System.Data.SQLite;
+using Bot_Manager.Domains;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace Bot_Manager
 {
@@ -13,7 +16,7 @@ namespace Bot_Manager
         
         static void Main()
         {
-                new BotController();
+                new StartBotServices();
                 Task.Delay(-1);
         }
     }
