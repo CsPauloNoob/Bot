@@ -19,6 +19,7 @@ using Bot_Manager.Domains.QuestsOp;
 using Bot_Manager.Quests.Diarias;
 using Bot_Manager.Quests.Drops;
 using Bot_Manager.ComandosBarra;
+using Bot_Manager.ultilitarios;
 using Bot_Manager.Quests_andGames.Games;
 using DSharpPlus.SlashCommands;
 
@@ -136,6 +137,9 @@ namespace Bot_Manager
                 commands.RegisterCommands<ComandosInfo>();
 
                 //slash.RegisterCommands<ComandosBarra1>();
+
+
+                commands.SetHelpFormatter<CustomHelp>();
             }
 
             catch (Exception) { };
@@ -246,6 +250,5 @@ namespace Bot_Manager
 
             dbCon.Close();
         }
-
     }
 }
