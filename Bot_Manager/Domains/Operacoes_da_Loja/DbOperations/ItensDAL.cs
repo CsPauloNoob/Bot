@@ -141,7 +141,7 @@ namespace Bot_Manager.Domains.Operacoes_da_Loja.DbOperations
             {
                 using (SQLiteCommand cmd = new SQLiteCommand(Test.SQL_ADD_INITRO+$"('{link}')", SqliteCon))
                 {
-                    if(cmd.ExecuteNonQuery()>0)
+                    if(cmd.ExecuteNonQueryAsync().Result>0)
                         return true;
                 }
 
@@ -189,9 +189,36 @@ namespace Bot_Manager.Domains.Operacoes_da_Loja.DbOperations
             return false;
         }
 
-        public void RemoverLoja()
+        public async Task RemoverLoja(string item, string tipo)
         {
+            OpenConn();
 
+            try
+            {
+                if (tipo == "1")
+                    using (SQLiteCommand cmd = new SQLiteCommand($"delete from classic_nitro where link ='{item}'", SqliteCon))
+                    {
+                        await cmd.ExecuteNonQueryAsync();
+                    }
+
+                else
+                    using (SQLiteCommand cmd = new SQLiteCommand($"delete from inactive_nitro where link ='{item}'", SqliteCon))
+                    {
+                        await cmd.ExecuteNonQueryAsync();
+                    }
+
+                await SqliteCon.CloseAsync();
+            }
+
+            catch(Exception ex)
+            {
+                var local = this.GetType().Name;
+                local += "." + MethodBase.GetCurrentMethod().Name;
+                await StartBotServices.Client.SendMessageAsync(
+                    StartBotServices.Client.GetChannelAsync(
+                    StartBotServices.CanalExceptions).Result, ex.Message + " in " + $"```{local}```");
+                SqliteCon.Close();
+            }
         }
 
     }

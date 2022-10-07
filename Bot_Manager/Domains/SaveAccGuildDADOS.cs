@@ -16,20 +16,14 @@ namespace Bot_Manager.Logs_e_Coleta_de_Informacoes
         }
 
         #region Guild
-        public async Task RegisterNewGuild(ulong Id, ulong Owner, ulong UserChannel)
+        public async Task RegisterNewGuild(ulong Id, ulong Owner)
         {
-            if(IsANewGuild(Id))
-            {
-                await StartBotServices.GuildDAL.AddNewGuild(Id, Owner, UserChannel);
-            }
-            else
-                OpMessages.GenericMessage(null, "Esse servidor já está registrado", UserChannel).GetAwaiter().GetResult();
-
+                await StartBotServices.GuildDAL.AddNewGuild(Id, Owner);
         }
 
-        public async Task RegisterLogChannel(ulong GuildId, ulong LogChannel, ulong UserChannel)
+        public async Task RegisterLogChannel(ulong GuildId, ulong LogChannel)
         {
-                await StartBotServices.GuildDAL.SaveLogChannel(GuildId, LogChannel, UserChannel);
+                await StartBotServices.GuildDAL.SaveLogChannel(GuildId, LogChannel);
         }
 
 

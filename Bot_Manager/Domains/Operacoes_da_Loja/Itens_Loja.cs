@@ -223,7 +223,6 @@ namespace Bot_Manager.Domains.Operacoes_da_Loja
             else if (item == "3" && Variados.Count > 0)
                 Variados.Remove(Variados.Keys.First());
 
-
             IndexItem[item]--;
 
             Total_Itens--;

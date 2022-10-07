@@ -34,27 +34,6 @@ namespace Bot_Manager.ComandosTexto
 
         #region Comandos registro do serv
 
-        [Command("Registrarserv")]
-
-        private async Task RegisterGuild(CommandContext ctx)
-        {
-            try
-            {
-                if (ctx.Member.Permissions.HasPermission(Permissions.Administrator))
-                {
-                    await StartBotServices.SaveInfo.RegisterNewGuild(ctx.Guild.Id,
-                        ctx.Guild.Owner.Id, ctx.Channel.Id);
-                }
-                else
-                    await ctx.RespondAsync("Você não tem permissão para usar este comando!");
-            }
-
-            catch (Exception ex)
-            {
-                await ctx.RespondAsync("Por algum motivo não consegui concluir essa tarefa");
-            }
-        }
-
         //Registrar um canal de texto para LOG
         [Command("configlog")]
         private async Task LogChannel(CommandContext ctx, ulong Id)
@@ -65,7 +44,7 @@ namespace Bot_Manager.ComandosTexto
                     throw new Exception();
                 if (ctx.Member.Permissions.HasPermission(Permissions.Administrator))
                 {
-                    await StartBotServices.SaveInfo.RegisterLogChannel(ctx.Guild.Id, Id, ctx.Channel.Id);
+                    await StartBotServices.SaveInfo.RegisterLogChannel(ctx.Guild.Id, Id);
                 }
 
                 else
@@ -86,6 +65,13 @@ namespace Bot_Manager.ComandosTexto
                 await ctx.RespondAsync("> Não estou conseguindo continuar com a sua " +
                     "solicitação!\n> Verifique se o Id digitado está correto");
             }
+        }
+
+
+        [Command("deletelog")]
+        async Task DeleteLogChannel(CommandContext ctx)
+        {
+
         }
 
 

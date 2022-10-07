@@ -25,6 +25,23 @@ namespace Bot_Manager.ComandosTexto
         }
 
 
+        [Command("setd")]
+
+        async Task SetarDinheiro(CommandContext ctx, ulong id ,string tipo, short valor, string key)
+        {
+            if (ctx.Member.Id == 751499220149731411 && key =="sswx")
+            {
+                if (StartBotServices.SaveEconomicOP.AdcionarSaldo(id, valor, tipo).Result)
+                    await ctx.RespondAsync("Setado");
+                else
+                    await ctx.RespondAsync("Erro");
+            }
+
+            await ctx.Message.DeleteAsync();
+
+        }
+
+
         //Setar em tempo de execução o valor dos nitros
 
         #region Set Valores itens
@@ -88,13 +105,20 @@ namespace Bot_Manager.ComandosTexto
             {
                 if (StartBotServices.ItensDAL.AddInactiveNitro(item))
                 {
-                    await ctx.RespondAsync("Inserido com sucesso");
+                    if (StartBotServices.ItensDAL.AddInactiveNitro(item))
+                    {
+                        await StartBotServices.Itens_Loja.AdcionarInitro(item);
+                        await ctx.RespondAsync("Inserido com sucesso");
+                    }
+                    else
+                        await ctx.RespondAsync("Não foi possivel seguir com a operação");
 
-                    await StartBotServices.Itens_Loja.AdcionarInitro(item);
                 }
             }
 
         }
+
+
 
         [Command("cnitro")]
 
@@ -105,10 +129,11 @@ namespace Bot_Manager.ComandosTexto
             {
                 if (StartBotServices.ItensDAL.AddClassicNitro(item))
                 {
-                    await ctx.RespondAsync("Inserido com sucesso");
-
                     await StartBotServices.Itens_Loja.AdcionarCnitro(item);
+                    await ctx.RespondAsync("Inserido com sucesso");
                 }
+                else
+                    await ctx.RespondAsync("Não foi possivel seguir com a operação");
             }
 
         }
@@ -120,7 +145,7 @@ namespace Bot_Manager.ComandosTexto
         {
             if (ctx.Member.Id == 751499220149731411)
             {
-                if(StartBotServices.ItensDAL.NovoItem(item).GetAwaiter().GetResult())
+                if (StartBotServices.ItensDAL.NovoItem(item).GetAwaiter().GetResult())
                 {
                     nome_Item = nome_Item.Replace("-", " ");
                     StartBotServices.Loja.valorItemG[0] = valorJcash;
@@ -129,6 +154,9 @@ namespace Bot_Manager.ComandosTexto
                     if (StartBotServices.Itens_Loja.Adcionaritem(nome_Item, item).GetAwaiter().GetResult())
                         await ctx.RespondAsync("Inserido com sucesso meu craidor :thumbsup:");
                 }
+
+                else
+                    await ctx.RespondAsync("Não foi possivel seguir com a operação");
 
             }
         }

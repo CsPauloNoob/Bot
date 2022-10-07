@@ -10,10 +10,10 @@ namespace Bot_Manager.Domains
 
         Task<Dictionary<string, string>> GetAllGuildsChannel();
 
-        Task AddNewGuild(ulong id, ulong owner, ulong UserChannel);
+        Task AddNewGuild(ulong id, ulong owner);
 
         Task DeleteGuild(ulong id);
 
-        public Task SaveLogChannel(ulong guild, ulong log, ulong UserChannel);
+        public Task SaveLogChannel(ulong guild, ulong log);
     }
 }

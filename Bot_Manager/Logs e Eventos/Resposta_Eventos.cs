@@ -7,6 +7,7 @@ using DSharpPlus.Interactivity;
 using DSharpPlus;
 using System.Threading.Tasks;
 using System.Linq;
+using Bot_Manager.ultilitarios;
 
 namespace Bot_Manager.Logs_e_Eventos
 {
@@ -25,7 +26,7 @@ namespace Bot_Manager.Logs_e_Eventos
 
             ModalUp().GetAwaiter().GetResult();
 
-            ConviteCriado().GetAwaiter().GetResult();
+            Entradas().GetAwaiter().GetResult();
             
         }
 
@@ -46,19 +47,22 @@ namespace Bot_Manager.Logs_e_Eventos
 
 
 
-        public async Task ConviteCriado()
+        public async Task Entradas()
         {
-            /*Client.InviteCreated += async (s, e) =>
-            {
-                await s.SendMessageAsync(s.GetChannelAsync(e.Channel.Id).Result, "oi");
-            };*/
 
             Client.GuildMemberAdded += async (s, e) =>
             {
                 var a = await e.Member.CreateDmChannelAsync();
-                await a.SendMessageAsync("só o filé");
+                await a.SendMessageAsync(Textos.TextoBoasVindas());
             };
 
+            Client.GuildAvailable += async (s, e) =>
+            {
+                if(!StartBotServices.ChannelLog.ContainsKey(e.Guild.Id.ToString()))
+                {
+                    await StartBotServices.SaveInfo.RegisterNewGuild(e.Guild.Id, e.Guild.Owner.Id);
+                }
+            };
         }
 
 

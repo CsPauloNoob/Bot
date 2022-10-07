@@ -44,6 +44,9 @@ namespace Bot_Manager
                                      $"se você não recebeu, não se preocupe, seus pontos" +
                                      $" não serão descontados e você pode tentar novamente!");
 
+
+                   await StartBotServices.ItensDAL.RemoverLoja(prize, item);
+
                     await StartBotServices.SaveEconomicOP.DebitarSaldo(member.Id, StartBotServices.ItensValue.
                          ValorDe(item, moneytype), moneytype);
 

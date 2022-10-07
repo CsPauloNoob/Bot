@@ -76,7 +76,7 @@ namespace Bot_Manager.Domains
 
 
 
-        public async Task AddNewGuild(ulong id, ulong owner, ulong UserChannel)
+        public async Task AddNewGuild(ulong id, ulong owner)
         {
 
             OpenConn();
@@ -85,18 +85,7 @@ namespace Bot_Manager.Domains
                 using (SQLiteCommand cmd = new SQLiteCommand(Test.SQL_ADD_GUILD 
                     + $"('{id}', '{owner}', NULL)", SqliteCon))
                 {
-                    if (cmd.ExecuteNonQuery() <= 0)
-                        await OpMessages.GenericMessage(null, "Não foi possivel concluir esta operacão," +
-                            " tente novamente"
-                            , UserChannel);
-
-
-                    else
-                        await OpMessages.GenericMessage(null, "Servidor salvo com sucesso"
-                            , UserChannel);
-                    SqliteCon.Close();
-                    StartBotServices.ChannelLog.Add(id.ToString(), UserChannel.ToString());
-
+                    await cmd.ExecuteNonQueryAsync();
 
                     SqliteCon.Close();
                 }
@@ -120,7 +109,7 @@ namespace Bot_Manager.Domains
         }
 
 
-        public async Task SaveLogChannel(ulong guild, ulong log, ulong UserChannel)
+        public async Task SaveLogChannel(ulong guild, ulong log)
         {
 
             OpenConn();
@@ -129,15 +118,10 @@ namespace Bot_Manager.Domains
                 using (SQLiteCommand cmd = new SQLiteCommand(Test.SQL_addLog1 +
                     $" '{log.ToString()}' " + Test.SQL_addLog2 + $" '{guild.ToString()}'", SqliteCon))
                 {
-                    if (cmd.ExecuteNonQuery() <= 0)
-                        await OpMessages.GenericMessage(null, "Não foi possivel concluir esta operacão, tente novamente"
-                            , UserChannel);
-
-                    else
-                        await OpMessages.GenericMessage(null, "Canal de Log definido com sucesso"
-                            , UserChannel);
+                    await cmd.ExecuteNonQueryAsync();
 
                     SqliteCon.Close();
+
                     StartBotServices.ChannelLog[guild.ToString()] = log.ToString();
 
                 }
