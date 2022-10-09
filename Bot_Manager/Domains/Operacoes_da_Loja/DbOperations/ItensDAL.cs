@@ -201,11 +201,18 @@ namespace Bot_Manager.Domains.Operacoes_da_Loja.DbOperations
                         await cmd.ExecuteNonQueryAsync();
                     }
 
+               else if(tipo == "2")
+                    using (SQLiteCommand cmd = new SQLiteCommand($"delete from inactive_nitro where link ='{item}'", SqliteCon))
+                    {
+                        await cmd.ExecuteNonQueryAsync();
+                    }
+
                 else
                     using (SQLiteCommand cmd = new SQLiteCommand($"delete from inactive_nitro where link ='{item}'", SqliteCon))
                     {
                         await cmd.ExecuteNonQueryAsync();
                     }
+
 
                 await SqliteCon.CloseAsync();
             }
