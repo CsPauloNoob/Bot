@@ -12,7 +12,6 @@ namespace Bot_Manager.Domains.Operacoes_da_Loja.DbOperations
 
         public int[] valueClassicNitro;
 
-
         public ItensValue(int[] classicNitro, int[] Initro)
         {
             valueInactiveNitro = Initro;

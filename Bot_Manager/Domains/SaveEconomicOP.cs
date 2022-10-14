@@ -129,13 +129,15 @@ namespace Bot_Manager.Domains
 
             int[] valorItem = StartBotServices.ItensValue.ValorDe(item);
 
-            string objeto = "";
+            string prize = "";
+
+            int _item = int.Parse(item);
 
 
             if (moneyType == "Jcash" && saldo[0] >= valorItem[0])
             {
                 if (StartBotServices.Itens_Loja.ItemAtivo(item))
-                    objeto = StartBotServices.Itens_Loja.darItem(item);
+                    prize = StartBotServices.Itens_Loja.darItem(_item);
                 else
                     return await Task.FromResult("Item indisponível");
 
@@ -144,14 +146,14 @@ namespace Bot_Manager.Domains
             if (moneyType == "Scash" && saldo[1] >= valorItem[1])
             {
                 if (StartBotServices.Itens_Loja.ItemAtivo(item))
-                    objeto = StartBotServices.Itens_Loja.darItem(item);
+                    prize = StartBotServices.Itens_Loja.darItem(_item);
                 else
                     return await Task.FromResult("Item indisponível");
             }
-            else if(objeto == "")
+            else if(prize == "")
                 return await Task.FromResult("saldo insuficiente");
 
-            return objeto;
+            return prize;
         }
 
 
@@ -163,7 +165,8 @@ namespace Bot_Manager.Domains
 
             item = itemNum == "1" ? "Cnitro" : "Initro";
 
-            item = itemNum == "3" ? StartBotServices.Itens_Loja.Variados.Keys.First() : item;
+            if (int.Parse(itemNum) >= 3)
+                item = StartBotServices.Itens_Loja.Variados.Find(n => n.Id == itemNum).Nome;
 
             if(StartBotServices.VendasDAL.ComitarVenda(item, link, valor, idComprador, moeda).GetAwaiter().GetResult())
                 result = true;

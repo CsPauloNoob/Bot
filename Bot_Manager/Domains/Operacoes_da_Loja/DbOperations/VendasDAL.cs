@@ -53,8 +53,6 @@ namespace Bot_Manager.Domains.Operacoes_da_Loja.DbOperations
                 {
                     if (cmd.ExecuteNonQuery() > 0)
                         result = true;
-
-                    else
                     SqliteCon.Close();
                 }
             }

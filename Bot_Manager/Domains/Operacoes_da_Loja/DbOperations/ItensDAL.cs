@@ -6,6 +6,7 @@ using System.Data.SQLite;
 using System.Data;
 using System.Threading.Tasks;
 using System.Reflection;
+using Bot_Manager.Models;
 
 namespace Bot_Manager.Domains.Operacoes_da_Loja.DbOperations
 {
@@ -36,14 +37,14 @@ namespace Bot_Manager.Domains.Operacoes_da_Loja.DbOperations
 
 
 
-        public async Task<bool> NovoItem(string item)
+        public async Task<bool> NovoItem(string nome, string item)
         {
             try
             {
                 OpenConn();
 
                 using( SQLiteCommand cmd = new SQLiteCommand(Test.SQL_ADD_Item+
-                    $"('{item}', 'false')", SqliteCon))
+                    $"('{nome}', '{item}')", SqliteCon))
                 {
                     if (cmd.ExecuteNonQuery() < 1)
                     {
@@ -66,7 +67,7 @@ namespace Bot_Manager.Domains.Operacoes_da_Loja.DbOperations
             {
                 var local = this.GetType().Name;
                 local += "." + MethodBase.GetCurrentMethod().Name;
-                StartBotServices.Client.SendMessageAsync(
+                await StartBotServices.Client.SendMessageAsync(
                     StartBotServices.Client.GetChannelAsync(
                     StartBotServices.CanalExceptions).Result, ex.Message + " in " + $"```{local}```");
 
@@ -129,6 +130,41 @@ namespace Bot_Manager.Domains.Operacoes_da_Loja.DbOperations
                 SqliteCon.Close();
             }
 
+        }
+
+
+        public void GetItens(ref List<ItemVariado> items)
+        {
+            OpenConn();
+
+            try
+            {
+                var aux = 3;
+                ItemVariado nitem = new ItemVariado();
+                using (SQLiteCommand cmd = new SQLiteCommand(Test.SQL_GET_ITENS, SqliteCon))
+                {
+                    using (SQLiteDataReader reader = cmd.ExecuteReader())
+                    {
+                        while(reader.Read())
+                        {
+                            nitem.Id = aux.ToString();
+                            nitem.Nome = reader["Nome"].ToString();
+                            nitem.conteudo = reader["item"].ToString();
+                            items.Add(nitem);
+
+                            aux++;
+                        }
+
+                        SqliteCon.Close();
+                    }
+                }
+
+            }
+
+            catch (Exception ex)
+            {
+                SqliteCon.Close();
+            }
         }
 
 

@@ -22,7 +22,7 @@ namespace Bot_Manager.Domains.Operacoes_da_Loja.DbOperations
                 SqliteCon = new SQLiteConnection(ConnStr);
                 if (SqliteCon.State == ConnectionState.Closed)
                 {
-                    SqliteCon.Open();
+                    SqliteCon.OpenAsync().Wait();
                 }
             }
 
@@ -131,9 +131,9 @@ namespace Bot_Manager.Domains.Operacoes_da_Loja.DbOperations
                     StartBotServices.CanalExceptions).Result, ex.Message + " in " + $"```{local}```");
 
                 SqliteCon.Close();
-
-                throw ex;
             }
+
+            return fundosCarteira;
         }
 
     }

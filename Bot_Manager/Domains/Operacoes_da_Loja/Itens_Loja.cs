@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Text;
 using System.Linq;
 using System.Threading.Tasks;
+using Bot_Manager.Models;
+using System.Security.Cryptography.X509Certificates;
 
 namespace Bot_Manager.Domains.Operacoes_da_Loja
 {
@@ -14,7 +16,7 @@ namespace Bot_Manager.Domains.Operacoes_da_Loja
 
         public Dictionary<string, int> IndexItem = new Dictionary<string, int>();
 
-        public Dictionary<string, string> Variados = new Dictionary<string, string>();
+        public List<ItemVariado> Variados = new List<ItemVariado>();
 
         private int Total_Itens;
 
@@ -31,10 +33,11 @@ namespace Bot_Manager.Domains.Operacoes_da_Loja
         {
             List<string> Initro = new List<string>();
             List<string> classicnitro = new List<string>();
-
+            List<ItemVariado> items = new List<ItemVariado>();
 
             StartBotServices.ItensDAL.GetInactiveNitro(ref Initro);
             StartBotServices.ItensDAL.GetclassicNitro(ref classicnitro);
+            StartBotServices.ItensDAL.GetItens(ref items);
 
             //Limpa tudo antes de buscar novos itens
             ClassicNitro.Clear();
@@ -44,7 +47,7 @@ namespace Bot_Manager.Domains.Operacoes_da_Loja
 
             ClassicNitro = classicnitro != null ? classicnitro : ClassicNitro;
             InactiveNitro = Initro != null ? Initro : InactiveNitro;
-
+            Variados = items != null ? items : Variados;
 
             if (ClassicNitro.Count > 0)
             {
@@ -56,10 +59,16 @@ namespace Bot_Manager.Domains.Operacoes_da_Loja
                 IndexItem.Add("2", InactiveNitro.Count);
             }
 
+            if (Variados.Count > 0)
+            {
+                IndexItem.Add("3", Variados.Count);
+            }
+
             Total_Itens = 0;
 
             Total_Itens += ClassicNitro.Count;
             Total_Itens += InactiveNitro.Count;
+            Total_Itens += Variados.Count;
         }
 
 
@@ -68,52 +77,63 @@ namespace Bot_Manager.Domains.Operacoes_da_Loja
         {
             List<string> Initro = new List<string>();
             List<string> classicnitro = new List<string>();
-
+            List<ItemVariado> items = new List<ItemVariado>();
 
             StartBotServices.ItensDAL.GetInactiveNitro(ref Initro);
             StartBotServices.ItensDAL.GetclassicNitro(ref classicnitro);
+            StartBotServices.ItensDAL.GetItens(ref items);
 
+            var aux = 3;
             
+
             ClassicNitro = classicnitro != null ? classicnitro : ClassicNitro;
             InactiveNitro = Initro != null ? Initro : InactiveNitro;
+            Variados = items != null ? items : Variados;
 
 
-            if(ClassicNitro.Count>0)
+            if (ClassicNitro.Count>0)
             {
                 IndexItem.Add("1", ClassicNitro.Count);
+                Total_Itens += ClassicNitro.Count;
             }
 
 
             if (InactiveNitro.Count > 0)
             {
                 IndexItem.Add("2", InactiveNitro.Count);
+                Total_Itens += InactiveNitro.Count;
             }
 
-            Total_Itens += ClassicNitro.Count;
-            Total_Itens += InactiveNitro.Count;
+
+            if (Variados.Count > 0)
+            {
+                IndexItem.Add("3", Variados.Count);
+                Total_Itens += Variados.Count;
+            }
 
         }
 
-        public string darItem(string item)
+        public string darItem(int item)
         {
-            string nitro = "";
-            if (item == "1" && ClassicNitro.Count != 0)
+            string prize = "";
+
+            if (item == 1 && ClassicNitro.Count != 0)
             {
-                nitro = ClassicNitro[0];
+                prize = ClassicNitro[0];
             }
 
 
-            if (item == "2" && InactiveNitro.Count != 0)
+            if (item == 2 && InactiveNitro.Count != 0)
             {
-                nitro = InactiveNitro[0];
+                prize = InactiveNitro[0];
             }
 
-            if (item == "3" && Variados.Count != 0)
+            if (item >= 3 && Variados.Count != 0)
             {
-                nitro = Variados.Values.First();
+                prize = Variados.Find(c => c.Id == item.ToString()).conteudo;
             }
 
-            return nitro;
+            return prize;
         }
 
 
@@ -135,9 +155,9 @@ namespace Bot_Manager.Domains.Operacoes_da_Loja
                 break;
             }
 
-            foreach(var x in Variados.Keys)
+            foreach(var x in Variados)
             {
-                resultado.Add(x);
+                resultado.Add(x.Nome);
 
             }
 
@@ -167,50 +187,63 @@ namespace Bot_Manager.Domains.Operacoes_da_Loja
         }
 
 
-        public async Task<bool> Adcionaritem(string nome, string item)
+        public async Task<bool> Adcionaritem(ItemVariado item)
         {
+            try
+            {
+                Variados.Add(item);
 
-            Variados.Add(nome, item);
+                Total_Itens++;
 
-            Total_Itens++;
+                return true;
+            }
 
-            if (IndexItem.Count < 3)
-                IndexItem.Add("3", 1);
-
-            return true;
+            catch(Exception)
+            {
+                return false;
+            }
         }
 
         #endregion
 
 
-        public int TotalItens()
+        public int TotalItens(uint item)
         {
-            return Total_Itens;
+            if(item < 3)
+            {
+                if (item==1)
+                    return ClassicNitro.Count;
+
+                if (item == 2)
+                    return InactiveNitro.Count;
+            }
+
+            return Variados.Count;
         }
 
 
         public bool ItemAtivo(string item)
         {
-
-
-
-            if(ClassicNitro.Count>0 && InactiveNitro.Count>0 && Variados.Count>0)
-                return true;
-
-            if (item == "2" && InactiveNitro.Count == 0)
-                return false;
-
-            if (item == "2" && InactiveNitro.Count > 0)
-                return true;
+            if(int.Parse(item) > 2)
+                return Variados.Exists(c => c.Id == item);
 
             if (item == "1" && ClassicNitro.Count > 0)
                 return true;
 
-            if(item == "3" && Variados.Count>0)
-            return true;
+            if (item == "2" && InactiveNitro.Count > 0)
+                return false;
 
             return false;
         }
+
+
+        public string NomeDe(string item)
+        {
+            string resultado="";
+            resultado = Variados.Find(c => c.Id == item).Nome;
+            return resultado;
+        }
+
 
         public async Task RemoverItem(string item, string nome = "")
         {
@@ -220,8 +253,8 @@ namespace Bot_Manager.Domains.Operacoes_da_Loja
             else if (item == "2" && InactiveNitro.Count > 0)
                 InactiveNitro.RemoveAt(0);
 
-            else if (item == "3" && Variados.Count > 0)
-                Variados.Remove(Variados.Keys.First());
+            else if (Variados.Count > 0)
+                Variados.Remove(Variados.Where(c => c.Id == item).First());
 
             IndexItem[item]--;
 

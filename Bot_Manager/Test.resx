@@ -159,6 +159,9 @@
   <data name="SQL_GET_Initro" xml:space="preserve">
     <value>SELECT Link FROM Inactive_Nitro</value>
   </data>
+  <data name="SQL_GET_ITENS" xml:space="preserve">
+    <value>SELECT * FROM ITENS_VARIADOS</value>
+  </data>
   <data name="SQL_Id_Log" xml:space="preserve">
     <value>SELECT Id, Log_Channel FROM Guild</value>
   </data>

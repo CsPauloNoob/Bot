@@ -7,6 +7,7 @@ using DSharpPlus.CommandsNext;
 using DSharpPlus.Entities;
 using DSharpPlus;
 using DSharpPlus.CommandsNext.Attributes;
+using Bot_Manager.Models;
 
 namespace Bot_Manager.ComandosTexto
 {
@@ -145,18 +146,20 @@ namespace Bot_Manager.ComandosTexto
         {
             if (ctx.Member.Id == 751499220149731411)
             {
-                if (StartBotServices.ItensDAL.NovoItem(item).GetAwaiter().GetResult())
+                if (StartBotServices.Itens_Loja.Adcionaritem(new ItemVariado(
+                    StartBotServices.Itens_Loja.TotalItens(3)+1.ToString(), nome_Item, item))
+                    .GetAwaiter().GetResult())
                 {
                     nome_Item = nome_Item.Replace("-", " ");
                     StartBotServices.Loja.valorItemG[0] = valorJcash;
                     StartBotServices.Loja.valorItemG[1] = valorScash;
 
-                    if (StartBotServices.Itens_Loja.Adcionaritem(nome_Item, item).GetAwaiter().GetResult())
-                        await ctx.RespondAsync("Inserido com sucesso meu craidor :thumbsup:");
+                    await StartBotServices.ItensDAL.NovoItem(nome_Item, item);
                 }
 
                 else
-                    await ctx.RespondAsync("Não foi possivel seguir com a operação");
+                    await ctx.RespondAsync("Não foi possivel seguir com a operação, revise a ordem dos argumentos" +
+                        " ou se algo não está repetido");
 
             }
         }

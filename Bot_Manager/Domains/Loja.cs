@@ -25,7 +25,7 @@ namespace Bot_Manager.Domains
             string linhasLoja = "";
             var i = 0;
             var v = 0;
-            var c = 0;
+            var c = 3;
             int[] vC = StartBotServices.ItensValue.valueClassicNitro;
             int[] vI = StartBotServices.ItensValue.valueInactiveNitro;
 
@@ -44,13 +44,11 @@ namespace Bot_Manager.Domains
 
                 else
 
-                    linhasLoja += "\n> 3. *" + x + $"*\nValor: {valorItemG[0]} Jcash|"
+                    linhasLoja += $"\n> {c}. *" + x + $"*\nValor: {valorItemG[0]} Jcash|"
                         + $" {valorItemG[1]} Scash";
-
-                i++;
-                v = i + 1;
-                c++;
-            }
+                v++;
+                c = v >= 1 ? c++ : c--;
+            } //Arrumar os preços, testar vendas de itens v, arrumar essa tela de loja e encontrar novos bugs
 
             if(drop_Loja)
             return EmbedMesages.StoreView(linhasLoja, drop_Loja);

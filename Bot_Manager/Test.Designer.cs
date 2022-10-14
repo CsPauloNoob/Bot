@@ -187,6 +187,15 @@ namespace Bot_Manager {
         }
         
         /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a SELECT * FROM ITENS_VARIADOS.
+        /// </summary>
+        internal static string SQL_GET_ITENS {
+            get {
+                return ResourceManager.GetString("SQL_GET_ITENS", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Consulta uma cadeia de caracteres localizada semelhante a SELECT Id, Log_Channel FROM Guild.
         /// </summary>
         internal static string SQL_Id_Log {

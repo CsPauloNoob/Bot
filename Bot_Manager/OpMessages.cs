@@ -20,7 +20,7 @@ namespace Bot_Manager
         }
 
 
-        public static async Task<DiscordMessageBuilder> Menssagen_de_Compra(DiscordClient client, List<DiscordButtonComponent> buttons, DiscordUser user)
+        public static async Task<DiscordMessageBuilder> Menssagen_de_Compra(DiscordClient client, List<DiscordButtonComponent> buttons, DiscordUser user, string gift)
         {
             
             DiscordMessageBuilder message = new DiscordMessageBuilder()
@@ -28,6 +28,8 @@ namespace Bot_Manager
                 .AddEmbed(EmbedMesages.UniqueLineMsg($"||{user.Mention}|| Selecione a moeda desejada"));
             return message;
         }
+
+
 
         public static async Task BotaoMoedaPres(DiscordMember member, string item, string moneytype, ulong channel)
         {
@@ -39,11 +41,6 @@ namespace Bot_Manager
                 if (prize != null)
                 {
 
-                    await Client.SendMessageAsync(Client.GetChannelAsync(channel).Result
-                                     , $"{member.Mention} :) entreuguei na sua DM, " +
-                                     $"se você não recebeu, não se preocupe, seus pontos" +
-                                     $" não serão descontados e você pode tentar novamente!");
-
 
                    await StartBotServices.ItensDAL.RemoverLoja(prize, item);
 
@@ -51,7 +48,12 @@ namespace Bot_Manager
                          ValorDe(item, moneytype), moneytype);
 
                     await msg.SendMessageAsync("Olá, aqui está seu item comprado");
-                    await msg.SendMessageAsync(prize);
+                    if(msg.SendMessageAsync(prize).IsCompleted)
+
+                        await Client.SendMessageAsync(Client.GetChannelAsync(channel).Result
+                                , $"{member.Mention} :) entreuguei na sua DM, " +
+                                $"se você não recebeu, não se preocupe, seus pontos" +
+                                $" não serão descontados e você pode tentar novamente!");
 
                     StartBotServices.SaveEconomicOP.ComitarVendaDb(item, prize, member.Id, moneytype).GetAwaiter();
 

@@ -29,7 +29,7 @@ namespace Bot_Manager.ComandosTexto
 
 
         [Command("Comprar")]
-        async Task Comprar(CommandContext ctx, int numItem)
+        async Task Comprar(CommandContext ctx, uint numItem)
         {
             string item = numItem.ToString();
 
@@ -38,7 +38,7 @@ namespace Bot_Manager.ComandosTexto
             {
                 if (StartBotServices.Users.Contains(ctx.Member.Id.ToString())) 
                 {
-                    if (numItem <= 3 && numItem != 0)
+                    if (StartBotServices.Itens_Loja.TotalItens(numItem) != 0)
                     {
                         var buttons = StartBotServices.SaveEconomicOP.SaldoSuficiente(ctx.Member.Id, item, true).Result;
 
@@ -48,8 +48,9 @@ namespace Bot_Manager.ComandosTexto
                                 {
                                     await StartBotServices.Resposta_Eventos.AdcionarCompradores
                                         (ctx.Member.Id.ToString(), item);
+
                                     await ctx.RespondAsync(OpMessages.Menssagen_de_Compra
-                                        (ctx.Client, buttons, ctx.User).Result);
+                                        (ctx.Client, buttons, ctx.User, StartBotServices.Itens_Loja.NomeDe(numItem.ToString())).Result);
                                 }
 
                                 else
