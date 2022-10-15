@@ -146,15 +146,19 @@ namespace Bot_Manager.ComandosTexto
         {
             if (ctx.Member.Id == 751499220149731411)
             {
-                if (StartBotServices.Itens_Loja.Adcionaritem(new ItemVariado(
-                    StartBotServices.Itens_Loja.TotalItens(3)+1.ToString(), nome_Item, item))
+                var id = StartBotServices.Itens_Loja.TotalItens(3) + 1.ToString();
+
+                if (StartBotServices.Itens_Loja.Adcionaritem(new ItemVariado(id, nome_Item, item))
                     .GetAwaiter().GetResult())
                 {
+
+                    StartBotServices.ItensValue.ValorItensV.Add(id, new int[] { valorJcash, valorScash });
+
                     nome_Item = nome_Item.Replace("-", " ");
-                    StartBotServices.Loja.valorItemG[0] = valorJcash;
-                    StartBotServices.Loja.valorItemG[1] = valorScash;
 
                     await StartBotServices.ItensDAL.NovoItem(nome_Item, item);
+
+                    await ctx.RespondAsync("Inserido com sucesso");
                 }
 
                 else

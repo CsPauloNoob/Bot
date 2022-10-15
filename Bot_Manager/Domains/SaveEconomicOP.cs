@@ -50,7 +50,7 @@ namespace Bot_Manager.Domains
 
 
         public async Task<List<DiscordButtonComponent>> SaldoSuficiente(ulong UserId, string Item, bool component)
-        { //validar tipo de moeda consertar, arrumar um jeito de completar a compra de forma coesa
+        {
 
 
             List<DiscordButtonComponent> cp = new List<DiscordButtonComponent>();

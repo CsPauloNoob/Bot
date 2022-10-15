@@ -12,6 +12,8 @@ namespace Bot_Manager.Domains.Operacoes_da_Loja.DbOperations
 
         public int[] valueClassicNitro;
 
+        public Dictionary<string, int[]> ValorItensV = new Dictionary<string, int[]>();
+
         public ItensValue(int[] classicNitro, int[] Initro)
         {
             valueInactiveNitro = Initro;
@@ -71,8 +73,8 @@ namespace Bot_Manager.Domains.Operacoes_da_Loja.DbOperations
                 return valueClassicNitro;
             else if (item == "2")
                 return valueInactiveNitro;
-            else if (item == "3")
-                return StartBotServices.Loja.valorItemG;
+            else if (int.Parse(item) > 2)
+                return ValorItensV[item];
             else
                 return null;
         }
@@ -91,11 +93,13 @@ namespace Bot_Manager.Domains.Operacoes_da_Loja.DbOperations
                 return valueClassicNitro[1];
             else if (item == "2" && money == "Scash")
                 return valueInactiveNitro[1];
-            else if (item == "3" && money == "Scash")
-                return StartBotServices.Loja.valorItemG[1];
-            else if (item == "3" && money == "Jcash")
-                return StartBotServices.Loja.valorItemG[0];
-
+            else if (int.Parse(item) > 2)
+            {
+                if (money == "Jcash")
+                    return ValorItensV[item][0];
+                else
+                    return  ValorItensV[item][1];
+            }
                 return 0;
         }
     }

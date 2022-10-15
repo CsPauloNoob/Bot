@@ -153,6 +153,8 @@ namespace Bot_Manager.Domains.Operacoes_da_Loja.DbOperations
                             items.Add(nitem);
 
                             aux++;
+
+                            nitem = new ItemVariado();
                         }
 
                         SqliteCon.Close();

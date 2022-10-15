@@ -14,8 +14,6 @@ namespace Bot_Manager.Domains.Operacoes_da_Loja
 
         private List<string> InactiveNitro = new List<string>();
 
-        public Dictionary<string, int> IndexItem = new Dictionary<string, int>();
-
         public List<ItemVariado> Variados = new List<ItemVariado>();
 
         private int Total_Itens;
@@ -42,27 +40,14 @@ namespace Bot_Manager.Domains.Operacoes_da_Loja
             //Limpa tudo antes de buscar novos itens
             ClassicNitro.Clear();
             InactiveNitro.Clear();
-            IndexItem.Clear();
             Variados.Clear();
 
             ClassicNitro = classicnitro != null ? classicnitro : ClassicNitro;
             InactiveNitro = Initro != null ? Initro : InactiveNitro;
             Variados = items != null ? items : Variados;
 
-            if (ClassicNitro.Count > 0)
-            {
-                IndexItem.Add("1", ClassicNitro.Count);
-            }
+            ItemsPreco();
 
-            if (InactiveNitro.Count > 0)
-            {
-                IndexItem.Add("2", InactiveNitro.Count);
-            }
-
-            if (Variados.Count > 0)
-            {
-                IndexItem.Add("3", Variados.Count);
-            }
 
             Total_Itens = 0;
 
@@ -71,7 +56,16 @@ namespace Bot_Manager.Domains.Operacoes_da_Loja
             Total_Itens += Variados.Count;
         }
 
-
+        private void ItemsPreco()
+        {
+            if(Variados.Count>0)
+            {
+                foreach(var x in Variados)
+                {
+                    StartBotServices.ItensValue.ValorItensV.Add(x.Id, new int[] { 15, 11500 });
+                }
+            }
+        }
 
         private void CarregarItensDB()
         {
@@ -93,23 +87,22 @@ namespace Bot_Manager.Domains.Operacoes_da_Loja
 
             if (ClassicNitro.Count>0)
             {
-                IndexItem.Add("1", ClassicNitro.Count);
                 Total_Itens += ClassicNitro.Count;
             }
 
 
             if (InactiveNitro.Count > 0)
             {
-                IndexItem.Add("2", InactiveNitro.Count);
                 Total_Itens += InactiveNitro.Count;
             }
 
 
             if (Variados.Count > 0)
             {
-                IndexItem.Add("3", Variados.Count);
                 Total_Itens += Variados.Count;
             }
+
+            ItemsPreco();
 
         }
 
@@ -224,7 +217,9 @@ namespace Bot_Manager.Domains.Operacoes_da_Loja
 
         public bool ItemAtivo(string item)
         {
-            if(int.Parse(item) > 2)
+            object resultado;
+
+            if (int.Parse(item) > 2)
                 return Variados.Exists(c => c.Id == item);
 
             if (item == "1" && ClassicNitro.Count > 0)
@@ -247,18 +242,25 @@ namespace Bot_Manager.Domains.Operacoes_da_Loja
 
         public async Task RemoverItem(string item, string nome = "")
         {
-            if (item == "1" && ClassicNitro.Count > 0)
-                ClassicNitro.RemoveAt(0);
+            try
+            {
+                if (item == "1" && ClassicNitro.Count > 0)
+                    ClassicNitro.RemoveAt(0);
 
-            else if (item == "2" && InactiveNitro.Count > 0)
-                InactiveNitro.RemoveAt(0);
+                else if (item == "2" && InactiveNitro.Count > 0)
+                    InactiveNitro.RemoveAt(0);
 
-            else if (Variados.Count > 0)
-                Variados.Remove(Variados.Where(c => c.Id == item).First());
+                else if (Variados.Count > 0)
+                    Variados.Remove(Variados.Where(c => c.Id == item).First());
 
-            IndexItem[item]--;
+                Total_Itens--;
+            }
 
-            Total_Itens--;
+
+            catch(Exception)
+            {
+
+            }
         }
     }
 }

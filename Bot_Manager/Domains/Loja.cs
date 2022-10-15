@@ -12,8 +12,6 @@ namespace Bot_Manager.Domains
 
         private List<string> ItensLoja;
 
-        public int[] valorItemG = new int[2];
-
         private Dictionary<string, List<int>> ValorItens;
 
 
@@ -24,30 +22,33 @@ namespace Bot_Manager.Domains
 
             string linhasLoja = "";
             var i = 0;
-            var v = 0;
-            var c = 3;
+            var v = 3;
+            var c = StartBotServices.ItensValue.ValorItensV;
             int[] vC = StartBotServices.ItensValue.valueClassicNitro;
             int[] vI = StartBotServices.ItensValue.valueInactiveNitro;
 
             foreach (var x in ItensLoja)
             {
 
-                if(x.Contains("Clássico"))
+                if (x.Contains("Clássico"))
 
-                linhasLoja += $"\n> 1. *{x}*:medal:\n" + $"Valor: {vC[0]} Jcash|"
-                    + $"{vC[1]} Scash\n";
+                    linhasLoja += $"\n> 1. *{x}*:medal:\n" + $"Valor: {vC[0]} Jcash|"
+                        + $"{vC[1]} Scash\n";
 
-                else if(x.Contains("novos"))
+                else if (x.Contains("novos"))
 
                     linhasLoja += $"\n> 2. *{x}*:medal:\n" + $"Valor: {vI[0]} Jcash|"
                         + $" {vI[1]} Scash\n";
 
-                else
+                else {
 
-                    linhasLoja += $"\n> {c}. *" + x + $"*\nValor: {valorItemG[0]} Jcash|"
-                        + $" {valorItemG[1]} Scash";
-                v++;
-                c = v >= 1 ? c++ : c--;
+                    linhasLoja += $"\n> {v}. *" + x + $"*\nValor: {c[v.ToString()][0]} Jcash|"
+                        + $" {c[v.ToString()][1]} Scash\n";
+                    if(v <= c.Count+3)
+                    v++;
+                }
+
+
             } //Arrumar os preços, testar vendas de itens v, arrumar essa tela de loja e encontrar novos bugs
 
             if(drop_Loja)
