@@ -227,7 +227,7 @@ namespace Bot_Manager.Domains.Operacoes_da_Loja.DbOperations
             return false;
         }
 
-        public async Task RemoverLoja(string item, string tipo)
+        public async Task RemoverDb(string item, string tipo)
         {
             OpenConn();
 
@@ -239,14 +239,14 @@ namespace Bot_Manager.Domains.Operacoes_da_Loja.DbOperations
                         await cmd.ExecuteNonQueryAsync();
                     }
 
-               else if(tipo == "2")
+                else if(tipo == "2")
                     using (SQLiteCommand cmd = new SQLiteCommand($"delete from inactive_nitro where link ='{item}'", SqliteCon))
                     {
                         await cmd.ExecuteNonQueryAsync();
                     }
 
                 else
-                    using (SQLiteCommand cmd = new SQLiteCommand($"delete from inactive_nitro where link ='{item}'", SqliteCon))
+                    using (SQLiteCommand cmd = new SQLiteCommand($"delete from Itens_Variados where item ='{item}'", SqliteCon))
                     {
                         await cmd.ExecuteNonQueryAsync();
                     }

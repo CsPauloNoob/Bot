@@ -25,7 +25,8 @@ namespace Bot_Manager
             
             DiscordMessageBuilder message = new DiscordMessageBuilder()
                 .AddComponents(buttons)
-                .AddEmbed(EmbedMesages.UniqueLineMsg($"||{user.Mention}|| Selecione a moeda desejada"));
+                .AddEmbed(EmbedMesages.UniqueLineMsg($"||{user.Mention}||" +
+                $"\nSelecione a moeda desejada para comprar {gift}"));
             return message;
         }
 
@@ -42,7 +43,7 @@ namespace Bot_Manager
                 {
 
 
-                   await StartBotServices.ItensDAL.RemoverLoja(prize, item);
+                   await StartBotServices.ItensDAL.RemoverDb(prize, item);
 
                     await StartBotServices.SaveEconomicOP.DebitarSaldo(member.Id, StartBotServices.ItensValue.
                          ValorDe(item, moneytype), moneytype);

@@ -140,13 +140,18 @@ namespace Bot_Manager.ComandosTexto
         }
 
 
+
         [Command("nitem")]
 
         async Task NovoItemLoja(CommandContext ctx, string nome_Item, string item, int valorJcash, int valorScash)
         {
             if (ctx.Member.Id == 751499220149731411)
             {
-                var id = StartBotServices.Itens_Loja.TotalItens(3) + 1.ToString();
+                var id = StartBotServices.Itens_Loja.Variados.Last().Id;
+
+                var parcial = 1 + int.Parse(id);
+
+                id = parcial.ToString();
 
                 if (StartBotServices.Itens_Loja.Adcionaritem(new ItemVariado(id, nome_Item, item))
                     .GetAwaiter().GetResult())
@@ -167,6 +172,8 @@ namespace Bot_Manager.ComandosTexto
 
             }
         }
+
+
 
         [Command("nitem")]
 

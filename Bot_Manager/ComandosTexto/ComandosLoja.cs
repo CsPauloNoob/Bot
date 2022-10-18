@@ -29,6 +29,16 @@ namespace Bot_Manager.ComandosTexto
 
 
         [Command("Comprar")]
+        async Task Comprar(CommandContext ctx)
+        {
+            await ctx.RespondAsync("Esse é o comando para comprar alguma coisa da minha loja,\n" +
+                "ulitize o comando assim: !jcomprar [id do item a ser comprado]\n" +
+                "exemplo: !jcomprar 1");
+        }
+
+
+
+        [Command("Comprar")]
         async Task Comprar(CommandContext ctx, uint numItem)
         {
             string item = numItem.ToString();
@@ -85,6 +95,8 @@ namespace Bot_Manager.ComandosTexto
             }
             
         }
+
+
 
         [Command("pegar")]
 

@@ -46,7 +46,7 @@ namespace Bot_Manager.Domains.Operacoes_da_Loja
             InactiveNitro = Initro != null ? Initro : InactiveNitro;
             Variados = items != null ? items : Variados;
 
-            ItemsPreco();
+            //ItemsPreco();
 
 
             Total_Itens = 0;
@@ -148,12 +148,6 @@ namespace Bot_Manager.Domains.Operacoes_da_Loja
                 break;
             }
 
-            foreach(var x in Variados)
-            {
-                resultado.Add(x.Nome);
-
-            }
-
             return resultado;
 
         }
@@ -235,7 +229,15 @@ namespace Bot_Manager.Domains.Operacoes_da_Loja
         public string NomeDe(string item)
         {
             string resultado="";
+            if (item == "1")
+                return "Nitro Clássico";
+
+            else if (item == "2")
+                return "Nitro novos assinantes";
+
+            else
             resultado = Variados.Find(c => c.Id == item).Nome;
+
             return resultado;
         }
 

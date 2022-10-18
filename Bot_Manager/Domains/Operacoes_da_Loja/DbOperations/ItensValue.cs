@@ -35,7 +35,8 @@ namespace Bot_Manager.Domains.Operacoes_da_Loja.DbOperations
             foreach(var valor in valueClassicNitro)
             {
                 if(aux == 0)
-                aux = valor;
+                    aux = valor;
+
                 else
                     aux2 = valor;
             }
