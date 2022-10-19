@@ -27,16 +27,16 @@ namespace Bot_Manager.ComandosBarra
         }
 
 
-        [SlashCommand("Test", "Bans a user")]
+        [SlashCommand("Test", "Ban a user")]
 
-        public async Task kkkkdsd(InteractionContext ctx, [Option("user", "User to ban")] DiscordUser user,
+        public async Task Ban(InteractionContext ctx, [Option("user", "User to ban")] DiscordUser user,
         [Choice("None", 0)]
         [Choice("1 Day", 1)]
         [Choice("1 Week", 7)]
         [Option("deletedays", "Number of days of message history to delete")] long deleteDays = 0)
 
         {
-
+            
         }
 
         [SlashCommand("Default", "teste de slash command")]

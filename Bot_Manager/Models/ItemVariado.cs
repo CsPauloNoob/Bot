@@ -13,13 +13,19 @@ namespace Bot_Manager.Models
 
         public string conteudo { get; set; }
 
+        public int Jcash { get; set; }
+
+        public int Scash { get; set; }
+
         public ItemVariado() { }
 
-        public ItemVariado(string id, string nome, string conteudo)
+        public ItemVariado(string id, string nome, string conteudo, int jcash, int scash)
         {
             Id = id;
             Nome = nome;
             this.conteudo = conteudo;
+            Jcash = jcash;
+            Scash = scash;
         }
     }
 }

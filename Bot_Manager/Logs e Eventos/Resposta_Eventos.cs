@@ -191,6 +191,5 @@ namespace Bot_Manager.Logs_e_Eventos
 
             };
         }
-
     }
 }

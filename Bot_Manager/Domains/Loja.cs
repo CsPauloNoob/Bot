@@ -26,7 +26,6 @@ namespace Bot_Manager.Domains
             string linhasLoja = "";
             var v = 3;
             var variados = StartBotServices.Itens_Loja.Variados;
-            var c = StartBotServices.ItensValue.ValorItensV;
             int[] vC = StartBotServices.ItensValue.valueClassicNitro;
             int[] vI = StartBotServices.ItensValue.valueInactiveNitro;
 
@@ -46,10 +45,11 @@ namespace Bot_Manager.Domains
 
             foreach(var x in variados)
             {
+                
 
                 if(!usado.Contains(x.Nome))
-                linhasLoja += $"\n> {x.Id}. *" + x.Nome + $"*\nValor: {c[x.Id][0]} Jcash|"
-                        + $" {c[x.Id][1]} Scash\n";
+                linhasLoja += $"\n> {x.Id}. *" + x.Nome + $"*\nValor: {x.Jcash} Jcash|"
+                        + $" {x.Scash} Scash\n";
 
                 usado += x.Nome;
 

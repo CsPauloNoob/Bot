@@ -10,7 +10,7 @@ namespace Bot_Manager
     public class MainTimer
     {
 
-        Timer dayTimer = new Timer();
+        public static Timer dayTimer = new Timer();
 
         public MainTimer()
         {
@@ -25,7 +25,7 @@ namespace Bot_Manager
 
             dayTimer.Elapsed += new ElapsedEventHandler(ResetDiario);
             dayTimer.AutoReset = true;
-            dayTimer.Interval = 600000;
+            dayTimer.Interval = 60000;
             dayTimer.Enabled = true;
             dayTimer.Start();
             

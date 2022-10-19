@@ -37,14 +37,14 @@ namespace Bot_Manager.Domains.Operacoes_da_Loja.DbOperations
 
 
 
-        public async Task<bool> NovoItem(string nome, string item)
+        public async Task<bool> NovoItem(string nome, string item, string Jcash, string Scash)
         {
             try
             {
                 OpenConn();
 
                 using( SQLiteCommand cmd = new SQLiteCommand(Test.SQL_ADD_Item+
-                    $"('{nome}', '{item}')", SqliteCon))
+                    $"('{nome}', '{item}', {Jcash}, {Scash})", SqliteCon))
                 {
                     if (cmd.ExecuteNonQuery() < 1)
                     {
@@ -150,6 +150,8 @@ namespace Bot_Manager.Domains.Operacoes_da_Loja.DbOperations
                             nitem.Id = aux.ToString();
                             nitem.Nome = reader["Nome"].ToString();
                             nitem.conteudo = reader["item"].ToString();
+                            nitem.Jcash = Convert.ToInt32(reader["Jprice"]);
+                            nitem.Scash = Convert.ToInt32(reader["Sprice"]);
                             items.Add(nitem);
 
                             aux++;
@@ -226,6 +228,8 @@ namespace Bot_Manager.Domains.Operacoes_da_Loja.DbOperations
 
             return false;
         }
+
+
 
         public async Task RemoverDb(string item, string tipo)
         {

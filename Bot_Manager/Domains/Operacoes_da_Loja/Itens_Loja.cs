@@ -48,6 +48,9 @@ namespace Bot_Manager.Domains.Operacoes_da_Loja
 
             //ItemsPreco();
 
+            StartBotServices.ItensValue.ValorItensV.Clear();
+
+            ItemsPreco();
 
             Total_Itens = 0;
 
@@ -62,7 +65,7 @@ namespace Bot_Manager.Domains.Operacoes_da_Loja
             {
                 foreach(var x in Variados)
                 {
-                    StartBotServices.ItensValue.ValorItensV.Add(x.Id, new int[] { 15, 11500 });
+                    StartBotServices.ItensValue.ValorItensV.Add(x.Id, new int[] { x.Jcash, x.Scash });
                 }
             }
         }
@@ -220,7 +223,7 @@ namespace Bot_Manager.Domains.Operacoes_da_Loja
                 return true;
 
             if (item == "2" && InactiveNitro.Count > 0)
-                return false;
+                return true;
 
             return false;
         }

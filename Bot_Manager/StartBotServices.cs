@@ -136,7 +136,7 @@ namespace Bot_Manager
                 commands.RegisterCommands<ComandosGames>();
                 commands.RegisterCommands<ComandosInfo>();
 
-                //slash.RegisterCommands<ComandosBarra1>();
+               //slash.RegisterCommands<ComandosBarra1>();
 
 
                 commands.SetHelpFormatter<CustomHelp>();
