@@ -43,7 +43,7 @@ namespace Bot_Manager.ComandosTexto
         {
             string item = numItem.ToString();
 
-            //Resolver problemas dos numeros
+            _ = Task.Run(async () => { 
             try
             {
                 if (StartBotServices.Users.Contains(ctx.Member.Id.ToString())) 
@@ -93,7 +93,9 @@ namespace Bot_Manager.ComandosTexto
             {
                 await ctx.RespondAsync("Algo deu errado, tente novamente");
             }
-            
+
+
+            });
         }
 
 

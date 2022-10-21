@@ -106,16 +106,12 @@ namespace Bot_Manager.ComandosTexto
             {
                 if (StartBotServices.ItensDAL.AddInactiveNitro(item))
                 {
-                    if (StartBotServices.ItensDAL.AddInactiveNitro(item))
-                    {
-                        await StartBotServices.Itens_Loja.AdcionarInitro(item);
-                        await ctx.RespondAsync("Inserido com sucesso");
-                    }
-
-                    else
-                        await ctx.RespondAsync("Não foi possivel seguir com a operação");
-
+                    await StartBotServices.Itens_Loja.AdcionarInitro(item);
+                    await ctx.RespondAsync("Inserido com sucesso");
                 }
+
+                else
+                    await ctx.RespondAsync("Não foi possivel seguir com a operação");
             }
 
         }
@@ -146,41 +142,45 @@ namespace Bot_Manager.ComandosTexto
 
         async Task NovoItemLoja(CommandContext ctx, string nome_Item, string item, int valorJcash, int valorScash)
         {
-            if (ctx.Member.Id == 751499220149731411)
+            _ = Task.Run(async () =>
             {
-                object id;
-                if (Convert.ToInt32(StartBotServices.Itens_Loja.Variados.Count) > 0)
+                if (ctx.Member.Id == 751499220149731411)
                 {
-                    id = StartBotServices.Itens_Loja.Variados.Last().Id;
-                }
+                    object id;
+                    if (Convert.ToInt32(StartBotServices.Itens_Loja.Variados.Count) > 0)
+                    {
+                        id = StartBotServices.Itens_Loja.Variados.Last().Id;
+                    }
 
-                else
-                {
-                    id = 3;
-                }
+                    else
+                    {
+                        id = 3;
+                    }
 
-                var parcial = 1 + int.Parse(id.ToString());
+                    var parcial = 1 + int.Parse(id.ToString());
 
-                id = parcial.ToString();
-
-                if (StartBotServices.Itens_Loja.Adcionaritem(new ItemVariado(id.ToString(), nome_Item, item, valorJcash, valorScash))
-                    .GetAwaiter().GetResult())
-                {
-
-                    StartBotServices.ItensValue.ValorItensV.Add(id.ToString(), new int[] { valorJcash, valorScash });
+                    id = parcial.ToString();
 
                     nome_Item = nome_Item.Replace("-", " ");
 
-                    await StartBotServices.ItensDAL.NovoItem(nome_Item, item, valorJcash.ToString(), valorScash.ToString());
+                    if (StartBotServices.Itens_Loja.Adcionaritem(new ItemVariado(id.ToString(), nome_Item, item, valorJcash, valorScash))
+                        .GetAwaiter().GetResult())
+                    {
 
-                    await ctx.RespondAsync("Inserido com sucesso");
+                        StartBotServices.ItensValue.ValorItensV.Add(id.ToString(), new int[] { valorJcash, valorScash });
+
+
+                        await StartBotServices.ItensDAL.NovoItem(nome_Item, item, valorJcash.ToString(), valorScash.ToString());
+
+                        await ctx.RespondAsync("Inserido com sucesso");
+                    }
+
+                    else
+                        await ctx.RespondAsync("Não foi possivel seguir com a operação, revise a ordem dos argumentos" +
+                            " ou se algo não está repetido");
+
                 }
-
-                else
-                    await ctx.RespondAsync("Não foi possivel seguir com a operação, revise a ordem dos argumentos" +
-                        " ou se algo não está repetido");
-
-            }
+            });
         }
 
 

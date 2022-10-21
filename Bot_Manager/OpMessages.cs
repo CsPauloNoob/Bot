@@ -41,20 +41,19 @@ namespace Bot_Manager
 
                 if (prize != null)
                 {
-
+                    await Client.SendMessageAsync(Client.GetChannelAsync(channel).Result
+                                , $"{member.Mention} Tentando entregar na sua DM...\n\n " +
+                                $"Se você não recebeu, não se preocupe, seu saldo" +
+                                $" não será descontados e você pode tentar novamente!");
 
                    await StartBotServices.ItensDAL.RemoverDb(prize, item);
 
-                    await StartBotServices.SaveEconomicOP.DebitarSaldo(member.Id, StartBotServices.ItensValue.
-                         ValorDe(item, moneytype), moneytype);
-
-                    await msg.SendMessageAsync("Olá, aqui está seu item comprado");
-                    if(msg.SendMessageAsync(prize).IsCompleted)
-
-                        await Client.SendMessageAsync(Client.GetChannelAsync(channel).Result
-                                , $"{member.Mention} :) entreuguei na sua DM, " +
-                                $"se você não recebeu, não se preocupe, seus pontos" +
-                                $" não serão descontados e você pode tentar novamente!");
+                    if (StartBotServices.SaveEconomicOP.DebitarSaldo(member.Id, StartBotServices.ItensValue.
+                         ValorDe(item, moneytype), moneytype).GetAwaiter().GetResult())
+                    {
+                        await msg.SendMessageAsync("Olá, aqui está seu item comprado");
+                        await msg.SendMessageAsync(prize);
+                    }
 
                     StartBotServices.SaveEconomicOP.ComitarVendaDb(item, prize, member.Id, moneytype).GetAwaiter();
 

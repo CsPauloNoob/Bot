@@ -223,13 +223,13 @@ namespace Bot_Manager {
         }
         
         /// <summary>
-        ///   Consulta uma cadeia de caracteres localizada semelhante a CREATE TABLE Itens_Variados (
-        ///    Nome   TEXT (80)    NOT NULL
-        ///                        DEFAULT (false),
-        ///    Item   VARCHAR (60) UNIQUE
-        ///                        NOT NULL,
-        ///    Jprice INTEGER      NOT NULL,
-        ///    Sprice INTEGER      NOT NULL
+        ///   Consulta uma cadeia de caracteres localizada semelhante a CREATE TABLE Anuncios (
+        ///    User       VARCHAR (60) REFERENCES User (Id) 
+        ///                            NOT NULL,
+        ///    Item       VARCHAR (60) NOT NULL,
+        ///    Item_qtde  VARCHAR (30),
+        ///    Item_valor VARCHAR (30) NOT NULL,
+        ///    Pag_tipo                NOT NULL
         ///);.
         /// </summary>
         internal static string SQL_TB_AN {

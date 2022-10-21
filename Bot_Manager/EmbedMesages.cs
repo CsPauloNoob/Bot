@@ -23,7 +23,7 @@ namespace Bot_Manager
                     "!jcomprar ~Número ao lado do item~**\n\n\n```" +
                     "||:warning: Um drop acabou de cair na loja, seja rápido e digite !pegar, para resgata-lo||");
             else
-                embed.AddField($":fleur_de_lis: {TimeSpan.FromMilliseconds(time)} *Lojinha*\n\n\n"
+                embed.AddField($":fleur_de_lis: *Lojinha*\n\n\n"
                 , linhas + "```\n**Para comprar digite o comando " +
                 "!jcomprar ~Número ao lado do item~**```");
 
