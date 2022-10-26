@@ -8,19 +8,45 @@ using DSharpPlus.Entities;
 using DSharpPlus;
 using DSharpPlus.CommandsNext.Attributes;
 using Bot_Manager.Models;
+using Bot_Manager.Quests.Drops;
 
 namespace Bot_Manager.ComandosTexto
 {
     internal class ComandosPaulo :BaseCommandModule
     {
 
-        [Command("drop")]
+        [Command("dropar")]
 
-        async Task Drop(CommandContext ctx)
+        async Task Drop(CommandContext ctx, string nome, string valor)
         {
             if (ctx.Member.Id == 751499220149731411)
             {
-                StartBotServices.Loja.drop_Loja = true;
+                StartBotServices.Loja.drop_Loja = new Drops()
+                {
+                    Nome = nome,
+                    Valor = valor,
+                    Ativo = true,
+                    dropCredito = false
+                    
+                };
+                await ctx.RespondAsync("Dropado");
+            }
+        }
+
+        [Command("dropar")]
+
+        async Task Drop(CommandContext ctx, string nome, int valor)
+        {
+            if (ctx.Member.Id == 751499220149731411)
+            {
+                StartBotServices.Loja.drop_Loja = new Drops()
+                {
+                    Nome = nome,
+                    Valor = valor.ToString(),
+                    Ativo = true,
+                    dropCredito = true
+
+                };
                 await ctx.RespondAsync("Dropado");
             }
         }

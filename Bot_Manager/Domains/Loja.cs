@@ -5,12 +5,13 @@ using DSharpPlus.Entities;
 using System.Threading.Tasks;
 using Bot_Manager.Models;
 using System.Linq;
+using Bot_Manager.Quests.Drops;
 
 namespace Bot_Manager.Domains
 {
     public class Loja
     {
-        public bool drop_Loja;
+        public Drops drop_Loja;
 
         private List<string> ItensLoja;
 
@@ -55,11 +56,11 @@ namespace Bot_Manager.Domains
 
             }
 
-            if(drop_Loja)
+            if(drop_Loja != null && drop_Loja.Ativo)
             return EmbedMesages.StoreView(linhasLoja, drop_Loja);
+            
 
-
-            return EmbedMesages.StoreView(linhasLoja, false);
+            return EmbedMesages.StoreView(linhasLoja);
 
         }
 

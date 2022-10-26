@@ -60,6 +60,10 @@ namespace Bot_Manager
                     await StartBotServices.Itens_Loja.RemoverItem(item);
 
                 }
+                else
+                    await Client.SendMessageAsync(Client.GetChannelAsync(channel).Result
+                               , $"{member.Mention} Não consegui completar essa operação");
+
 
             }
 

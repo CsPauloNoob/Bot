@@ -6,12 +6,20 @@ using System.Threading.Tasks;
 using DSharpPlus.Entities;
 using DSharpPlus.CommandsNext;
 using DSharpPlus.CommandsNext.Attributes;
+using DSharpPlus.Exceptions;
 
 namespace Bot_Manager.ComandosTexto
 {
     internal class ComandosLoja: BaseCommandModule
     {
+
+
         
+        /// <summary>
+        /// Forma de eviatar dar prêmio em dinheiro no PV
+        /// </summary>
+        /// <param name="ctx"></param>
+        /// <returns></returns>
         [Command("loja")]
         async Task VisaoLoja(CommandContext ctx)
         {
@@ -100,31 +108,51 @@ namespace Bot_Manager.ComandosTexto
 
 
 
-        [Command("pegar")]
+        [Command("drop")]
 
         async Task PegarDrop(CommandContext ctx)
         {
-            if (StartBotServices.Users.Contains(ctx.Member.Id.ToString()) && StartBotServices.Loja.drop_Loja)
+            var drop = StartBotServices.Loja.drop_Loja;
+            var valor = int.Parse(drop.Valor);
+            try
             {
-                if (StartBotServices.SaveEconomicOP.AdcionarSaldo(ctx.Member.Id, 600, "Scash")
-                    .GetAwaiter().GetResult())
+                if (StartBotServices.Users.Contains(ctx.Member.Id.ToString()) && drop.Ativo)
+                {
 
-                    StartBotServices.Loja.drop_Loja = false;
+                    if (drop.dropCredito)
+                        await StartBotServices.SaveEconomicOP.AdcionarSaldo(ctx.User.Id, valor, "Scash");
+
+                    else
+                    {
+                        var msg = await ctx.Member.CreateDmChannelAsync();
+
+                        await msg.SendMessageAsync($"Você resgatou um {drop.Nome}, aqui está seu prêmio:\n\n" +
+                            drop.Valor);
+                    }
 
                     await ctx.Client.SendMessageAsync(ctx.Client.GetChannelAsync(ctx.Channel.Id).Result,
-                        EmbedMesages.UniqueLineMsg($"{ctx.User.Mention} Parabéns você abriu " +
-                        $"um drop de 600 Scash!!"));
+                            EmbedMesages.UniqueLineMsg($"{ctx.User.Mention} Parabéns você abriu " +
+                            $"um drop de {drop.Nome}"));
+
+                    drop.Clear();
+                }
+
+                else if (drop.Ativo)
+                    await ctx.Client.SendMessageAsync(ctx.Client.GetChannelAsync(ctx.Channel.Id).Result,
+                            EmbedMesages.UniqueLineMsg($"{ctx.User.Mention} Você não é um " +
+                            $"menbro registrado segundo meus arquivods aqui, dê !j registrar " +
+                            $"para usar usar esse comaando"));
+                else
+                    await ctx.Client.SendMessageAsync(ctx.Client.GetChannelAsync(ctx.Channel.Id).Result,
+                             EmbedMesages.UniqueLineMsg($"{ctx.User.Mention} Nada a vista!\n\n " +
+                             $"Não há drops disponiveis na loja " +
+                             $"por enquanto!"));
             }
-            else if(StartBotServices.Loja.drop_Loja)
-                await ctx.Client.SendMessageAsync(ctx.Client.GetChannelAsync(ctx.Channel.Id).Result,
-                        EmbedMesages.UniqueLineMsg($"{ctx.User.Mention} Você não é um " +
-                        $"menbro registrado segundo meus arquivods aqui, dê !j registrar " +
-                        $"para usar usar esse comaando"));
-            else
-                await ctx.Client.SendMessageAsync(ctx.Client.GetChannelAsync(ctx.Channel.Id).Result,
-                         EmbedMesages.UniqueLineMsg($"{ctx.User.Mention} Nada a vista! " +
-                         $"Não há drops disponiveis na loja " +
-                         $"por enquanto!"));
+
+            catch (UnauthorizedException)
+            {
+                await ctx.RespondAsync("Não consegui enviar na sua DM seu drop, parece que a sua DM está fechada!");
+            }
 
         }
 
