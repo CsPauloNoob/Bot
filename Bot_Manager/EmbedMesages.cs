@@ -9,25 +9,21 @@ namespace Bot_Manager
 {
     public static class EmbedMesages
     {
-
-
+        
+        
         public static DiscordEmbed StoreView(string linhas, Drops drop)
         {
             var embed = new DiscordEmbedBuilder();
             
-            if (drop.Ativo)
-                embed.AddField("\t:fleur_de_lis: *Lojinha*\n|\n\n"
-                    , linhas + "```**Para comprar digite o comando " +
-                    "!jcomprar ~Número ao lado do item~**\n\n\n```" +
-                    "||:warning: Um drop acabou de cair na loja, seja" +
-                    " rápido e digite !drop, para resgata-lo||");
-            else
-                embed.AddField($":fleur_de_lis: *Lojinha*\n\n\n"
-                , linhas + "```\n**Para comprar digite o comando " +
-                "!jcomprar ~Número ao lado do item~**```");
-
+            embed.AddField("\t:fleur_de_lis: *Lojinha*\n|\n\n"
+            , linhas + "```**Para comprar digite o comando " +
+            "!jcomprar ~Número ao lado do item~**\n\n\n```" +
+            "||```:warning:``` Um drop acabou de cair na loja, seja" +
+            " rápido e digite !drop para resgata-lo||");
             return embed.Build();
         }
+
+
 
         public static DiscordEmbed StoreView(string linhas)
         {

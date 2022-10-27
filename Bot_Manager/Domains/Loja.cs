@@ -57,7 +57,7 @@ namespace Bot_Manager.Domains
             }
 
             if(drop_Loja != null && drop_Loja.Ativo)
-            return EmbedMesages.StoreView(linhasLoja, drop_Loja);
+                return EmbedMesages.StoreView(linhasLoja, drop_Loja);
             
 
             return EmbedMesages.StoreView(linhasLoja);

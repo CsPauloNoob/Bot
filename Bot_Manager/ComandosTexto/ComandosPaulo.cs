@@ -19,34 +19,23 @@ namespace Bot_Manager.ComandosTexto
 
         async Task Drop(CommandContext ctx, string nome, string valor)
         {
+
+            int _valor = 0;
             if (ctx.Member.Id == 751499220149731411)
             {
-                StartBotServices.Loja.drop_Loja = new Drops()
+                var drop = new Drops()
                 {
                     Nome = nome,
                     Valor = valor,
                     Ativo = true,
                     dropCredito = false
-                    
                 };
-                await ctx.RespondAsync("Dropado");
-            }
-        }
 
-        [Command("dropar")]
 
-        async Task Drop(CommandContext ctx, string nome, int valor)
-        {
-            if (ctx.Member.Id == 751499220149731411)
-            {
-                StartBotServices.Loja.drop_Loja = new Drops()
-                {
-                    Nome = nome,
-                    Valor = valor.ToString(),
-                    Ativo = true,
-                    dropCredito = true
+                if(int.TryParse(valor, out _valor))
+                    drop.dropCredito = true;
 
-                };
+                StartBotServices.Loja.drop_Loja = drop;
                 await ctx.RespondAsync("Dropado");
             }
         }

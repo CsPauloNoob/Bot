@@ -15,11 +15,6 @@ namespace Bot_Manager.ComandosTexto
 
 
         
-        /// <summary>
-        /// Forma de eviatar dar prêmio em dinheiro no PV
-        /// </summary>
-        /// <param name="ctx"></param>
-        /// <returns></returns>
         [Command("loja")]
         async Task VisaoLoja(CommandContext ctx)
         {
@@ -113,14 +108,21 @@ namespace Bot_Manager.ComandosTexto
         async Task PegarDrop(CommandContext ctx)
         {
             var drop = StartBotServices.Loja.drop_Loja;
-            var valor = int.Parse(drop.Valor);
+            var valor = drop.Valor;
             try
             {
                 if (StartBotServices.Users.Contains(ctx.Member.Id.ToString()) && drop.Ativo)
                 {
 
                     if (drop.dropCredito)
-                        await StartBotServices.SaveEconomicOP.AdcionarSaldo(ctx.User.Id, valor, "Scash");
+                    {
+                        await StartBotServices.SaveEconomicOP.AdcionarSaldo(ctx.User.Id, int.Parse(valor), "Scash");
+
+                        await ctx.Client.SendMessageAsync(ctx.Client.GetChannelAsync(ctx.Channel.Id).Result,
+                            EmbedMesages.UniqueLineMsg($"{ctx.User.Mention} Parabéns você abriu " +
+                            $"um drop de {drop.Nome} Scash"));
+                    }
+
 
                     else
                     {
@@ -129,10 +131,8 @@ namespace Bot_Manager.ComandosTexto
                         await msg.SendMessageAsync($"Você resgatou um {drop.Nome}, aqui está seu prêmio:\n\n" +
                             drop.Valor);
                     }
-
-                    await ctx.Client.SendMessageAsync(ctx.Client.GetChannelAsync(ctx.Channel.Id).Result,
-                            EmbedMesages.UniqueLineMsg($"{ctx.User.Mention} Parabéns você abriu " +
-                            $"um drop de {drop.Nome}"));
+                    
+                    
 
                     drop.Clear();
                 }
