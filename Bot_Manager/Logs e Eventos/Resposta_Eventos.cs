@@ -84,8 +84,17 @@ namespace Bot_Manager.Logs_e_Eventos
                             if (PossivelCompra.ContainsKey(e.User.Id.ToString()) && e.Id.Contains("cash"))
                             {
 
-                                await OpMessages.BotaoMoedaPres(e.Guild.GetMemberAsync
-                                    (e.User.Id).Result, PossivelCompra[e.User.Id.ToString()], e.Id, e.Channel.Id);
+                                var prize = OpMessages.BotaoMoedaPres(e.Guild.GetMemberAsync
+                                    (e.User.Id).Result, PossivelCompra[e.User.Id.ToString()], e.Id, e.Channel.Id).Result ;
+
+                                await e.Interaction.CreateResponseAsync(
+                                    InteractionResponseType.ChannelMessageWithSource,
+                                    new DiscordInteractionResponseBuilder()
+                                    .WithContent("Caso sua DM esteja fechada, " +
+                                    "essa é sua compra:\n\n" + prize)
+                                    .AsEphemeral(true)
+                                    .WithTitle("Aqui está...")
+                                    );
 
                                 await e.Message.DeleteAsync();
 
@@ -149,7 +158,7 @@ namespace Bot_Manager.Logs_e_Eventos
                     {
                         await e.Message.DeleteAsync();
                         await s.SendMessageAsync(await s.GetChannelAsync(e.Channel.Id),
-                                $"||{e.Interaction.User.Mention}||\n " + "Algo deu errado, tente novamente!");
+                                $"||{e.Interaction.User.Mention}||\n " + "Erro 404 X(");
                         throw;
                     }
                 });

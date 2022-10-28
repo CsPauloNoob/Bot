@@ -10,7 +10,7 @@ namespace Bot_Manager
     public class MainTimer
     {
 
-        public static Timer dayTimer = new Timer();
+        public static Timer DayTimer = new Timer();
 
         public MainTimer()
         {
@@ -23,14 +23,14 @@ namespace Bot_Manager
         private async Task StartTimer()
         {
 
-            dayTimer.Elapsed += new ElapsedEventHandler(ResetDiario);
-            dayTimer.AutoReset = true;
-            dayTimer.Interval = 60000;
-            dayTimer.Enabled = true;
-            dayTimer.Start();
+            DayTimer.Elapsed += new ElapsedEventHandler(ResetDiario);
+            DayTimer.AutoReset = true;
+            DayTimer.Interval = 60000;
+            DayTimer.Enabled = true;
+            DayTimer.Start();
             
 
-             Task.Delay(-1);
+            Task.Delay(-1);
         }
 
         private async static void ResetDiario(object source, ElapsedEventArgs e)

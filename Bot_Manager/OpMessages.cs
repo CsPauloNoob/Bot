@@ -5,6 +5,7 @@ using DSharpPlus.Entities;
 using DSharpPlus.Exceptions;
 using System.Threading.Tasks;
 using DSharpPlus;
+using System.Reflection.Metadata.Ecma335;
 
 namespace Bot_Manager
 {
@@ -32,7 +33,7 @@ namespace Bot_Manager
 
 
 
-        public static async Task BotaoMoedaPres(DiscordMember member, string item, string moneytype, ulong channel)
+        public static async Task<string> BotaoMoedaPres(DiscordMember member, string item, string moneytype, ulong channel)
         {
             try
             {
@@ -64,6 +65,8 @@ namespace Bot_Manager
                     await Client.SendMessageAsync(Client.GetChannelAsync(channel).Result
                                , $"{member.Mention} Não consegui completar essa operação");
 
+                return prize;
+
 
             }
 
@@ -71,6 +74,8 @@ namespace Bot_Manager
             {
                 await Client.SendMessageAsync(Client.GetChannelAsync(channel).Result,
                     EmbedMesages.UniqueLineMsg("Um erro aconteceu, talvez sua DM esteja bloqueada?"));
+
+                return "";
             }
         }
 

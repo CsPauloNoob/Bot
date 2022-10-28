@@ -13,13 +13,16 @@ namespace Bot_Manager
         
         public static DiscordEmbed StoreView(string linhas, Drops drop)
         {
+
+            var timer = MainTimer.DayTimer;
             var embed = new DiscordEmbedBuilder();
             
-            embed.AddField("\t:fleur_de_lis: *Lojinha*\n|\n\n"
+            
+            embed.AddField($"{timer.Interval}\t:fleur_de_lis: *Lojinha*\n|\n\n"
             , linhas + "```**Para comprar digite o comando " +
             "!jcomprar ~Número ao lado do item~**\n\n\n```" +
-            "||```:warning:``` Um drop acabou de cair na loja, seja" +
-            " rápido e digite !drop para resgata-lo||");
+            "||**Um drop acabou de cair na loja, seja" +
+            " rápido e digite !drop para resgata-lo**||");
             return embed.Build();
         }
 
@@ -29,7 +32,7 @@ namespace Bot_Manager
         {
             var embed = new DiscordEmbedBuilder();
             embed.Color = DiscordColor.Purple;
-            var time = MainTimer.dayTimer.Interval;
+            var time = MainTimer.DayTimer.Interval;
 
 
             embed.AddField($":fleur_de_lis: *Lojinha*\n\n\n"
