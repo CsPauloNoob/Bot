@@ -232,13 +232,25 @@ namespace Bot_Manager.Domains.Operacoes_da_Loja
 
         public void ResetaAnuncios()
         {
-            if(Anuncios_ON.Count>0)
-            Anuncios_ON.Clear();
+            try
+            {
+                Anuncios_ON.Clear();
 
-            if(MaxAnuncioUser.Count>0)
-            MaxAnuncioUser.Clear();
 
-            StartBotServices.AnunciosDAL.RemoverTodosAnuncio();
+                MaxAnuncioUser.Clear();
+
+                StartBotServices.AnunciosDAL.RemoverTodosAnuncio();
+            }
+
+
+            catch(System.NullReferenceException ex)
+            {
+                Console.Clear();
+
+                Console.WriteLine(ex.ToString()+"\n"+ex.TargetSite.ToString());
+
+                
+            }
         }
 
     }
