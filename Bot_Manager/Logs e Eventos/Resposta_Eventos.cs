@@ -25,8 +25,6 @@ namespace Bot_Manager.Logs_e_Eventos
             Botao_Pressionado().GetAwaiter().GetResult();
 
             ModalUp().GetAwaiter().GetResult();
-
-            Entradas().GetAwaiter().GetResult();
             
         }
 
