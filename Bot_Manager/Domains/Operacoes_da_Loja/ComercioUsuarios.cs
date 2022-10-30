@@ -232,8 +232,10 @@ namespace Bot_Manager.Domains.Operacoes_da_Loja
 
         public void ResetaAnuncios()
         {
+            if(Anuncios_ON.Count>0)
             Anuncios_ON.Clear();
 
+            if(MaxAnuncioUser.Count>0)
             MaxAnuncioUser.Clear();
 
             StartBotServices.AnunciosDAL.RemoverTodosAnuncio();
