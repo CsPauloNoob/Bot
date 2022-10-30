@@ -46,8 +46,9 @@ namespace Bot_Manager.Logs_e_Eventos
         }
 
 
+        //Remoção devido a erros no debian
 
-        public async Task Entradas()
+       /* public async Task Entradas()
         {
 
             Client.GuildMemberAdded += async (s, e) =>
@@ -63,7 +64,7 @@ namespace Bot_Manager.Logs_e_Eventos
                     await StartBotServices.SaveInfo.RegisterNewGuild(e.Guild.Id, e.Guild.Owner.Id);
                 }
             };
-        }
+        }*/
 
 
         /*Evento de Botões pressionados
