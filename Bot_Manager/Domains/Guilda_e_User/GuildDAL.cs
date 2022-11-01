@@ -67,7 +67,7 @@ namespace Bot_Manager.Domains
 
             catch(Exception ex)
             {
-
+                Console.WriteLine(ex.Message);
             }
 
             return null;
