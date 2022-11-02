@@ -78,6 +78,7 @@ namespace Bot_Manager.Domains
                 {
                     if(cmd.ExecuteNonQuery() <= 0)
                     {
+                        
                         OpMessages.GenericMessage(null, "Não foi possivel salvar seus dados, tente novamente"
                             , TChannel).GetAwaiter().GetResult();
                     }

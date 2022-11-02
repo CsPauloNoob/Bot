@@ -204,10 +204,12 @@
   </data>
   <data name="SQL_TB_IVAR" xml:space="preserve">
     <value>CREATE TABLE Itens_Variados (
-    Nome TEXT (80)    NOT NULL
-                      DEFAULT (false),
-    Item VARCHAR (60) UNIQUE
-                      NOT NULL
+    Nome   TEXT (80)    NOT NULL
+                        DEFAULT (false),
+    Item   VARCHAR (60) UNIQUE
+                        NOT NULL,
+    Jprice INTEGER      NOT NULL,
+    Sprice INTEGER      NOT NULL
 );</value>
   </data>
   <data name="SQL_TB_USER" xml:space="preserve">

@@ -279,10 +279,12 @@ namespace Bot_Manager {
         
         /// <summary>
         ///   Consulta uma cadeia de caracteres localizada semelhante a CREATE TABLE Itens_Variados (
-        ///    Nome TEXT (80)    NOT NULL
-        ///                      DEFAULT (false),
-        ///    Item VARCHAR (60) UNIQUE
-        ///                      NOT NULL
+        ///    Nome   TEXT (80)    NOT NULL
+        ///                        DEFAULT (false),
+        ///    Item   VARCHAR (60) UNIQUE
+        ///                        NOT NULL,
+        ///    Jprice INTEGER      NOT NULL,
+        ///    Sprice INTEGER      NOT NULL
         ///);.
         /// </summary>
         internal static string SQL_TB_IVAR {
