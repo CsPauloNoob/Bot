@@ -14,7 +14,6 @@ namespace Bot_Manager
 
         public MainTimer()
         {
-
             StartTimer().GetAwaiter().GetResult();
 
         }
@@ -25,7 +24,7 @@ namespace Bot_Manager
 
             DayTimer.Elapsed += new ElapsedEventHandler(ResetDiario);
             DayTimer.AutoReset = true;
-            DayTimer.Interval = 60000;
+            DayTimer.Interval = TimeSpan.Parse("23:59:59.999").Milliseconds;
             DayTimer.Enabled = true;
             DayTimer.Start();
             
@@ -35,8 +34,8 @@ namespace Bot_Manager
 
         private async static void ResetDiario(object source, ElapsedEventArgs e)
         {
-            await StartBotServices.Loja.ResetLoja();
 
+            await StartBotServices.Loja.ResetLoja();
             StartBotServices.Diarias.JaResgatou.Clear();
 
         }

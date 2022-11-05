@@ -97,6 +97,8 @@ namespace Bot_Manager.Domains.Operacoes_da_Loja.DbOperations
                     }
                 }
 
+                SqliteCon.Close();
+
             }
 
             catch (Exception ex)
@@ -122,6 +124,8 @@ namespace Bot_Manager.Domains.Operacoes_da_Loja.DbOperations
                             list.Add(reader["Link"].ToString());
                     }
                 }
+
+                SqliteCon.Close();
 
             }
 
