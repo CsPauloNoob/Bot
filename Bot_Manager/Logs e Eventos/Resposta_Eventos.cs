@@ -99,6 +99,11 @@ namespace Bot_Manager.Logs_e_Eventos
 
                             }
 
+                            else if(e.Id == "P")
+                            {
+
+                            }
+
                             else if (e.Id == "Jcash" || e.Id == "Scash")
 
                                 await s.SendMessageAsync(await s.GetChannelAsync(e.Channel.Id),

@@ -22,11 +22,11 @@ namespace Bot_Manager.Quests_andGames.Games
         }
 
 
-        public async Task<bool> Girar(int num)
+        public async Task<bool> Girar(uint num)
         {
             var r = new Random();
 
-            if (r.Next(15) == num)
+            if (r.Next(9) == num)
                 return true;
 
             return false;

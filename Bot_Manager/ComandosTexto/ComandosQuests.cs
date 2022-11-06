@@ -27,12 +27,12 @@ namespace Bot_Manager.ComandosTexto
             if (StartBotServices.Users.Contains(ctx.User.Id.ToString()))
             {
                 if (StartBotServices.Diarias.DarCota(ctx.Member.Id).Result)
+
                     await ctx.Client.SendMessageAsync(ctx.Client.GetChannelAsync(ctx.Channel.Id).Result,
                         EmbedMesages.UniqueLineMsg($"Parabés {ctx.User.Mention} você" +
                         $" resgatou seus 300sc diários"));
                 else
-                    await ctx.Client.SendMessageAsync(ctx.Client.GetChannelAsync(ctx.Channel.Id).Result,
-                        $"{ctx.User.Mention} você já resgatou sua recompensa diaria desse comando");
+                    await ctx.RespondAsync("Você já resgatou sua recompensa diaría");
             }
         }
 

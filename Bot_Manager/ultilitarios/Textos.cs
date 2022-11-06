@@ -14,7 +14,7 @@ namespace Bot_Manager.ultilitarios
         {
             return EmbedMesages.BuildMessageCustom("Comando de ajuda ",
                 "\n\n**Comandos da loja:**" +
-                "\n```loja, comprar, pegar, criaranun, carteira, anuncios```" +
+                "\n```loja, comprar, drop, criaranun, carteira, anuncios```" +
                 "\n\n**Comandos de registro:**" +
                 "\n```Registrar, configlog```" +
                 "\n\n**Comandos Jogos**" +

@@ -17,18 +17,18 @@ namespace Bot_Manager.ComandosTexto
         async Task Roleta(CommandContext ctx)
         {
             await ctx.Client.SendMessageAsync(ctx.Client.GetChannelAsync(ctx.Channel.Id).Result,
-                EmbedMesages.UniqueLineMsg("**Roleta da grana fácil**   :green_square: Beta\n\n" +
+                EmbedMesages.UniqueLineMsg("**Roleta da grana fácil**  *Beta*\n\n" +
                 "aqui você pode ganhar Scash de maneira simples, " +
                 "basta ser sortudo\nPara usar esse comando de maneira correta digite !j roleta" +
-                " [numero de 1 a 15] e cruse os dedos\nAtenção: \n-Está ação vai custar 100Sc" +
+                " [numero de 1 a 9] e cruse os dedos\nAtenção: \n-Está ação vai custar 100Sc" +
                 "\n-O prêmio diario da roleta pode ser alterado, mas o minimo sempre é 300Sc "));
         }
 
         [Command("Roleta")]
 
-        public async Task Roleta(CommandContext ctx, int num)
+        public async Task Roleta(CommandContext ctx, uint num)
         {
-            if(num <= 15)
+            if(num <= 9)
             if(StartBotServices.Users.Contains(ctx.Member.Id.ToString()))
             {
                 if (StartBotServices.SaveEconomicOP.SaldoSuficiente(ctx.Member.Id, 100).Result)
@@ -47,7 +47,7 @@ namespace Bot_Manager.ComandosTexto
                             await ctx.Client.SendMessageAsync(ctx.Client.GetChannelAsync
                                (ctx.Channel.Id).Result, EmbedMesages.UniqueLineMsg
                                ($"{ctx.User.Mention} :slight_frown: " +
-                               $"Não foi dessa vez, quam sabe na proxima!"));
+                               $"Não foi dessa vez, o seu número não foi o ganhador"));
                 }
                 else
                     await ctx.Client.SendMessageAsync(ctx.Client.GetChannelAsync
@@ -62,7 +62,7 @@ namespace Bot_Manager.ComandosTexto
 
             else
                 await ctx.Client.SendMessageAsync(ctx.Client.GetChannelAsync(ctx.Channel.Id).Result,
-                EmbedMesages.UniqueLineMsg($"{ctx.User.Mention} Os números precisam ser de 1 a 15"));
+                EmbedMesages.UniqueLineMsg($"{ctx.User.Mention} Os números precisam ser de 1 a 9"));
         }
 
     }

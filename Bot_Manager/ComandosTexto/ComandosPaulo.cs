@@ -58,6 +58,17 @@ namespace Bot_Manager.ComandosTexto
         }
 
 
+        [Command("vroleta")]
+
+        async Task SetarPremioRoleta(CommandContext ctx, int valor)
+        {
+            if(ctx.User.Id== 751499220149731411)
+            {
+                StartBotServices.Roleta.ValorPremio = valor;
+            }
+        }
+
+
         //Setar em tempo de execução o valor dos nitros
 
         #region Set Valores itens

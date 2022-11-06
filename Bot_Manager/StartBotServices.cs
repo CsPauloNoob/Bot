@@ -42,7 +42,7 @@ namespace Bot_Manager
         //Propriedades publiscos para uso
         public static DiscordClient Client;
 
-        public static readonly string ConnString = "Data Source="+@Environment.CurrentDirectory + @"\DbBot.db";
+        public static readonly string ConnString = "Data Source="+@Environment.CurrentDirectory + @"//DbBot.db";
         public static readonly ulong CanalExceptions = 1025977757324296212;
 
 
@@ -95,7 +95,7 @@ namespace Bot_Manager
 
             var ss = @Environment.CurrentDirectory + "DbBot.db";
 
-            if (!File.Exists(Environment.CurrentDirectory + @"\DbBot.db"))
+            if (!File.Exists(Environment.CurrentDirectory + @"//DbBot.db"))
                 CriarBanco();
 
             InstanciarDALobj();

@@ -24,7 +24,7 @@ namespace Bot_Manager
 
             DayTimer.Elapsed += new ElapsedEventHandler(ResetDiario);
             DayTimer.AutoReset = true;
-            DayTimer.Interval = TimeSpan.Parse("23:59:59.999").Milliseconds;
+            DayTimer.Interval = 86400000;
             DayTimer.Enabled = true;
             DayTimer.Start();
             
