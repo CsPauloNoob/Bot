@@ -199,7 +199,7 @@ namespace Bot_Manager
                 Roleta = new Roleta();
                 ComercioUsuarios = new ComercioUsuarios();
 
-                new MainTimer();
+                new BotTimers();
 
                 ChannelLog = GuildDAL.GetAllGuildsChannel().GetAwaiter().GetResult();
                 Users = UserDAL.GetAllUsers().GetAwaiter().GetResult();

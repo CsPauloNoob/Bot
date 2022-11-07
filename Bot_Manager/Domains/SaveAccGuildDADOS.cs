@@ -53,14 +53,16 @@ namespace Bot_Manager.Logs_e_Coleta_de_Informacoes
         #endregion
 
 
-        public async Task RegisterMenber(ulong userId, ulong Tchannel)
+        public async Task<bool> RegisterMenber(ulong userId)
         {
             if (IsANewUser(userId))
             {
-                await StartBotServices.UserDAL.AddNewUser(userId, Tchannel);
+                await StartBotServices.UserDAL.AddNewUser(userId);
+
+                return true;
             }
-            else
-                await OpMessages.GenericMessage(null, "Usuário já registrado", Tchannel);
+
+            return false;
         }
 
         

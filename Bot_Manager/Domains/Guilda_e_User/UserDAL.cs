@@ -66,7 +66,7 @@ namespace Bot_Manager.Domains
         }
 
 
-        public async Task AddNewUser(ulong UserId, ulong TChannel)
+        public async Task<bool> AddNewUser(ulong UserId)
         {
 
             OpenConn();
@@ -76,18 +76,13 @@ namespace Bot_Manager.Domains
                     $"('{UserId.ToString()}', '1500', '{DateTime.Now.ToString("dd/MM/yyyy")}'," +
                     $" '0')", SqliteCon))
                 {
-                    if(cmd.ExecuteNonQuery() <= 0)
-                    {
-                        
-                        OpMessages.GenericMessage(null, "Não foi possivel salvar seus dados, tente novamente"
-                            , TChannel).GetAwaiter().GetResult();
-                    }
-                    else
-                        OpMessages.GenericMessage(null, "Parabéns, Seus dados foram salvos"
-                            , TChannel).GetAwaiter().GetResult();
+                    if(cmd.ExecuteNonQuery() > 0)
+                        StartBotServices.Users.Add(UserId.ToString());
 
-                    StartBotServices.Users.Add(UserId.ToString());
+                    return true;
                 }
+
+                return false;
             }
 
             catch (Exception ex)
@@ -99,6 +94,8 @@ namespace Bot_Manager.Domains
                     StartBotServices.CanalExceptions).Result, ex.Message + " in " + $"```{local}```");
 
                 SqliteCon.Close();
+
+                return false;
             }
         }
 

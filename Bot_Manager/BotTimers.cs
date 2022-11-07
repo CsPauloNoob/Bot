@@ -4,15 +4,18 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Timers;
 using Bot_Manager.Quests.Diarias;
+using Bot_Manager.Quests_andGames.Games;
 
 namespace Bot_Manager
 {
-    public class MainTimer
+    public class BotTimers
     {
 
-        public static Timer DayTimer = new Timer();
+        public Timer DayTimer = new Timer();
 
-        public MainTimer()
+        public static List<VivoMorto> vivoMortos = new List<VivoMorto>();
+
+        public BotTimers()
         {
             StartTimer().GetAwaiter().GetResult();
 
@@ -32,12 +35,18 @@ namespace Bot_Manager
             Task.Delay(-1);
         }
 
-        private async static void ResetDiario(object source, ElapsedEventArgs e)
+        private async void ResetDiario(object sender, ElapsedEventArgs e)
         {
-
+            
             await StartBotServices.Loja.ResetLoja();
             StartBotServices.Diarias.JaResgatou.Clear();
 
+        }
+
+
+        public async static Task FimJogo(object source, ElapsedEventArgs e)
+        {
+            
         }
 
     }

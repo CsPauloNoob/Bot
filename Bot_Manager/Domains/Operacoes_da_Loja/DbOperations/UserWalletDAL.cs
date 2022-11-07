@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using System.Collections.Generic;
 using System.Text;
 using System.Reflection;
+using System.ComponentModel;
 
 namespace Bot_Manager.Domains.Operacoes_da_Loja.DbOperations
 {
@@ -100,7 +101,7 @@ namespace Bot_Manager.Domains.Operacoes_da_Loja.DbOperations
             }
         }
 
-
+        [Description("0 = Jcash")]
         public async Task<int[]> FundosCarteira(ulong userId)
         {
             OpenConn();

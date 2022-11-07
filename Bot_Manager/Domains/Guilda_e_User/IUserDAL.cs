@@ -10,7 +10,7 @@ namespace Bot_Manager.Domains.Guilda_e_User
 
         public Task<List<string>> GetAllUsers();
 
-        public Task AddNewUser(ulong UserId, ulong TChannel);
+        public Task<bool> AddNewUser(ulong UserId);
 
     }
 }

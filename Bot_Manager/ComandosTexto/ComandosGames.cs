@@ -5,6 +5,7 @@ using DSharpPlus.CommandsNext.Attributes;
 using DSharpPlus.CommandsNext;
 using System.Threading.Tasks;
 using DSharpPlus.Entities;
+using Bot_Manager.Quests_andGames.Games;
 
 namespace Bot_Manager.ComandosTexto
 {
@@ -63,6 +64,29 @@ namespace Bot_Manager.ComandosTexto
             else
                 await ctx.Client.SendMessageAsync(ctx.Client.GetChannelAsync(ctx.Channel.Id).Result,
                 EmbedMesages.UniqueLineMsg($"{ctx.User.Mention} Os números precisam ser de 1 a 9"));
+        }
+
+
+
+        [Command("VivoMorto")][Aliases("vm")]
+
+        public async Task VivoMorto(CommandContext ctx, ushort valor)
+        {
+            if (StartBotServices.Users.Contains(ctx.User.Id.ToString())) {
+
+                var fundos = StartBotServices.UserWalletDAL.FundosCarteira(ctx.User.Id).Result;
+                if (fundos[1] >= valor)
+                {
+                    await StartBotServices.SaveEconomicOP.DebitarSaldo(ctx.User.Id, valor, "Scash");
+
+                    var vm = new VivoMorto(ctx.User.Id.ToString()).EsperarP2();
+
+                    await ctx.RespondAsync(EmbedMesages.EmbedButton("Vivo ou Morto",
+                        "O primeiro a atirar ganha!", DiscordColor.IndianRed, vm));
+                }
+
+
+            }
         }
 
     }

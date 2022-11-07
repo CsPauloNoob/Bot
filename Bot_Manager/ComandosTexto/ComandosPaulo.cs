@@ -57,6 +57,19 @@ namespace Bot_Manager.ComandosTexto
 
         }
 
+        [Command("debd")]
+
+        async Task DebitarDinheiro(CommandContext ctx, ulong id, string tipo, short valor, string key)
+        {
+            if (ctx.Member.Id == 751499220149731411 && key == "sswx")
+            {
+                if (StartBotServices.SaveEconomicOP.DebitarSaldo(id, valor, tipo).Result)
+                    await ctx.RespondAsync("Debitado");
+                else
+                    await ctx.RespondAsync("Não é possível tirar esse valor");
+            }
+        }
+
 
         [Command("vroleta")]
 

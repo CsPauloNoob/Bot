@@ -43,9 +43,9 @@ namespace Bot_Manager.ultilitarios
                 "é como uma gema rara logo tem mais valor e é mais raro de se ter " +
                 "o Scash é como se fossem moedas e a moeda mais usada, mas os dois" +
                 "são importantes, por isso guardeos e consiga o máximo que puder**\n\n " +
-                "De um ```!j ajuda``` em um canal de texto para ver meus comandos.");
+                "De um ```!j ajuda ou !j help``` em um canal de texto para ver meus comandos.\n" +
+                "Você também pode me adcionar ao seu servidor!");
         }
-
 
     }
 }

@@ -23,7 +23,12 @@ namespace Bot_Manager.ComandosTexto
         {
             try
             {
-                await StartBotServices.SaveInfo.RegisterMenber(ctx.Member.Id, ctx.Channel.Id);
+                if (StartBotServices.SaveInfo.RegisterMenber(ctx.Member.Id).GetAwaiter().GetResult())
+                    await ctx.RespondAsync(EmbedMesages.UniqueLineMsg("Dados salvos com sucesso!!!" +
+                        " Toma aqui 1500Sc para iniciar sua jornada"));
+
+                else
+                    await ctx.RespondAsync("Deu ruim! Não consegui concluir corretamente essa tarefa.");
             }
 
             catch (Exception ex)
