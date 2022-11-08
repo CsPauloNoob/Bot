@@ -79,7 +79,7 @@ namespace Bot_Manager.ComandosTexto
                 {
                     await StartBotServices.SaveEconomicOP.DebitarSaldo(ctx.User.Id, valor, "Scash");
 
-                    var vm = new VivoMorto(ctx.User.Id.ToString()).EsperarP2();
+                    var vm = new VivoMorto(ctx.User.Id.ToString(), valor).EsperarP2();
 
                     await ctx.RespondAsync(EmbedMesages.EmbedButton("Vivo ou Morto",
                         "O primeiro a atirar ganha!", DiscordColor.IndianRed, vm));

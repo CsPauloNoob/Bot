@@ -334,6 +334,7 @@ namespace Bot_Manager.ComandosTexto
 
         async Task AnunciosUsuarios(CommandContext ctx)
         {
+
             if (StartBotServices.Users.Contains(ctx.Member.Id.ToString()))
             {
                 if (StartBotServices.ComercioUsuarios.TemAnuncios().GetAwaiter().GetResult())

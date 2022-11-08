@@ -192,7 +192,12 @@ namespace Bot_Manager.Domains
         {
             var valorAtual = StartBotServices.UserWalletDAL.FundosCarteira(id).GetAwaiter().GetResult();
 
-            valor = moeda == "Scash" ? valorAtual[1]-valor : valorAtual[0]-valor;
+            if (moeda.Contains("Scash"))
+                valor = valorAtual[1] - valor;
+            else if (moeda.Contains("Jcash"))
+                valor = valorAtual[0] - valor;
+
+            //valor = moeda == "Scash" ? valorAtual[1]-valor : valorAtual[0]-valor;
 
             if (StartBotServices.UserWalletDAL.DebitarSaldo(id, valor.ToString(), moeda)
                 .GetAwaiter().GetResult())

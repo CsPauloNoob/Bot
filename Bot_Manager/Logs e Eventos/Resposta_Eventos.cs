@@ -69,6 +69,8 @@ namespace Bot_Manager.Logs_e_Eventos
 
         Implementar Padrão strategy futuramente ou algo que diminua os IFs e deixe o app mais eficiente*/
 
+
+
         public async Task Botao_Pressionado()
         {
             Client.ComponentInteractionCreated += async (s, e) =>

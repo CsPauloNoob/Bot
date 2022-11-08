@@ -84,7 +84,7 @@ namespace Bot_Manager.Domains.Operacoes_da_Loja
                         user = client.GetUserAsync(ulong.Parse(a.Key)).GetAwaiter().GetResult().Username;
 
 
-                    linhas += $"\n> {a.Value[0]}. {user} V: **{a.Value[2]} {a.Value[1]} Por {a.Value[3]} {a.Value[4]}**";
+                    linhas += $"\n> {a.Value[0]}. *{user}* V: **{a.Value[2]} {a.Value[1]} Por {a.Value[3]} {a.Value[4]}**";
                 }
 
 
@@ -92,9 +92,9 @@ namespace Bot_Manager.Domains.Operacoes_da_Loja
             }
 
 
-            catch (Exception)
+            catch (Exception ex)
             {
-
+                Console.WriteLine(ex.Message);
             }
 
             return EmbedMesages.LojaUsuariosView(linhas);

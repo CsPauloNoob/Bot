@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 using System.Timers;
 using DSharpPlus;
 using DSharpPlus.Entities;
@@ -14,22 +15,25 @@ namespace Bot_Manager.Quests_andGames.Games
 
         private string P2 { get; set; }
 
-        private List<DiscordButtonComponent> Butoes;
+        private ushort ValorAposta { get; set; }
+
+        DiscordButtonComponent button;
 
 
-        public VivoMorto(string p1)
+        public VivoMorto(string p1, ushort valorAposta)
         {
             P1 = p1;
 
             BotTimers.vivoMortos.Add(this);
+            ValorAposta = valorAposta;
         }
 
 
         public DiscordButtonComponent EsperarP2()
         {
-            DiscordButtonComponent component = new DiscordButtonComponent(ButtonStyle.Danger, P1, "Esperando jogador 2", true);
+            DiscordButtonComponent component = new DiscordButtonComponent(ButtonStyle.Primary, P1, "Esperando jogador 2");
 
-            //Butoes.Add(component);
+            button = component;
 
             Random random = new Random();
 
@@ -38,7 +42,7 @@ namespace Bot_Manager.Quests_andGames.Games
 
             tm.Elapsed += new ElapsedEventHandler(Esperatimeout);
             tm.AutoReset = false;
-            tm.Interval = 30000;
+            tm.Interval = 10000;
             tm.Enabled = true;
             tm.Start();
 
@@ -48,6 +52,23 @@ namespace Bot_Manager.Quests_andGames.Games
         private async void Esperatimeout(object source, ElapsedEventArgs e)
         {
             BotTimers.vivoMortos.Remove(this);
+
+            await StartBotServices.SaveEconomicOP.AdcionarSaldo(ulong.Parse(P1), ValorAposta, "Scash");
+
+            button.Disable();
+
+            
+            
+        }
+
+        private async Task Jogador2()
+        {
+            var client = StartBotServices.Client;
+
+            client.ComponentInteractionCreated += async (s, e) =>
+            {
+                
+            };
         }
 
     }

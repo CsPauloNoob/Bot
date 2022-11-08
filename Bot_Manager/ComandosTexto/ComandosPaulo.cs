@@ -57,6 +57,8 @@ namespace Bot_Manager.ComandosTexto
 
         }
 
+
+
         [Command("debd")]
 
         async Task DebitarDinheiro(CommandContext ctx, ulong id, string tipo, short valor, string key)
@@ -69,6 +71,22 @@ namespace Bot_Manager.ComandosTexto
                     await ctx.RespondAsync("Não é possível tirar esse valor");
             }
         }
+
+
+
+        [Command("vercart")]
+
+        async Task VerSaldoCarteira(CommandContext ctx, ulong id)
+        {
+            if(ctx.User.Id== 751499220149731411)
+            {
+                var values = StartBotServices.SaveEconomicOP.RetornaCarteira(id).GetAwaiter().GetResult();
+
+                await ctx.Client.SendMessageAsync(ctx.Client.GetChannelAsync(ctx.Channel.Id).Result,
+                    EmbedMesages.CarteiraView(ctx.Client.GetUserAsync(id).Result.Username, values));
+            }
+        }
+
 
 
         [Command("vroleta")]
