@@ -32,7 +32,7 @@ namespace Bot_Manager.Quests_andGames.Games
         public DiscordButtonComponent EsperarP2()
         {
             DiscordButtonComponent component = new DiscordButtonComponent(ButtonStyle.Primary, P1, "Esperando jogador 2");
-
+            
             button = component;
 
             Random random = new Random();
@@ -49,6 +49,8 @@ namespace Bot_Manager.Quests_andGames.Games
             return component;
         }
 
+
+
         private async void Esperatimeout(object source, ElapsedEventArgs e)
         {
             BotTimers.vivoMortos.Remove(this);
@@ -61,6 +63,8 @@ namespace Bot_Manager.Quests_andGames.Games
             
         }
 
+
+
         private async Task Jogador2()
         {
             var client = StartBotServices.Client;
@@ -70,6 +74,7 @@ namespace Bot_Manager.Quests_andGames.Games
                 
             };
         }
+
 
     }
 }

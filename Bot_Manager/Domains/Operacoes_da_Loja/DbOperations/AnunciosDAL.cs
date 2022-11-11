@@ -6,6 +6,7 @@ using System.Linq;
 using System.Data;
 using System.Threading.Tasks;
 using System.Reflection;
+using Bot_Manager.Models;
 
 namespace Bot_Manager.Domains.Operacoes_da_Loja.DbOperations
 {
@@ -35,7 +36,7 @@ namespace Bot_Manager.Domains.Operacoes_da_Loja.DbOperations
         }
 
 
-        public async Task<Dictionary<string, string[]>> CarregarAnuncios()
+        public async Task<List<Anuncio>> CarregarAnuncios()
         {
             try
             { 
@@ -46,7 +47,9 @@ namespace Bot_Manager.Domains.Operacoes_da_Loja.DbOperations
                 var i = 0;
                 int aux = 1;
 
-                Dictionary<string, string[]> result = new Dictionary<string, string[]>();
+                //Dictionary<string, string[]> result = new Dictionary<string, string[]>();
+
+                List<Anuncio> anuncios = new List<Anuncio>();
 
                 using (var cmd = new SQLiteCommand(Test.SQL_GET_AN, SqliteCon))
                 {
@@ -54,13 +57,22 @@ namespace Bot_Manager.Domains.Operacoes_da_Loja.DbOperations
                     {
                         while (reader.ReadAsync().Result)
                         {
-                            arr[0] = aux.ToString();
+                            anuncios.Add(new Anuncio(
+                                aux.ToString(),
+                                reader["User"].ToString(),
+                                reader["Item"].ToString(),
+                                reader["Item_qtde"].ToString(),
+                                reader["Item_valor"].ToString(),
+                                reader["Pag_tipo"].ToString()
+                                ));
+
+                            /*arr[0] = aux.ToString();
                             arr[1] = reader["Item"].ToString();
                             arr[2] = reader["Item_qtde"].ToString();
                             arr[3] = reader["Item_valor"].ToString();
-                            arr[4] = reader["Pag_tipo"].ToString();
+                            arr[4] = 
 
-                            result.Add(reader["User"].ToString()+i, arr.ToArray());
+                            result.Add(reader["User"].ToString()+i, arr.ToArray());*/
 
                             i++;
                             aux++;
@@ -70,7 +82,7 @@ namespace Bot_Manager.Domains.Operacoes_da_Loja.DbOperations
                     }
                 }
 
-                return await Task.FromResult(result);
+                return await Task.FromResult(anuncios);
             }
 
             catch (Exception ex)
@@ -113,6 +125,50 @@ namespace Bot_Manager.Domains.Operacoes_da_Loja.DbOperations
 
             return false;
         }
+
+
+
+
+
+
+
+        public async Task<bool> AdcionarAnuncio(Anuncio anuncio)
+        {
+            try
+            {
+                OpenConn();
+
+                using (var cmd = new SQLiteCommand(Test.SQL_ADD_AN + $"('{anuncio.Id_Vendedor}', " +
+                    $"'{anuncio.Moeda}', '{anuncio.Quantidade}', '{anuncio.Valor_Receber}', " +
+                    $"'{anuncio.Moeda_pagamento}')", SqliteCon))
+                {
+                    if (cmd.ExecuteNonQuery() > 0)
+                    {
+                        SqliteCon.Close();
+                        return true;
+                    }
+                }
+            }
+
+            catch (Exception ex)
+            {
+                var local = this.GetType().Name;
+                local += "." + MethodBase.GetCurrentMethod().Name;
+                await StartBotServices.Client.SendMessageAsync(
+                    StartBotServices.Client.GetChannelAsync(
+                    StartBotServices.CanalExceptions).Result, ex.Message + " in " + $"```{local}```");
+
+                SqliteCon.Close();
+                return false;
+            }
+
+            return false;
+        }
+
+
+
+
+
 
 
         public async Task<bool> RemoverAnuncio(ulong id)

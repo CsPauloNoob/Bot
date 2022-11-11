@@ -14,12 +14,13 @@ namespace Bot_Manager
         public static DiscordEmbed StoreView(string linhas, Drops drop)
         {
             var embed = new DiscordEmbedBuilder();
-            
+            embed.Color = DiscordColor.Yellow;
             
             embed.AddField($"\t:fleur_de_lis: *Lojinha*\n|\n\n"
             , linhas + "```**Para comprar digite o comando " +
             "!jcomprar ~Número ao lado do item~**\n\n\n```" +
-            "||**Um drop acabou de cair na loja, seja" +
+            ":point_down:\n"+
+            "||:Scash: **Um drop acabou de cair na loja, seja" +
             " rápido e digite !drop para resgata-lo**||");
             return embed.Build();
         }
@@ -61,6 +62,7 @@ namespace Bot_Manager
             return embedMessage.Build();
         }
 
+
         public static DiscordEmbed BuildMessageCustom(string title, string message, DiscordColor color)
         {
             var embedMessage = new DiscordEmbedBuilder();
@@ -69,6 +71,7 @@ namespace Bot_Manager
             return embedMessage.Build();
         }
 
+
         public static DiscordEmbed UniqueLineMsg(string message)
         {
             var embedMessage = new DiscordEmbedBuilder();
@@ -76,6 +79,7 @@ namespace Bot_Manager
             embedMessage.Description = message;
             return embedMessage.Build();
         }
+
 
         public static DiscordEmbed CarteiraView(string nome, int[] carteira)
         {
