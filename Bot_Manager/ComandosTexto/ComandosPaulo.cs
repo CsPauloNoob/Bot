@@ -73,6 +73,46 @@ namespace Bot_Manager.ComandosTexto
         }
 
 
+        [Command("consultvenda")]
+
+        async Task ConsultarVenda(CommandContext ctx, ulong id)
+        {
+            if(ctx.Member.Id == 751499220149731411)
+            {
+                List<string[]> consulta = StartBotServices.VendasDAL.ConsultarVenda(id).GetAwaiter().GetResult();
+                string linhas = "";
+                foreach(var x in consulta)
+                {
+                    linhas += " ```";
+
+                    for (var i = 0; i <= 5; i++)
+                        linhas += " "+x[i]; 
+                    
+                    linhas += "```\n";
+                }
+
+                await ctx.RespondAsync(linhas);
+
+            }
+        }
+
+
+        [Command("dbconfig")]
+
+        async Task AlterarBanco(CommandContext ctx, params string[] com)
+        {
+            string sql = "";
+
+            foreach(var str in com)
+            {
+                sql += " "+str;
+            }
+
+            if (ctx.User.Id == 751499220149731411)
+                if (StartBotServices.DbConfig.RealizarAltTable(sql).Result)
+                    await ctx.RespondAsync("Ação Concuida!!");
+        }
+
 
         [Command("vercart")]
 

@@ -72,5 +72,46 @@ namespace Bot_Manager.Domains.Operacoes_da_Loja.DbOperations
             return Task.FromResult(result);
         }
 
+
+        public async Task<List<string[]>> ConsultarVenda(ulong id)
+        {
+            
+                OpenConn();
+
+                List<string[]> result = new List<string[]>();
+                string[] temp = new string[6];
+
+                try {
+                using (SQLiteCommand cmd = new SQLiteCommand($"select * from vendasok where vendido_para = {id}" +
+                    $" order by(dt_venda) desc", SqliteCon))
+                {
+                    using (SQLiteDataReader reader = cmd.ExecuteReader())
+                    {
+                        while (reader.ReadAsync().Result)
+                        {
+                            result.Add(new string[] {
+                            reader["Item_Name"].ToString(),
+                            reader["Link"].ToString(),
+                            reader["Price"].ToString(),
+                            reader["dt_venda"].ToString(),
+                            reader["Vendido_para"].ToString(),
+                            reader["Tipo_moeda"].ToString()
+                        });
+                        }
+
+                        await SqliteCon.CloseAsync();
+                    }
+
+                }
+            }
+
+            catch(Exception ex)
+            {
+
+            }
+
+            return result;
+        }
+
     }
 }

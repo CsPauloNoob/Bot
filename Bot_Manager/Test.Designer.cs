@@ -223,6 +223,16 @@ namespace Bot_Manager {
         }
         
         /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a select * from vendasok where vendido_para = {id}
+        ///order by(dt_venda) desc.
+        /// </summary>
+        internal static string SQL_SELECT_VENDASOK {
+            get {
+                return ResourceManager.GetString("SQL_SELECT_VENDASOK", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Consulta uma cadeia de caracteres localizada semelhante a CREATE TABLE Anuncios (
         ///    User       VARCHAR (60) REFERENCES User (Id) 
         ///                            NOT NULL,
@@ -315,7 +325,7 @@ namespace Bot_Manager {
         ///    Item_Name    VARCHAR (60) NOT NULL,
         ///    Link         VARCHAR (60) UNIQUE,
         ///    Price        INT,
-        ///    dt_venda     DATETIME     NOT NULL,
+        ///    dt_venda     VARCHAR (15) NOT NULL,
         ///    Vendido_para VARCHAR (60) NOT NULL,
         ///    Tipo_moeda   VARCHAR (15) 
         ///);.

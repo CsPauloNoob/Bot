@@ -171,6 +171,10 @@
   <data name="SQL_REMOVE_AN" xml:space="preserve">
     <value>DELETE FROM ANUNCIOS WHERE USER = </value>
   </data>
+  <data name="SQL_SELECT_VENDASOK" xml:space="preserve">
+    <value>select * from vendasok where vendido_para = {id}
+order by(dt_venda) desc</value>
+  </data>
   <data name="SQL_TB_AN" xml:space="preserve">
     <value>CREATE TABLE Anuncios (
     User       VARCHAR (60) REFERENCES User (Id) 
@@ -228,7 +232,7 @@
     Item_Name    VARCHAR (60) NOT NULL,
     Link         VARCHAR (60) UNIQUE,
     Price        INT,
-    dt_venda     DATETIME     NOT NULL,
+    dt_venda     VARCHAR (15) NOT NULL,
     Vendido_para VARCHAR (60) NOT NULL,
     Tipo_moeda   VARCHAR (15) 
 );</value>

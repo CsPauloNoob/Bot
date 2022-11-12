@@ -65,6 +65,7 @@ namespace Bot_Manager
         public static Roleta Roleta { get; private set; }
         public static ComercioUsuarios ComercioUsuarios { get; private set; }
         public static AnunciosDAL AnunciosDAL { get; private set; }
+        public static DbConfig DbConfig { get; private set; }
 
         #endregion
 
@@ -174,6 +175,7 @@ namespace Bot_Manager
             VendasDAL = new VendasDAL();
             OpCashQuestsDAL = new OpCashQuestsDAL();
             AnunciosDAL = new AnunciosDAL();
+            DbConfig = new DbConfig();
 
         }
 
