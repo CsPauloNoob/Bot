@@ -54,13 +54,10 @@ namespace Bot_Manager.Quests_andGames.Games
         private async void Esperatimeout(object source, ElapsedEventArgs e)
         {
             BotTimers.vivoMortos.Remove(this);
-
             await StartBotServices.SaveEconomicOP.AdcionarSaldo(ulong.Parse(P1), ValorAposta, "Scash");
 
             button.Disable();
 
-            
-            
         }
 
 
@@ -71,10 +68,8 @@ namespace Bot_Manager.Quests_andGames.Games
 
             client.ComponentInteractionCreated += async (s, e) =>
             {
-                
+                await s.SendMessageAsync(await s.GetChannelAsync(e.Channel.Id), "oi");
             };
         }
-
-
     }
 }

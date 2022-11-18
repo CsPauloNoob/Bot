@@ -176,7 +176,6 @@ namespace Bot_Manager
             OpCashQuestsDAL = new OpCashQuestsDAL();
             AnunciosDAL = new AnunciosDAL();
             DbConfig = new DbConfig();
-
         }
 
 
