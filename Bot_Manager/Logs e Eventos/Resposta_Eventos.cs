@@ -8,6 +8,7 @@ using DSharpPlus;
 using System.Threading.Tasks;
 using System.Linq;
 using Bot_Manager.ultilitarios;
+using DSharpPlus.Interactivity.Extensions;
 
 namespace Bot_Manager.Logs_e_Eventos
 {
@@ -15,6 +16,8 @@ namespace Bot_Manager.Logs_e_Eventos
     {
 
         private DiscordClient Client;
+
+        public static List<string> FilaVivoMorto = new List<string>();
 
         public Dictionary<string, string> PossivelCompra = new Dictionary<string, string>();
 
@@ -101,11 +104,6 @@ namespace Bot_Manager.Logs_e_Eventos
 
                             }
 
-                            else if(e.Id == "P")
-                            {
-
-                            }
-
                             else if (e.Id == "Jcash" || e.Id == "Scash")
 
                                 await s.SendMessageAsync(await s.GetChannelAsync(e.Channel.Id),
@@ -142,6 +140,16 @@ namespace Bot_Manager.Logs_e_Eventos
 
                                 await e.Interaction.CreateResponseAsync(InteractionResponseType.Modal, response);
 
+                            }
+
+                            else if(FilaVivoMorto.Contains(e.Id))
+                            {
+                                _ = Task.Run(async () =>
+                                {
+                                    var game = BotTimers.vivoMortos.Find(p => p.P1 == e.Id);
+                                    game.P2 = e.User.Id.ToString();
+                                    await game.IniciarGame(e.Message); 
+                                });
                             }
 
                         }

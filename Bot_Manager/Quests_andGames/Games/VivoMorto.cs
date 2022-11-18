@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 using System.Timers;
+using Bot_Manager.Logs_e_Eventos;
 using DSharpPlus;
 using DSharpPlus.Entities;
 
@@ -11,11 +12,11 @@ namespace Bot_Manager.Quests_andGames.Games
     public class VivoMorto
     {
 
-        private string P1 { get; set; }
+        public string P1 { get; set; }
 
-        private string P2 { get; set; }
+        public string P2 { get; set; }
 
-        private ushort ValorAposta { get; set; }
+        ushort ValorAposta { get; set; }
 
         DiscordButtonComponent button;
 
@@ -50,10 +51,10 @@ namespace Bot_Manager.Quests_andGames.Games
         }
 
 
-
         private async void Esperatimeout(object source, ElapsedEventArgs e)
         {
             BotTimers.vivoMortos.Remove(this);
+            Resposta_Eventos.FilaVivoMorto.Remove(P1);
             await StartBotServices.SaveEconomicOP.AdcionarSaldo(ulong.Parse(P1), ValorAposta, "Scash");
 
             button.Disable();
@@ -62,14 +63,19 @@ namespace Bot_Manager.Quests_andGames.Games
 
 
 
-        private async Task Jogador2()
+        public async Task IniciarGame(DiscordMessage message)
         {
+
             var client = StartBotServices.Client;
 
-            client.ComponentInteractionCreated += async (s, e) =>
-            {
-                await s.SendMessageAsync(await s.GetChannelAsync(e.Channel.Id), "oi");
-            };
+            await message.ModifyAsync("PREPARADOS? JOGO INICIA EM *3*");
+            await Task.Delay(1000);
+
+            await message.ModifyAsync("PREPARADOS? JOGO INICIA EM *2*");
+            await Task.Delay(1000);
+
+            await message.ModifyAsync("PREPARADOS? JOGO INICIA EM *1*");
+            await Task.Delay(1000);
         }
     }
 }
