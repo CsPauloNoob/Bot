@@ -6,7 +6,10 @@ using System.Threading.Tasks;
 using DSharpPlus.Entities;
 using DSharpPlus.CommandsNext;
 using DSharpPlus.CommandsNext.Attributes;
+using DSharpPlus.Interactivity;
 using DSharpPlus.Exceptions;
+using DSharpPlus.Interactivity.Extensions;
+using Bot_Manager.Logs_e_Eventos;
 
 namespace Bot_Manager.ComandosTexto
 {
@@ -62,8 +65,10 @@ namespace Bot_Manager.ComandosTexto
                                     await StartBotServices.Resposta_Eventos.AdcionarCompradores
                                         (ctx.Member.Id.ToString(), item);
 
-                                    await ctx.RespondAsync(OpMessages.Menssagen_de_Compra
-                                        (ctx.Client, buttons, ctx.User, StartBotServices.Itens_Loja.NomeDe(numItem.ToString())).Result);
+                                    var message =  ctx.RespondAsync(OpMessages.Menssagen_de_Compra
+                                        (ctx.Client, buttons, ctx.User, StartBotServices.Itens_Loja.NomeDe(numItem.ToString())).Result).Result;
+
+                                    await Resposta_Eventos.BtnComprarLoja(message, ctx.User, ctx.Client);
                                 }
 
                                 else

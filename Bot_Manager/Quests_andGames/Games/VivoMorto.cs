@@ -18,7 +18,11 @@ namespace Bot_Manager.Quests_andGames.Games
 
         ushort ValorAposta { get; set; }
 
-        DiscordButtonComponent button;
+        DiscordButtonComponent Button;
+
+        public DiscordMessage DiscordMessage { get; set; }
+
+        Timer Time = new Timer();
 
 
         public VivoMorto(string p1, ushort valorAposta)
@@ -34,20 +38,17 @@ namespace Bot_Manager.Quests_andGames.Games
         {
             DiscordButtonComponent component = new DiscordButtonComponent(ButtonStyle.Primary, P1, "Esperando jogador 2");
             
-            button = component;
+            Button = component;
 
             Random random = new Random();
 
-            Timer tm = new Timer();
+            Time.AutoReset = false;
+            Time.Interval = 60000;
+            Time.Enabled = true;
+            Time.Elapsed += new ElapsedEventHandler(Esperatimeout);
+            Time.Start();
 
-
-            tm.Elapsed += new ElapsedEventHandler(Esperatimeout);
-            tm.AutoReset = false;
-            tm.Interval = 10000;
-            tm.Enabled = true;
-            tm.Start();
-
-            return component;
+            return Button;
         }
 
 
@@ -57,7 +58,7 @@ namespace Bot_Manager.Quests_andGames.Games
             Resposta_Eventos.FilaVivoMorto.Remove(P1);
             await StartBotServices.SaveEconomicOP.AdcionarSaldo(ulong.Parse(P1), ValorAposta, "Scash");
 
-            button.Disable();
+            Button.Disable();
 
         }
 
@@ -65,17 +66,20 @@ namespace Bot_Manager.Quests_andGames.Games
 
         public async Task IniciarGame(DiscordMessage message)
         {
-
             var client = StartBotServices.Client;
+            await Resposta_Eventos.BtnVivoMortoP2(message, P1);
+            await message.DeleteAsync();
+            DiscordButtonComponent component = new DiscordButtonComponent(ButtonStyle.Primary, P1, "Disparar");
 
-            await message.ModifyAsync("PREPARADOS? JOGO INICIA EM *3*");
-            await Task.Delay(1000);
 
-            await message.ModifyAsync("PREPARADOS? JOGO INICIA EM *2*");
-            await Task.Delay(1000);
+            message = await client.SendMessageAsync(message.Channel, EmbedMesages.EmbedButton("oi", "Em algum momento um " +
+                "botão aparecerá aqui, fiquem espertos!", DiscordColor.Green, component));
 
-            await message.ModifyAsync("PREPARADOS? JOGO INICIA EM *1*");
-            await Task.Delay(1000);
+            
+            
+            await Task.Delay(50000);
+
+            component.Disable();
         }
     }
 }

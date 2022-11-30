@@ -19,7 +19,7 @@ namespace Bot_Manager.Logs_e_Eventos
 
         public static List<string> FilaVivoMorto = new List<string>();
 
-        public Dictionary<string, string> PossivelCompra = new Dictionary<string, string>();
+        public static Dictionary<string, string> PossivelCompra = new Dictionary<string, string>();
 
         public Resposta_Eventos(DiscordClient client)
         {
@@ -88,7 +88,7 @@ namespace Bot_Manager.Logs_e_Eventos
                             if (PossivelCompra.ContainsKey(e.User.Id.ToString()) && e.Id.Contains("cash"))
                             {
 
-                                var prize = OpMessages.BotaoMoedaPres(e.Guild.GetMemberAsync
+                               /* var prize = OpMessages.BotaoMoedaPres(e.Guild.GetMemberAsync
                                     (e.User.Id).Result, PossivelCompra[e.User.Id.ToString()], e.Id, e.Channel.Id).Result ;
 
                                 await e.Interaction.CreateResponseAsync(
@@ -100,7 +100,7 @@ namespace Bot_Manager.Logs_e_Eventos
                                     .WithTitle("Aqui está...")
                                     );
 
-                                await e.Message.DeleteAsync();
+                                await e.Message.DeleteAsync();*/
 
                             }
 
@@ -142,16 +142,6 @@ namespace Bot_Manager.Logs_e_Eventos
 
                             }
 
-                            else if(FilaVivoMorto.Contains(e.Id))
-                            {
-                                _ = Task.Run(async () =>
-                                {
-                                    var game = BotTimers.vivoMortos.Find(p => p.P1 == e.Id);
-                                    game.P2 = e.User.Id.ToString();
-                                    await game.IniciarGame(e.Message); 
-                                });
-                            }
-
                         }
 
                         else
@@ -177,6 +167,56 @@ namespace Bot_Manager.Logs_e_Eventos
                     }
                 });
             };
+        }
+
+        public static async Task BtnComprarLoja(DiscordMessage message, DiscordUser user, DiscordClient client)
+        {
+            var inter = message.WaitForButtonAsync(user).Result;
+            string prize = "";
+
+            if(!inter.TimedOut)
+            prize = OpMessages.BotaoMoedaPres(inter.Result.Guild.GetMemberAsync(user.Id).Result,
+               PossivelCompra[user.Id.ToString()], inter.Result.Id, inter.Result.Channel.Id).Result;
+
+            /*await e.Interaction.CreateResponseAsync(
+                InteractionResponseType.ChannelMessageWithSource,
+                new DiscordInteractionResponseBuilder()
+                .WithContent("Caso sua DM esteja fechada, " +
+                "essa é sua compra:\n\n" + prize)
+                .AsEphemeral(true)
+                .WithTitle("Aqui está...")
+                );*/
+
+            await message.DeleteAsync();
+        }
+
+        public static async Task BtnComprarAnuncio(DiscordMessage message, DiscordUser user)
+        {
+
+        }
+
+        //Terminar VM
+
+        public static async Task BtnVivoMortoP2(DiscordMessage message, string player1)
+        {
+            var inter = message.WaitForButtonAsync().Result;
+            var player2 = inter.Result.User.Id.ToString();
+
+
+            if (!inter.TimedOut && StartBotServices.Users.Contains(player2))
+            {
+                var vm = BotTimers.vivoMortos.Find(p => p.P1 == player1);
+
+                vm.P2 = player2;
+            }
+
+            else
+            {
+                await inter.Result.Interaction.CreateResponseAsync(InteractionResponseType.ChannelMessageWithSource
+                    , new DiscordInteractionResponseBuilder()
+                    .WithContent("Você não está cadastrado, use !jRegistrar para poder jogar esse jogo")
+                    .AsEphemeral(true));
+            }
         }
 
 

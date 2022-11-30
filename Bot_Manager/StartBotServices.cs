@@ -3,6 +3,7 @@
 using Bot_Manager.ComandosTexto;
 using DSharpPlus;
 using DSharpPlus.CommandsNext;
+using DSharpPlus.Interactivity;
 using System;
 using System.IO;
 using System.Data.SQLite;
@@ -22,6 +23,7 @@ using Bot_Manager.ComandosBarra;
 using Bot_Manager.ultilitarios;
 using Bot_Manager.Quests_andGames.Games;
 using DSharpPlus.SlashCommands;
+using DSharpPlus.Interactivity.Extensions;
 
 #endregion
 
@@ -123,6 +125,11 @@ namespace Bot_Manager
             {
                 //Services = service,
                 StringPrefixes = new[] { "!j", "!J", "!j " }
+            });
+
+            Client.UseInteractivity(new InteractivityConfiguration()
+            {
+                
             });
 
             //var slash = Client.UseSlashCommands();

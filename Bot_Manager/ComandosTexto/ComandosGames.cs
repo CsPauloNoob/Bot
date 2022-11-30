@@ -6,6 +6,7 @@ using DSharpPlus.CommandsNext;
 using System.Threading.Tasks;
 using DSharpPlus.Entities;
 using Bot_Manager.Quests_andGames.Games;
+using DSharpPlus;
 
 namespace Bot_Manager.ComandosTexto
 {
@@ -68,7 +69,8 @@ namespace Bot_Manager.ComandosTexto
 
 
 
-        [Command("VivoMorto")][Aliases("vm")]
+        [Command("VivoMorto")]
+        [Aliases("vm")]
 
         public async Task VivoMorto(CommandContext ctx, ushort valor)
         {
@@ -79,14 +81,21 @@ namespace Bot_Manager.ComandosTexto
                 {
                     await StartBotServices.SaveEconomicOP.DebitarSaldo(ctx.User.Id, valor, "Scash");
 
-                    var vm = new VivoMorto(ctx.User.Id.ToString(), valor).EsperarP2();
+                    var vm = new VivoMorto(ctx.User.Id.ToString(), valor);
 
-                    await ctx.RespondAsync(EmbedMesages.EmbedButton("Vivo ou Morto",
-                        "O primeiro a atirar ganha!", DiscordColor.IndianRed, vm));
+                    await vm.IniciarGame(ctx.RespondAsync(EmbedMesages.EmbedButton("Vivo ou Morto",
+                         "O primeiro a atirar ganha!", DiscordColor.IndianRed,
+                         vm.EsperarP2())).GetAwaiter().GetResult());
                 }
-
+                else
+                    await ctx.RespondAsync("Você não tem saldo disponível");
 
             }
+
+            else
+                    await ctx.Client.SendMessageAsync(ctx.Client.GetChannelAsync(ctx.Channel.Id).Result,
+                EmbedMesages.UniqueLineMsg($"{ctx.User.Mention} Você não é registrado aqui nos meus" +
+                $" arquivos, digite !j registrar para começar a me usar :eyes:"));
         }
 
     }

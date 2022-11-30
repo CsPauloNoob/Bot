@@ -28,6 +28,8 @@ namespace Bot_Manager
                 .AddComponents(buttons)
                 .AddEmbed(EmbedMesages.UniqueLineMsg($"||{user.Mention}||" +
                 $"\nSelecione a moeda desejada para comprar {gift}"));
+
+            
             return message;
         }
 
