@@ -6,6 +6,7 @@ using System.Timers;
 using Bot_Manager.Logs_e_Eventos;
 using DSharpPlus;
 using DSharpPlus.Entities;
+using DSharpPlus.Interactivity.Extensions;
 
 namespace Bot_Manager.Quests_andGames.Games
 {
@@ -64,22 +65,51 @@ namespace Bot_Manager.Quests_andGames.Games
 
 
 
-        public async Task IniciarGame(DiscordMessage message)
+        public async Task IniciarGame(DiscordMessage message, DiscordUser user)
         {
+            Time.Interval = 50000;
+            Time.Start();
             var client = StartBotServices.Client;
             await Resposta_Eventos.BtnVivoMortoP2(message, P1);
+            var ch = message.Channel;
             await message.DeleteAsync();
-            DiscordButtonComponent component = new DiscordButtonComponent(ButtonStyle.Primary, P1, "Disparar");
+            DiscordButtonComponent component = new DiscordButtonComponent(ButtonStyle.Primary, P1, "Iniciar");
 
 
-            message = await client.SendMessageAsync(message.Channel, EmbedMesages.EmbedButton("oi", "Em algum momento um " +
-                "botão aparecerá aqui, fiquem espertos!", DiscordColor.Green, component));
+            var message2 = await client.SendMessageAsync(ch, EmbedMesages.EmbedButton("Prontos?", 
+                $"{client.GetUserAsync(ulong.Parse(P2)).Result.Mention} e {client.GetUserAsync(ulong.Parse(P1)).Result.Mention}" +
+                $" cliquem no botão para iniciar! E quando o botão Verde aparecer na tela, vence quam" +
+                $" clicar nele primeiro!", DiscordColor.Yellow, component));
 
-            
-            
-            await Task.Delay(50000);
+            var interaction = message2.WaitForButtonAsync(user).Result;
 
-            component.Disable();
+            if(!interaction.TimedOut)
+            {
+                await message2.DeleteAsync();
+                component = new DiscordButtonComponent(ButtonStyle.Primary, P1, "Disparar");
+
+                var message3 = await client.SendMessageAsync(ch, EmbedMesages.EmbedButton("**Fogo**",
+                $"{client.GetUserAsync(ulong.Parse(P2)).Result} vs. {client.GetUserAsync(ulong.Parse(P1)).Result}", DiscordColor.Green, component));
+
+                var inter = message3.WaitForButtonAsync().Result;
+
+                if(!inter.TimedOut)
+                {
+                    if(message3.Interaction.User.Id.ToString() == P1)
+                    {
+                        if(await StartBotServices.SaveEconomicOP.AdcionarSaldo(ulong.Parse(P1), Convert.ToInt16(ValorAposta), "Scash"))
+                        {
+                            await message3.DeleteAsync();
+                            await client.SendMessageAsync(ch, EmbedMesages.UniqueLineMsg($"Parabéns {client.GetUserAsync(ulong.Parse(P1)).Result.Mention} " +
+                                $"você ganhou o jogo e levou {ValorAposta} Scash"));
+
+                            Time.Stop();
+                            BotTimers.vivoMortos.Remove(this); //validações
+                        }
+                    }
+                }
+
+            }
         }
     }
 }

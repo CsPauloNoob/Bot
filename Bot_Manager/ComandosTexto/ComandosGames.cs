@@ -85,7 +85,7 @@ namespace Bot_Manager.ComandosTexto
 
                     await vm.IniciarGame(ctx.RespondAsync(EmbedMesages.EmbedButton("Vivo ou Morto",
                          "O primeiro a atirar ganha!", DiscordColor.IndianRed,
-                         vm.EsperarP2())).GetAwaiter().GetResult());
+                         vm.EsperarP2())).GetAwaiter().GetResult(), ctx.User);
                 }
                 else
                     await ctx.RespondAsync("Você não tem saldo disponível");
