@@ -197,28 +197,32 @@ namespace Bot_Manager.Logs_e_Eventos
 
         //Terminar VM
 
-        public static async Task BtnVivoMortoP2(DiscordMessage message, string player1)
+        public static async Task<bool> BtnVivoMortoP2(DiscordMessage message, string player1)
         {
             var inter = message.WaitForButtonAsync().Result;
             var player2 = inter.Result.User.Id.ToString();
 
 
-            if (!inter.TimedOut && StartBotServices.Users.Contains(player2))
+            if (!inter.TimedOut && StartBotServices.Users.Contains(inter.Result.User.Id.ToString()))
             {
-                var vm = BotTimers.vivoMortos.Find(p => p.P1 == player1);
-
-                vm.P2 = player2;
+                if (inter.Result.User.Id.ToString() != player1)
+                {
+                    var vm = BotTimers.vivoMortos.Find(p => p.P1 == player1);
+                    vm.P2 = player2;
+                    return true;
+                }
             }
 
-            else
+            else if(StartBotServices.Users.Contains(inter.Result.User.Id.ToString()))
             {
                 await inter.Result.Interaction.CreateResponseAsync(InteractionResponseType.ChannelMessageWithSource
                     , new DiscordInteractionResponseBuilder()
                     .WithContent("Você não está cadastrado, use !jRegistrar para poder jogar esse jogo")
                     .AsEphemeral(true));
             }
-        }
 
+            return false;
+        }
 
 
         //Eventos de Submissão de Modal

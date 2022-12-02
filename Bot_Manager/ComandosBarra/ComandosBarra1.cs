@@ -13,37 +13,23 @@ namespace Bot_Manager.ComandosBarra
     public class ComandosBarra1:ApplicationCommandModule
     {
 
-        [SlashCommand("AN", "Cria um anuncio global")]
-
-        public async Task NovoAnuncio(InteractionContext ctx,[Option("Quatidade", 
-            "quantidade anunciada (min J/S máx: 1/800 J/S: 499/99999)")]
-            int valor, [Choice("Jcash", "Jcash")]
-            [Choice("Scash", "Scash")] [Option("moeda", "Tipo de moeda a ser vendido")] string moeda)
-        {
-            await ctx.CreateResponseAsync(InteractionResponseType.DeferredChannelMessageWithSource,
-                new DiscordInteractionResponseBuilder().WithContent("Success!"));
-
-            await ctx.EditResponseAsync(new DiscordWebhookBuilder().WithContent("Thanks for waiting!"));
-        }
-
-
-        [SlashCommand("Test", "Ban a user")]
-
-        public async Task Ban(InteractionContext ctx, [Option("user", "User to ban")] DiscordUser user,
-        [Choice("None", 0)]
-        [Choice("1 Day", 1)]
-        [Choice("1 Week", 7)]
-        [Option("deletedays", "Number of days of message history to delete")] long deleteDays = 0)
-
-        {
-            
-        }
-
-        [SlashCommand("Default", "teste de slash command")]
+        [SlashCommand("meu", "Resgata sua recompensa diária")]
 
         public async Task Test(InteractionContext ctx)
         {
+            if (StartBotServices.Users.Contains(ctx.User.Id.ToString()))
+            {
+                if (StartBotServices.Diarias.DarCota(ctx.Member.Id).Result)
 
+                    await ctx.Client.SendMessageAsync(ctx.Client.GetChannelAsync(ctx.Channel.Id).Result,
+                        EmbedMesages.UniqueLineMsg($"Parabés {ctx.User.Mention} você" +
+                        $" resgatou seus 300sc diários"));
+                else
+                {
+                    await ctx.CreateResponseAsync(InteractionResponseType.ChannelMessageWithSource);
+                    await ctx.EditResponseAsync(new DiscordWebhookBuilder().WithContent("Você já resgatou sua recompensa diária"));
+                }
+            }
         }
 
     }

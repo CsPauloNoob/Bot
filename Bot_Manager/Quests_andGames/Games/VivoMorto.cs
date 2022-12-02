@@ -59,56 +59,84 @@ namespace Bot_Manager.Quests_andGames.Games
             Resposta_Eventos.FilaVivoMorto.Remove(P1);
             await StartBotServices.SaveEconomicOP.AdcionarSaldo(ulong.Parse(P1), ValorAposta, "Scash");
 
-            Button.Disable();
+            if(DiscordMessage.Content != null)
+            {
+                await DiscordMessage.DeleteAsync();
+            }
 
         }
 
 
 
         public async Task IniciarGame(DiscordMessage message, DiscordUser user)
-        {
-            Time.Interval = 50000;
-            Time.Start();
-            var client = StartBotServices.Client;
-            await Resposta_Eventos.BtnVivoMortoP2(message, P1);
-            var ch = message.Channel;
-            await message.DeleteAsync();
-            DiscordButtonComponent component = new DiscordButtonComponent(ButtonStyle.Primary, P1, "Iniciar");
+        {   DiscordMessage = message;
 
-
-            var message2 = await client.SendMessageAsync(ch, EmbedMesages.EmbedButton("Prontos?", 
-                $"{client.GetUserAsync(ulong.Parse(P2)).Result.Mention} e {client.GetUserAsync(ulong.Parse(P1)).Result.Mention}" +
-                $" cliquem no botão para iniciar! E quando o botão Verde aparecer na tela, vence quam" +
-                $" clicar nele primeiro!", DiscordColor.Yellow, component));
-
-            var interaction = message2.WaitForButtonAsync(user).Result;
-
-            if(!interaction.TimedOut)
+            if (await Resposta_Eventos.BtnVivoMortoP2(message, P1))
             {
-                await message2.DeleteAsync();
-                component = new DiscordButtonComponent(ButtonStyle.Primary, P1, "Disparar");
+                var client = StartBotServices.Client;
+                var ch = message.Channel;
+                await message.DeleteAsync();
+                DiscordButtonComponent component = new DiscordButtonComponent(ButtonStyle.Primary, P1, "Iniciar");
 
-                var message3 = await client.SendMessageAsync(ch, EmbedMesages.EmbedButton("**Fogo**",
-                $"{client.GetUserAsync(ulong.Parse(P2)).Result} vs. {client.GetUserAsync(ulong.Parse(P1)).Result}", DiscordColor.Green, component));
 
-                var inter = message3.WaitForButtonAsync().Result;
+                var message2 = await client.SendMessageAsync(ch, EmbedMesages.EmbedButton("Prontos?",
+                    $"{client.GetUserAsync(ulong.Parse(P2)).Result.Username} e {client.GetUserAsync(ulong.Parse(P1)).Result.Username}" +
+                    $" cliquem no botão para iniciar! E quando o botão Verde aparecer na tela, vence quam" +
+                    $" clicar nele primeiro!", DiscordColor.Yellow, component));
 
-                if(!inter.TimedOut)
+                var interaction = message2.WaitForButtonAsync(user).Result;
+
+                if (!interaction.TimedOut)
                 {
-                    if(message3.Interaction.User.Id.ToString() == P1)
-                    {
-                        if(await StartBotServices.SaveEconomicOP.AdcionarSaldo(ulong.Parse(P1), Convert.ToInt16(ValorAposta), "Scash"))
-                        {
-                            await message3.DeleteAsync();
-                            await client.SendMessageAsync(ch, EmbedMesages.UniqueLineMsg($"Parabéns {client.GetUserAsync(ulong.Parse(P1)).Result.Mention} " +
-                                $"você ganhou o jogo e levou {ValorAposta} Scash"));
+                    await message2.DeleteAsync();
+                    component = new DiscordButtonComponent(ButtonStyle.Primary, P1, "Disparar");
 
-                            Time.Stop();
-                            BotTimers.vivoMortos.Remove(this); //validações
+                    var message3 = await client.SendMessageAsync(ch, EmbedMesages.EmbedButton("**Fogo**",
+                    $"{client.GetUserAsync(ulong.Parse(P2)).Result.Username} vs. {client.GetUserAsync(ulong.Parse(P1)).Result.Username}", DiscordColor.Green, component));
+
+                    var inter = message3.WaitForButtonAsync().Result;
+
+                    if (!inter.TimedOut)
+                    {
+                        if (inter.Result.User.Id.ToString() == P1)
+                        {
+                            if (await StartBotServices.SaveEconomicOP.AdcionarSaldo(ulong.Parse(P1), Convert.ToInt16(ValorAposta), "Scash"))
+                            {
+                                await message3.DeleteAsync();
+                                await client.SendMessageAsync(ch, EmbedMesages.UniqueLineMsg($"Parabéns {client.GetUserAsync(ulong.Parse(P1)).Result.Username} " +
+                                    $"você ganhou o jogo e levou {ValorAposta} Scash"));
+
+                                Time.Stop();
+                                BotTimers.vivoMortos.Remove(this);
+                            }
+                        }
+
+                        else if (inter.Result.User.Id.ToString() == P2)
+                        {
+                            if (await StartBotServices.SaveEconomicOP.AdcionarSaldo(ulong.Parse(P2), Convert.ToInt16(ValorAposta), "Scash"))
+                            {
+                                await message3.DeleteAsync();
+                                await client.SendMessageAsync(ch, EmbedMesages.UniqueLineMsg($"Parabéns {client.GetUserAsync(ulong.Parse(P2)).Result.Mention} " +
+                                    $"você ganhou o jogo e levou {ValorAposta} Scash"));
+
+                                Time.Stop();
+                                BotTimers.vivoMortos.Remove(this);
+                            }
                         }
                     }
-                }
 
+                }
+            }
+
+            else
+            {
+                BotTimers.vivoMortos.Remove(this);
+                await message.DeleteAsync();
+                Resposta_Eventos.FilaVivoMorto.Remove(P1);
+                await StartBotServices.SaveEconomicOP.AdcionarSaldo(ulong.Parse(P1), ValorAposta, "Scash");
+                Time.Enabled = false;
+                Time.Close();
+                Time.Dispose();
             }
         }
     }

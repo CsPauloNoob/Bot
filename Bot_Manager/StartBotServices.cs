@@ -132,10 +132,11 @@ namespace Bot_Manager
                 
             });
 
-            //var slash = Client.UseSlashCommands();
+            var slash = Client.UseSlashCommands();
 
             try
             {
+                //Comandos de texto
                 commands.RegisterCommands<ComandosReg>();
                 commands.RegisterCommands<ComandosLoja>();
                 commands.RegisterCommands<ComandosPunicao>();
@@ -144,9 +145,10 @@ namespace Bot_Manager
                 commands.RegisterCommands<ComandosGames>();
                 commands.RegisterCommands<ComandosInfo>();
 
-               //slash.RegisterCommands<ComandosBarra1>();
+                //Comandos de /
+                slash.RegisterCommands<ComandosBarra1>();
 
-
+                //Alteração de formato padrão do comando help
                 commands.SetHelpFormatter<CustomHelp>();
             }
 

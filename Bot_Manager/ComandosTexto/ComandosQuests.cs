@@ -30,7 +30,7 @@ namespace Bot_Manager.ComandosTexto
 
                     await ctx.Client.SendMessageAsync(ctx.Client.GetChannelAsync(ctx.Channel.Id).Result,
                         EmbedMesages.UniqueLineMsg($"Parabés {ctx.User.Mention} você" +
-                        $" resgatou seus 300sc diários"));
+                        $" resgatou seus 300sc diários\n\n||Nobre usuario use o comando em barra /meu na proxima, lá eu dou uns trocados a mais||"));
                 else
                     await ctx.RespondAsync("Você já resgatou sua recompensa diaría");
             }
