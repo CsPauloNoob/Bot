@@ -32,5 +32,25 @@ namespace Bot_Manager.ComandosBarra
             }
         }
 
+        [SlashCommand("Registrar", "Registre-se com esse comando")]
+        public async Task Registrar(InteractionContext ctx)
+        {
+            try
+            {
+                if (StartBotServices.SaveInfo.RegisterMenber(ctx.Member.Id).GetAwaiter().GetResult())
+                    await ctx.CreateResponseAsync(EmbedMesages.UniqueLineMsg("Dados salvos com sucesso!!!" +
+                        " Toma aqui 1500Sc para iniciar sua jornada"), true);
+
+                else
+                    await ctx.FollowUpAsync(new DiscordFollowupMessageBuilder().WithContent("Não consegui concluir essa tarefa!"));
+            }
+
+            catch (Exception ex)
+            {
+               await ctx.CreateResponseAsync(InteractionResponseType.DeferredChannelMessageWithSource);
+               await ctx.EditResponseAsync(new DiscordWebhookBuilder().WithContent("Algum erro aconteceu aqui do meu lado, tente mais tarde"));
+            }
+        }
+
     }
 }

@@ -102,24 +102,26 @@ namespace Bot_Manager.Quests_andGames.Games
                         {
                             if (await StartBotServices.SaveEconomicOP.AdcionarSaldo(ulong.Parse(P1), Convert.ToInt16(ValorAposta), "Scash"))
                             {
+                                Time.Stop();
                                 await message3.DeleteAsync();
                                 await client.SendMessageAsync(ch, EmbedMesages.UniqueLineMsg($"Parabéns {client.GetUserAsync(ulong.Parse(P1)).Result.Username} " +
                                     $"você ganhou o jogo e levou {ValorAposta} Scash"));
 
-                                Time.Stop();
+                                await StartBotServices.SaveEconomicOP.DebitarSaldo(ulong.Parse(P2), ValorAposta, "Scash");
                                 BotTimers.vivoMortos.Remove(this);
                             }
                         }
 
                         else if (inter.Result.User.Id.ToString() == P2)
                         {
-                            if (await StartBotServices.SaveEconomicOP.AdcionarSaldo(ulong.Parse(P2), Convert.ToInt16(ValorAposta), "Scash"))
+                            if (await StartBotServices.SaveEconomicOP.AdcionarSaldo(ulong.Parse(P2), ValorAposta, "Scash"))
                             {
+                                Time.Stop();
                                 await message3.DeleteAsync();
                                 await client.SendMessageAsync(ch, EmbedMesages.UniqueLineMsg($"Parabéns {client.GetUserAsync(ulong.Parse(P2)).Result.Mention} " +
                                     $"você ganhou o jogo e levou {ValorAposta} Scash"));
 
-                                Time.Stop();
+                                await StartBotServices.SaveEconomicOP.DebitarSaldo(ulong.Parse(P1), ValorAposta, "Scash");
                                 BotTimers.vivoMortos.Remove(this);
                             }
                         }
@@ -127,6 +129,7 @@ namespace Bot_Manager.Quests_andGames.Games
 
                 }
             }
+
 
             else
             {
