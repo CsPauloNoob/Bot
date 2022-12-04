@@ -7,6 +7,8 @@ using System.Threading.Tasks;
 using DSharpPlus.Entities;
 using Bot_Manager.Quests_andGames.Games;
 using DSharpPlus;
+using Bot_Manager.Logs_e_Eventos;
+using Microsoft.EntityFrameworkCore.Query.Internal;
 
 namespace Bot_Manager.ComandosTexto
 {
@@ -74,7 +76,9 @@ namespace Bot_Manager.ComandosTexto
 
         public async Task VivoMorto(CommandContext ctx, ushort valor)
         {
-            if (StartBotServices.Users.Contains(ctx.User.Id.ToString())) {
+            bool existgame = Resposta_Eventos.FilaVivoMorto.Contains(ctx.User.Id.ToString());
+
+            if (StartBotServices.Users.Contains(ctx.User.Id.ToString()) && !existgame) {
 
                 var fundos = StartBotServices.UserWalletDAL.FundosCarteira(ctx.User.Id).Result;
                 if (fundos[1] >= valor)
@@ -88,14 +92,16 @@ namespace Bot_Manager.ComandosTexto
                          vm.EsperarP2())).GetAwaiter().GetResult(), ctx.User);
                 }
                 else
-                    await ctx.RespondAsync("Você não tem saldo disponível");
+                    await ctx.RespondAsync("Você o saldo apostado disponível, tente um valor menor");
 
             }
 
+            else if (existgame)
+                await ctx.RespondAsync("Termine a sua partida anterior ou aguarde até que ela se exclua por conta própria");
             else
-                    await ctx.Client.SendMessageAsync(ctx.Client.GetChannelAsync(ctx.Channel.Id).Result,
-                EmbedMesages.UniqueLineMsg($"{ctx.User.Mention} Você não é registrado aqui nos meus" +
-                $" arquivos, digite !j registrar para começar a me usar :eyes:"));
+                await ctx.Client.SendMessageAsync(ctx.Client.GetChannelAsync(ctx.Channel.Id).Result,
+            EmbedMesages.UniqueLineMsg($"{ctx.User.Mention} Você não é registrado aqui nos meus" +
+            $" arquivos, digite !j registrar para começar a me usar :eyes:"));
         }
 
     }

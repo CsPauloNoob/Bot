@@ -200,8 +200,12 @@ namespace Bot_Manager.Logs_e_Eventos
         public static async Task<bool> BtnVivoMortoP2(DiscordMessage message, string player1)
         {
             var inter = message.WaitForButtonAsync().Result;
-            var player2 = inter.Result.User.Id.ToString();
+            if (inter.Result == null)
+            {
+                return false;
+            }
 
+            var player2 = inter.Result.User.Id.ToString();
 
             if (!inter.TimedOut && StartBotServices.Users.Contains(inter.Result.User.Id.ToString()))
             {

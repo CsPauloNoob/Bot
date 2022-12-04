@@ -13,7 +13,7 @@ namespace Bot_Manager.ComandosBarra
     public class ComandosBarra1:ApplicationCommandModule
     {
 
-        [SlashCommand("meu", "Resgata sua recompensa diária")]
+        [SlashCommand("diaria", "Resgata sua recompensa diária")]
 
         public async Task Test(InteractionContext ctx)
         {
@@ -21,17 +21,21 @@ namespace Bot_Manager.ComandosBarra
             {
                 if (StartBotServices.Diarias.DarCota(ctx.Member.Id).Result)
 
-                    await ctx.Client.SendMessageAsync(ctx.Client.GetChannelAsync(ctx.Channel.Id).Result,
-                        EmbedMesages.UniqueLineMsg($"Parabés {ctx.User.Mention} você" +
-                        $" resgatou seus 300sc diários"));
+                    await ctx.CreateResponseAsync(InteractionResponseType.ChannelMessageWithSource, new DiscordInteractionResponseBuilder()
+                   .WithContent($"Parabéns ^^ {ctx.User.Mention} você ganhou 300Sc")
+                   .WithTitle("Erro")
+                   .AsEphemeral(true));
                 else
                 {
-                    await ctx.CreateResponseAsync(InteractionResponseType.ChannelMessageWithSource);
-                    await ctx.EditResponseAsync(new DiscordWebhookBuilder().WithContent("Você já resgatou sua recompensa diária"));
+                    await ctx.CreateResponseAsync(InteractionResponseType.ChannelMessageWithSource, new DiscordInteractionResponseBuilder()
+                   .WithContent("Você já resgatou sua recompensa diária")
+                   .WithTitle("Erro")
+                   .AsEphemeral(true));
                 }
             }
         }
 
+        
         [SlashCommand("Registrar", "Registre-se com esse comando")]
         public async Task Registrar(InteractionContext ctx)
         {
@@ -47,8 +51,10 @@ namespace Bot_Manager.ComandosBarra
 
             catch (Exception ex)
             {
-               await ctx.CreateResponseAsync(InteractionResponseType.DeferredChannelMessageWithSource);
-               await ctx.EditResponseAsync(new DiscordWebhookBuilder().WithContent("Algum erro aconteceu aqui do meu lado, tente mais tarde"));
+                await ctx.CreateResponseAsync(InteractionResponseType.ChannelMessageWithSource, new DiscordInteractionResponseBuilder()
+                    .WithContent("Algum erro aconteceu aqui do meu lado, tente mais tarde")
+                    .WithTitle("Erro")
+                    .AsEphemeral(true));
             }
         }
 

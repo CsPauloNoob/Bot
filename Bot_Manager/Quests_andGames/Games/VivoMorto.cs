@@ -32,6 +32,8 @@ namespace Bot_Manager.Quests_andGames.Games
 
             BotTimers.vivoMortos.Add(this);
             ValorAposta = valorAposta;
+
+            Resposta_Eventos.FilaVivoMorto.Add(P1);
         }
 
 
@@ -44,7 +46,7 @@ namespace Bot_Manager.Quests_andGames.Games
             Random random = new Random();
 
             Time.AutoReset = false;
-            Time.Interval = 60000;
+            Time.Interval = 40000;
             Time.Enabled = true;
             Time.Elapsed += new ElapsedEventHandler(Esperatimeout);
             Time.Start();
@@ -68,61 +70,70 @@ namespace Bot_Manager.Quests_andGames.Games
 
 
 
-        public async Task IniciarGame(DiscordMessage message, DiscordUser user)
+        public async Task<bool> IniciarGame(DiscordMessage message, DiscordUser user)
         {   DiscordMessage = message;
-
+            
             if (await Resposta_Eventos.BtnVivoMortoP2(message, P1))
             {
+                var aposta_total = ValorAposta + ValorAposta;
                 var client = StartBotServices.Client;
                 var ch = message.Channel;
                 await message.DeleteAsync();
                 DiscordButtonComponent component = new DiscordButtonComponent(ButtonStyle.Primary, P1, "Iniciar");
-
+                Time.Stop();
+                Time.Interval = 20000;
 
                 var message2 = await client.SendMessageAsync(ch, EmbedMesages.EmbedButton("Prontos?",
                     $"{client.GetUserAsync(ulong.Parse(P2)).Result.Username} e {client.GetUserAsync(ulong.Parse(P1)).Result.Username}" +
                     $" cliquem no botão para iniciar! E quando o botão Verde aparecer na tela, vence quam" +
                     $" clicar nele primeiro!", DiscordColor.Yellow, component));
 
+                DiscordMessage = message2;
                 var interaction = message2.WaitForButtonAsync(user).Result;
 
                 if (!interaction.TimedOut)
                 {
+                    Time.Start();
                     await message2.DeleteAsync();
-                    component = new DiscordButtonComponent(ButtonStyle.Primary, P1, "Disparar");
+                    component = new DiscordButtonComponent(ButtonStyle.Success, P1, "Disparar");
 
                     var message3 = await client.SendMessageAsync(ch, EmbedMesages.EmbedButton("**Fogo**",
                     $"{client.GetUserAsync(ulong.Parse(P2)).Result.Username} vs. {client.GetUserAsync(ulong.Parse(P1)).Result.Username}", DiscordColor.Green, component));
 
+                    DiscordMessage = message3;
                     var inter = message3.WaitForButtonAsync().Result;
 
                     if (!inter.TimedOut)
                     {
                         if (inter.Result.User.Id.ToString() == P1)
                         {
-                            if (await StartBotServices.SaveEconomicOP.AdcionarSaldo(ulong.Parse(P1), Convert.ToInt16(ValorAposta), "Scash"))
+                            if (await StartBotServices.SaveEconomicOP.AdcionarSaldo(ulong.Parse(P1), Convert.ToInt16(aposta_total), "Scash"))
                             {
                                 Time.Stop();
                                 await message3.DeleteAsync();
+                                Resposta_Eventos.FilaVivoMorto.Remove(P1);
                                 await client.SendMessageAsync(ch, EmbedMesages.UniqueLineMsg($"Parabéns {client.GetUserAsync(ulong.Parse(P1)).Result.Username} " +
                                     $"você ganhou o jogo e levou {ValorAposta} Scash"));
 
                                 await StartBotServices.SaveEconomicOP.DebitarSaldo(ulong.Parse(P2), ValorAposta, "Scash");
                                 BotTimers.vivoMortos.Remove(this);
+                                return true;
                             }
                         }
 
                         else if (inter.Result.User.Id.ToString() == P2)
                         {
-                            if (await StartBotServices.SaveEconomicOP.AdcionarSaldo(ulong.Parse(P2), ValorAposta, "Scash"))
+                            if (await StartBotServices.SaveEconomicOP.AdcionarSaldo(ulong.Parse(P2), aposta_total, "Scash"))
                             {
                                 Time.Stop();
                                 await message3.DeleteAsync();
+                                Resposta_Eventos.FilaVivoMorto.Remove(P1);
                                 await client.SendMessageAsync(ch, EmbedMesages.UniqueLineMsg($"Parabéns {client.GetUserAsync(ulong.Parse(P2)).Result.Mention} " +
                                     $"você ganhou o jogo e levou {ValorAposta} Scash"));
 
                                 await StartBotServices.SaveEconomicOP.DebitarSaldo(ulong.Parse(P1), ValorAposta, "Scash");
                                 BotTimers.vivoMortos.Remove(this);
+                                return true;
                             }
                         }
                     }
@@ -134,13 +145,18 @@ namespace Bot_Manager.Quests_andGames.Games
             else
             {
                 BotTimers.vivoMortos.Remove(this);
+
+                if(message.Content != null)
                 await message.DeleteAsync();
+
                 Resposta_Eventos.FilaVivoMorto.Remove(P1);
                 await StartBotServices.SaveEconomicOP.AdcionarSaldo(ulong.Parse(P1), ValorAposta, "Scash");
                 Time.Enabled = false;
                 Time.Close();
                 Time.Dispose();
             }
+
+            return false;
         }
     }
 }
