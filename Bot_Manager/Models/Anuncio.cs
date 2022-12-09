@@ -14,7 +14,7 @@ namespace Bot_Manager.Models
         public string Moeda { get; set; }
 
         public string Quantidade { get; set; }
-
+        
         public string Valor_Receber { get; set; }
 
         public string Moeda_pagamento { get; set; }

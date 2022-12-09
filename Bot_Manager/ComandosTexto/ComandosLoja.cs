@@ -10,6 +10,7 @@ using DSharpPlus.Interactivity;
 using DSharpPlus.Exceptions;
 using DSharpPlus.Interactivity.Extensions;
 using Bot_Manager.Logs_e_Eventos;
+using DSharpPlus;
 
 namespace Bot_Manager.ComandosTexto
 {
@@ -199,7 +200,13 @@ namespace Bot_Manager.ComandosTexto
 
             try
             {
-                if (StartBotServices.Users.Contains(ctx.User.Id.ToString()))
+                bool IsAceptableValue = true;
+                bool AuthenticUser = StartBotServices.Users.Contains(ctx.User.Id.ToString());
+
+                if (valor_cobrado > 100 && !moeda.Contains('J', 'j')) //Condição para apenas valores baixos em jcash sejam cobrados
+                    IsAceptableValue = false;
+
+                if (AuthenticUser && IsAceptableValue)
                 {
 
                     List<string> m = new List<string> { "Jcash", "J", "jcash", "j", "Scash", "S", "scash", "s" };
@@ -213,57 +220,52 @@ namespace Bot_Manager.ComandosTexto
                         index = "Scash";
 
 
+
                     var nomeMoeda = index;
                     var moedapag = index.Count() == 5 && index == "Jcash" ? "Scash" : "Jcash";
                     var i = index == "Jcash" ? 0 : 1;
 
                     if (qtde > 0 && valor_cobrado > 0)
-                        if (StartBotServices.Users.Contains(ctx.User.Id.ToString()))
+                        if (qtde.GetType() == typeof(ushort) && valor_cobrado.GetType() == typeof(ushort))
                         {
-                            if (qtde.GetType() == typeof(ushort) && valor_cobrado.GetType() == typeof(ushort))
+                            if (moeda.Equals(m.Find(x => x == moeda)))
                             {
-                                if (moeda.Equals(m.Find(x => x == moeda)))
+                                carteira = StartBotServices.UserWalletDAL.FundosCarteira(ctx.User.Id).GetAwaiter().GetResult();
+
+                                if (carteira[i] >= qtde)
                                 {
-                                    carteira = StartBotServices.UserWalletDAL.FundosCarteira(ctx.User.Id).GetAwaiter().GetResult();
-
-                                    if (carteira[i] >= qtde)
+                                    //Terminar anuncios DAL e salvr por aqui
+                                    if (StartBotServices.ComercioUsuarios.Anunciar(ctx.User.Id, nomeMoeda, qtde,
+                                        valor_cobrado.ToString(), moedapag.ToString()).GetAwaiter().GetResult())
                                     {
-                                        //Terminar anuncios DAL e salvr por aqui
-                                        if (StartBotServices.ComercioUsuarios.Anunciar(ctx.User.Id, nomeMoeda, qtde,
-                                            valor_cobrado.ToString(), moedapag.ToString()).GetAwaiter().GetResult())
-                                        {
-                                            await ctx.Client.SendMessageAsync(ctx.Client.GetChannelAsync(ctx.Channel.Id).Result,
-                                            EmbedMesages.UniqueLineMsg($"{ctx.User.Mention} **Anúncio global criado**" +
-                                            "\nAgora todos podem ver seu anúncio"));
-                                        }
-
-                                        else
-                                            await ctx.RespondAsync("Você já usou seus 2 espaços de anuncios diários, aguarde" +
-                                                "a loja resetar para poder anunciar mais.");
+                                        await ctx.Client.SendMessageAsync(ctx.Client.GetChannelAsync(ctx.Channel.Id).Result,
+                                        EmbedMesages.UniqueLineMsg($"{ctx.User.Mention} **Anúncio global criado**" +
+                                        "\nAgora todos podem ver seu anúncio"));
                                     }
 
+                                    else
+                                        await ctx.RespondAsync("Você já usou seus 2 espaços de anuncios diários, aguarde" +
+                                            "a loja resetar para poder anunciar mais.");
                                 }
 
-                                else
-                                    await ctx.RespondAsync("A moeda declarada deve ser Jcash ou Scash, ou J ou S");
                             }
 
                             else
-                                await ctx.RespondAsync("-Use apenas números\nSem pontos ou vírgulas");
+                                await ctx.RespondAsync("A moeda declarada deve ser Jcash ou Scash, ou J ou S");
                         }
 
                         else
-                            await ctx.Client.SendMessageAsync(ctx.Client.GetChannelAsync(ctx.Channel.Id).Result,
-                                EmbedMesages.UniqueLineMsg("Para usar este comando e outros, registresse com " +
-                                "**!j Registrar**"));
+                            await ctx.RespondAsync("-Use apenas números\nSem pontos ou vírgulas");
                     else
                         await ctx.Client.SendMessageAsync(ctx.Client.GetChannelAsync(ctx.Channel.Id).Result,
                             EmbedMesages.UniqueLineMsg("Valor minímo de 1 (unidade) não alcançado"));
                 }
 
-                else
+                else if (!AuthenticUser)
                     await ctx.RespondAsync("Para usar este comando e outros, registresse com " +
                     "**!j Registrar**");
+                else
+                    await ctx.RespondAsync(EmbedMesages.UniqueLineMsg("Valor cobrado em Jcash Alto demais"));
             }
 
             catch (Exception)
