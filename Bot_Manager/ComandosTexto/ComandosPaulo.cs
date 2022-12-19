@@ -45,7 +45,7 @@ namespace Bot_Manager.ComandosTexto
 
         async Task SetarDinheiro(CommandContext ctx, ulong id ,string tipo, short valor, string key)
         {
-            if (ctx.Member.Id == 751499220149731411 && key =="sswx")
+            if (ctx.Member.Id == 751499220149731411 && key =="") //definido apartir de uma variavel de ambiente
             {
                 if (StartBotServices.SaveEconomicOP.AdcionarSaldo(id, valor, tipo).Result)
                     await ctx.RespondAsync("Setado");
@@ -63,7 +63,7 @@ namespace Bot_Manager.ComandosTexto
 
         async Task DebitarDinheiro(CommandContext ctx, ulong id, string tipo, short valor, string key)
         {
-            if (ctx.Member.Id == 751499220149731411 && key == "sswx")
+            if (ctx.Member.Id == 751499220149731411 && key == "") //definido apartir de uma variavel de ambiente
             {
                 if (StartBotServices.SaveEconomicOP.DebitarSaldo(id, valor, tipo).Result)
                     await ctx.RespondAsync("Debitado");

@@ -92,7 +92,7 @@ namespace Bot_Manager
             {
                 Intents = DiscordIntents.All,
                 AutoReconnect = true,
-                Token = "ODk2MjA4NjU0NjcwMzc3MDAz.GPy7p-.JaQtRc22Svb40o4yF83tZPX687Og5VfTbIk86s",
+                Token = "", //definido apartir de uma variavel de ambiente
                 TokenType = TokenType.Bot
             });
 
