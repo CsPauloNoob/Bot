@@ -45,7 +45,7 @@ namespace Bot_Manager
         public static DiscordClient Client;
 
         public static readonly string ConnString = "Data Source="+@Environment.CurrentDirectory + @"//DbBot.db";
-        public static readonly ulong CanalExceptions = 1025977757324296212;
+        public static readonly ulong CanalExceptions = ulong.Parse(Environment.GetEnvironmentVariable("CAHNNEL_EX", EnvironmentVariableTarget.User));
 
 
         #region Prop publicas
@@ -92,7 +92,7 @@ namespace Bot_Manager
             {
                 Intents = DiscordIntents.All,
                 AutoReconnect = true,
-                Token = "", //definido apartir de uma variavel de ambiente
+                Token = Environment.GetEnvironmentVariable("JEY_TK", EnvironmentVariableTarget.User),
                 TokenType = TokenType.Bot
             });
 
